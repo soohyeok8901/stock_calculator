@@ -20,9 +20,9 @@ class AverageCalculator extends StatelessWidget {
       child: ScreenUtilInit(
         designSize: Size(1440, 2960),
         builder: () => MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: MainScreen(),
-        ),
+            debugShowCheckedModeBanner: false,
+            home: MainScreen(),
+            theme: ThemeData(fontFamily: 'GmarketSansMedium')),
       ),
     );
   }

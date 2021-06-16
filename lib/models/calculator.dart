@@ -9,11 +9,19 @@ class CalcBrain extends ChangeNotifier {
 
   String calcResult;
 
+  String priceDiff;
+
+  Color primaryColor;
+
   CalcBrain(
       {this.existingStocksCount,
       this.existingStocksPrice,
       this.newStocksCount,
       this.newStocksPrice});
+
+  void setColor() {
+    //TODO: 계산 결과에 따라서 색 바꿔야함
+  }
 
   void calcAverage(
       {int exSCount, double exSPrice, int newSCount, double newSPrice}) {
@@ -23,7 +31,9 @@ class CalcBrain extends ChangeNotifier {
     String splitNumber = result.toString().split('.')[0];
     int parsedNumber = int.parse(splitNumber);
     calcResult = '${currencyFormat(parsedNumber)} 원';
-    print('calcResult - $calcResult');
+    // priceDiff = (exSPrice - int.parse(calcResult)).toString();
+    // print('calcResult - $calcResult');
+    // calcResult.toString();
     notifyListeners();
   }
 
@@ -33,7 +43,7 @@ class CalcBrain extends ChangeNotifier {
   }
 
   String currencyFormat(int price) {
-    print(price);
+    // print(price);
     final formatCurrency = new NumberFormat.simpleCurrency(
         locale: "ko_KR", name: "", decimalDigits: 0);
     return formatCurrency.format(price);
