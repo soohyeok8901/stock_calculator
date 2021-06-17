@@ -1,4 +1,7 @@
 import 'package:averge_price_calc/models/calculator.dart';
+import 'package:averge_price_calc/widgets/CardCarousel.dart';
+import 'package:averge_price_calc/widgets/InputTextField.dart';
+import 'package:averge_price_calc/widgets/TitleTextField.dart';
 import 'package:averge_price_calc/widgets/banner_ad.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -41,11 +44,23 @@ class _MainScreenState extends State<MainScreen> {
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            Container(
-              height: 170,
-              child: FlutterLogo(
-                size: 400,
-              ),
+            Column(
+              children: <Widget>[
+                Container(
+                  // height: 170,
+                  child: Text(
+                    '😢 😥😰',
+                    style: TextStyle(
+                      fontSize: 90,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: CardCarousel(),
+                ),
+              ],
             ),
             Expanded(
               child: Container(
@@ -115,11 +130,16 @@ class _MainScreenState extends State<MainScreen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              SizedBox(width: 8),
               Text(
-                Provider.of<CalcBrain>(context).priceDiff ?? '',
+                '(${Provider.of<CalcBrain>(context).priceDiff})' ?? '',
                 style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w300,
+                  fontSize: 17,
+                  textBaseline: TextBaseline.alphabetic,
+                  fontWeight: FontWeight.bold,
+                  color: Provider.of<CalcBrain>(context).priceDiff[0] == '-'
+                      ? Colors.indigoAccent[700]
+                      : Colors.red,
                   fontFamily: 'Cafe24Simplehae',
                 ),
               ),
@@ -233,92 +253,3 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 }
-
-class TitleTextField extends StatelessWidget {
-  const TitleTextField({
-    @required this.titleTextController,
-  });
-
-  final TextEditingController titleTextController;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(50, 30, 50, 30),
-      child: TextField(
-        controller: titleTextController,
-        decoration: InputDecoration(
-          hintText: '타이틀',
-        ),
-        textAlignVertical: TextAlignVertical.bottom,
-        textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 23),
-        maxLength: 12,
-      ),
-    );
-  }
-}
-
-class InputTextField extends StatelessWidget {
-  InputTextField({
-    @required this.textController,
-    @required this.titleText,
-    @required this.hintText,
-  });
-
-  final TextEditingController textController;
-  final String titleText;
-  final String hintText;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          titleText,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        SizedBox(height: 8),
-        Container(
-          height: 43,
-          width: 200,
-          child: TextField(
-            controller: textController,
-            textAlignVertical: TextAlignVertical.bottom,
-            decoration: InputDecoration(
-              hintText: hintText,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                  color: Colors.grey,
-                  width: 1,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                  color: Colors.green,
-                  width: 2,
-                ),
-              ),
-            ),
-            keyboardType: TextInputType.number,
-          ),
-        ),
-      ],
-    );
-  }
-}
-// padding: EdgeInsets.only(
-//   right: 100,
-//   top: 30,
-//   left: 30,
-// ),
-
-//TODO: Column 비율 조절, switchTile을 그냥 switch + Text로 변경, textFormField 사이즈 변경
-//TODO: 버튼만들기,
-//TODO: UI 이쁘게 다듬기
-//TODO: 서버연동 환율 API 다루는 노드서버만들어야겠네

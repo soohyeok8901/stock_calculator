@@ -31,9 +31,14 @@ class CalcBrain extends ChangeNotifier {
     String splitNumber = result.toString().split('.')[0];
     int parsedNumber = int.parse(splitNumber);
     calcResult = '${currencyFormat(parsedNumber)} 원';
-    // priceDiff = (exSPrice - int.parse(calcResult)).toString();
-    // print('calcResult - $calcResult');
-    // calcResult.toString();
+    priceDiff = '${currencyFormat(parsedNumber - exSPrice.toInt())} 원';
+    notifyListeners();
+  }
+
+  void setPriceDiff(int diff) {
+    //만약 음전이면 prefix에 -를 붙이고 양전이면 +를 붙일 것
+    // 퍼센트 계산 결과도 넣어야함
+    priceDiff = '${currencyFormat(diff)} 원';
     notifyListeners();
   }
 
