@@ -239,9 +239,6 @@ class _MainScreenState extends State<MainScreen> {
                     textController: handleUiDataProvider.newPriceTEC,
                     hintText: '가격 입력',
                     titleText: '구매할 주식의 가격',
-                    // validate: handleUiDataProvider
-                    //     .validate(handleUiDataProvider.newPriceTEC.text),
-                    // errorText: '값을 입력해주세요',
                   ),
                 ),
                 SizedBox(width: 10),
@@ -250,9 +247,6 @@ class _MainScreenState extends State<MainScreen> {
                     textController: handleUiDataProvider.newCountTEC,
                     hintText: '개수 입력',
                     titleText: '구매할 수량[주]',
-                    // validate: handleUiDataProvider
-                    //     .validate(handleUiDataProvider.newCountTEC.text),
-                    // errorText: '값을 입력해주세요',
                   ),
                 ),
               ],
@@ -286,9 +280,6 @@ class _MainScreenState extends State<MainScreen> {
                     textController: handleUiDataProvider.exCountTEC,
                     hintText: '개수 입력',
                     titleText: '현재 수량[주]',
-                    // validate: handleUiDataProvider
-                    //     .validate(handleUiDataProvider.exCountTEC.text),
-                    // errorText: '값을 입력해주세요',
                   ),
                 ),
                 SizedBox(width: 10),

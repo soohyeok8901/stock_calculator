@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class HandleUiDataProvider extends ChangeNotifier {
+  //Carousel Slider에도 사용할 예정
   List<StockCard> _uiDataList = [
     StockCard(
       title: '계산기 1',
@@ -68,16 +69,6 @@ class HandleUiDataProvider extends ChangeNotifier {
     print('tabCalcuateButton 함수 실행');
 
     FocusScope.of(_).unfocus();
-
-    // if (percentTEC.text.toString()[0] == '-') {
-    //   print('여기 진입');
-    //   //수익률이 마이너스이면 -100퍼가 끝임
-    //   if (int.parse(percentTEC.text.split('-')[1]) > 100) {
-    //     print('설마 여기도?');
-    //     //에러메시지 출력해야하는데.. 포커스 노드할까? 에러띄우면서 ㅇㅇ일단 되는지 확인
-    //     FocusScope.of(_).requestFocus(percentFN);
-    //   }
-    // }
 
     //평단가(result) text 갱신
     average = calcBrain.calculateAverage(
