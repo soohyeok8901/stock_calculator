@@ -81,16 +81,16 @@ class HandleUiDataProvider extends ChangeNotifier {
 
     //평단가(result) text 갱신
     average = calcBrain.calculateAverage(
-      exSCount: int.parse(exCountTEC.text),
-      exSPrice: int.parse(exPriceTEC.text),
-      newSCount: int.parse(newCountTEC.text),
-      newSPrice: int.parse(newPriceTEC.text),
+      exSCount: exCountTEC.text,
+      exSPrice: exPriceTEC.text,
+      newSCount: newCountTEC.text,
+      newSPrice: newPriceTEC.text,
     );
     averageText = '${currencyFormat(average)} 원';
 
     // 차익(diff) 갱신
     diff = calcBrain.calculateDiff(
-      exStockPrice: int.parse(exPriceTEC.text),
+      exStockPrice: exPriceTEC.text,
       average: average,
     );
     print(diff);
@@ -98,7 +98,7 @@ class HandleUiDataProvider extends ChangeNotifier {
 
     //수익률(percent) 갱신
     percent = calcBrain.calculatePercent(
-      exStockPrice: int.parse(exPriceTEC.text),
+      exStockPrice: exPriceTEC.text,
       average: average,
     );
     percentText = '(${percent.toString()} %)';
