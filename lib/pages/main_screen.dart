@@ -137,9 +137,9 @@ class _MainScreenState extends State<MainScreen> {
                   fontSize: 17,
                   textBaseline: TextBaseline.alphabetic,
                   fontWeight: FontWeight.bold,
-                  color: Provider.of<CalcBrain>(context).priceDiff[0] == '-'
-                      ? Colors.indigoAccent[700]
-                      : Colors.red,
+                  // color: Provider.of<CalcBrain>(context).priceDiff[0] == '-'
+                  //     ? Colors.indigoAccent[700]
+                  //     : Colors.red,
                   fontFamily: 'Cafe24Simplehae',
                 ),
               ),
