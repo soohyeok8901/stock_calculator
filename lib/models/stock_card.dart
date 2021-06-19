@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 
 //data class
-class UiData {
-  UiData(
+class StockCard {
+  StockCard(
       {this.exStockPrice,
       this.exStockCount,
       this.newStockPrice,

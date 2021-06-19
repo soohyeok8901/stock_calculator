@@ -1,4 +1,4 @@
-import 'package:averge_price_calc/models/ui_data.dart';
+import 'package:averge_price_calc/models/stock_card.dart';
 import 'package:averge_price_calc/pages/main_screen.dart';
 import 'package:averge_price_calc/widgets/ui_data_provider.dart';
 import 'package:flutter/material.dart';

@@ -1,3 +1,4 @@
+import 'package:averge_price_calc/constant.dart';
 import 'package:flutter/material.dart';
 
 class TitleTextField extends StatelessWidget {
@@ -14,13 +15,15 @@ class TitleTextField extends StatelessWidget {
       child: TextField(
         controller: titleTextController,
         decoration: InputDecoration(
-            hintText: '타이틀',
-            suffixIcon: (titleTextController.text != '')
-                ? IconButton(
-                    icon: Icon(Icons.done_outline),
-                    onPressed: () {},
-                  )
-                : null),
+          hintText: '타이틀',
+          // suffixIcon: (titleTextController.text != null)
+          //     ? IconButton(
+          //         icon: Icon(Icons.done_outline),
+          //         color: green,
+          //         onPressed: () {},
+          //       )
+          //     : null),
+        ),
         textAlignVertical: TextAlignVertical.bottom,
         textAlign: TextAlign.center,
         style: TextStyle(fontSize: 23),
