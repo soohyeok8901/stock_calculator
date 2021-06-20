@@ -66,7 +66,7 @@ class _MainScreenState extends State<MainScreen> {
                     Container(
                       // height: 170,
                       child: Text(
-                        '😢 😥😰',
+                        '😱😥😰',
                         style: TextStyle(
                           fontSize: 90,
                         ),
@@ -104,6 +104,14 @@ class _MainScreenState extends State<MainScreen> {
                                   children: [
                                     buildExTextFieldColumn(context),
                                     SizedBox(height: 10),
+                                    buildExTextFieldColumn2(context),
+                                    SizedBox(height: 5),
+                                    Divider(
+                                      height: 10,
+                                      thickness: 1,
+                                      color: Colors.grey,
+                                    ),
+                                    SizedBox(height: 5),
                                     buildNewTextFieldColumn(context),
                                   ],
                                 ),
@@ -236,17 +244,17 @@ class _MainScreenState extends State<MainScreen> {
               children: <Widget>[
                 Expanded(
                   child: InputTextField(
-                    textController: handleUiDataProvider.newPriceTEC,
+                    textController: handleUiDataProvider.buyPriceTEC,
                     hintText: '가격 입력',
-                    titleText: '구매할 주식의 가격',
+                    titleText: '구매할 주식의 예상가격',
                   ),
                 ),
                 SizedBox(width: 10),
                 Expanded(
                   child: InputTextField(
-                    textController: handleUiDataProvider.newCountTEC,
+                    textController: handleUiDataProvider.buyCountTEC,
                     hintText: '개수 입력',
-                    titleText: '구매할 수량[주]',
+                    titleText: '구매할 예상 수량[주]',
                   ),
                 ),
               ],
@@ -266,26 +274,47 @@ class _MainScreenState extends State<MainScreen> {
               children: <Widget>[
                 Expanded(
                   child: InputTextField(
-                    textController: handleUiDataProvider.exPriceTEC,
+                    textController: handleUiDataProvider.totalValuationPriceTEC,
                     hintText: '가격 입력',
-                    titleText: '현재 평균단가',
+                    titleText: '총 평가금액 (평가 손익 X)',
                   ),
                 ),
                 SizedBox(width: 10),
                 Expanded(
                   child: InputTextField(
-                    textController: handleUiDataProvider.exCountTEC,
+                    textController: handleUiDataProvider.holdingQuantityTEC,
                     hintText: '개수 입력',
-                    titleText: '현재 수량[주]',
+                    titleText: '총 보유수량[주]',
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget buildExTextFieldColumn2(BuildContext context) {
+    return Consumer<HandleUiDataProvider>(
+      builder: (context, handleUiDataProvider, __) {
+        return Column(
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: InputTextField(
+                    textController: handleUiDataProvider.purchasePriceTEC,
+                    hintText: '가격 입력',
+                    titleText: '매입 단가 (현재 평단가)',
                   ),
                 ),
                 SizedBox(width: 10),
                 Expanded(
                   child: InputTextField(
-                    textController: handleUiDataProvider.percentTEC,
-                    hintText: '수익률 입력',
-                    titleText: '현재 수익률',
-                    focusNode: handleUiDataProvider.percentFN,
+                    textController: handleUiDataProvider.currentStockPriceTEC,
+                    hintText: '개수 입력',
+                    titleText: '현재 주가',
                   ),
                 ),
               ],

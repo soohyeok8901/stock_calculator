@@ -27,12 +27,20 @@ class HandleUiDataProvider extends ChangeNotifier {
   int newStockPrice;
   int newStockCount;
 
-  TextEditingController exPriceTEC = TextEditingController();
-  TextEditingController exCountTEC = TextEditingController();
-  TextEditingController newPriceTEC = TextEditingController();
-  TextEditingController newCountTEC = TextEditingController();
-  TextEditingController percentTEC = TextEditingController();
+  //title
   TextEditingController titleTEC = TextEditingController();
+
+  //Row1
+  TextEditingController totalValuationPriceTEC = TextEditingController();
+  TextEditingController holdingQuantityTEC = TextEditingController();
+
+  //Row2
+  TextEditingController purchasePriceTEC = TextEditingController();
+  TextEditingController currentStockPriceTEC = TextEditingController();
+
+  //Row3
+  TextEditingController buyPriceTEC = TextEditingController();
+  TextEditingController buyCountTEC = TextEditingController();
 
   int nowPageIndex = 0;
 
@@ -52,49 +60,28 @@ class HandleUiDataProvider extends ChangeNotifier {
     }
   }
 
-  //percent TextField 유효성 체크
-  bool percentValidate(String text, int nowPercent) {
-    if (!validate(text)) {
-      print(nowPercent);
-      if (nowPercent < -100) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
-  }
+  // //percent TextField 유효성 체크
+  // bool percentValidate(String text, int nowPercent) {
+  //   if (!validate(text)) {
+  //     print(nowPercent);
+  //     if (nowPercent < -100) {
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   //계산 버튼을 눌렀을 때, result text, diff text, percent text 갱신
   void tabCalculateButton(BuildContext _) {
     print('tabCalcuateButton 함수 실행');
 
+    //키보드 끄기
     FocusScope.of(_).unfocus();
 
-    //평단가(result) text 갱신
-    average = calcBrain.calculateAverage(
-      exSCount: exCountTEC.text,
-      exSPrice: exPriceTEC.text,
-      newSCount: newCountTEC.text,
-      newSPrice: newPriceTEC.text,
-    );
-    averageText = '${currencyFormat(average)} 원';
-
-    // 차익(diff) 갱신
-    diff = calcBrain.calculateDiff(
-      exStockPrice: exPriceTEC.text,
-      average: average,
-    );
-    print(diff);
-    diffText = '${currencyFormat(diff)} 원';
-
-    //수익률(percent) 갱신
-    percent = calcBrain.calculatePercent(
-      exStockPrice: exPriceTEC.text,
-      average: average,
-    );
-    percentText = '(${percent.toString()} %)';
+    // percentText = '(${percent.toString()} %)';
 
     notifyListeners();
   }
@@ -102,16 +89,18 @@ class HandleUiDataProvider extends ChangeNotifier {
   //초기화 버튼을 눌렀을 때 result text, diff text, percent text 초기화
   void tabClearButton(BuildContext _) {
     print('tabClearButton 함수 실행');
+    //키보드 끄기
     FocusScope.of(_).unfocus();
 
     averageText = null;
     diffText = null;
     percentText = null;
-    exPriceTEC.clear();
-    exCountTEC.clear();
-    newPriceTEC.clear();
-    newCountTEC.clear();
-    percentTEC.clear();
+    totalValuationPriceTEC.clear();
+    holdingQuantityTEC.clear();
+    purchasePriceTEC.clear();
+    currentStockPriceTEC.clear();
+    buyPriceTEC.clear();
+    buyCountTEC.clear();
 
     notifyListeners();
   }
