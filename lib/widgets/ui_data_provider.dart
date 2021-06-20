@@ -8,6 +8,9 @@ class HandleUiDataProvider extends ChangeNotifier {
   List<StockCard> _uiDataList = [
     StockCard(
       title: '계산기 1',
+      result: '0 원',
+      diff: null,
+      percent: null,
     )
   ];
 
@@ -29,7 +32,6 @@ class HandleUiDataProvider extends ChangeNotifier {
   TextEditingController newPriceTEC = TextEditingController();
   TextEditingController newCountTEC = TextEditingController();
   TextEditingController percentTEC = TextEditingController();
-  FocusNode percentFN = FocusNode();
   TextEditingController titleTEC = TextEditingController();
 
   int nowPageIndex = 0;
@@ -109,15 +111,18 @@ class HandleUiDataProvider extends ChangeNotifier {
     exCountTEC.clear();
     newPriceTEC.clear();
     newCountTEC.clear();
+    percentTEC.clear();
 
     notifyListeners();
   }
 
-  //계산인지 초기화인지 타이틀수정인지 확인
-  void checkCase() {}
-
   //계산, 초기화, 타이틀 수정 시 해당 List[i]의 data들 해당 ui의 data들로 수정
+  //TODO: 이제 이거 하면 됨
   void modifyData() {
+    notifyListeners();
+  }
+
+  void modifyTitle() {
     notifyListeners();
   }
 

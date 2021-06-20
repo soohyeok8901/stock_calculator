@@ -27,13 +27,13 @@ class _MainScreenState extends State<MainScreen> {
   final FocusNode _percentFN = FocusNode();
   @override
   void dispose() {
-    // _exStockPriceController.dispose();
-    // _exStockCountController.dispose();
-    // _newStockPriceController.dispose();
-    // _newStockCountController.dispose();
-    // _titleTextContorller.dispose();
-    // _percentTextController.dispose();
-    // _percentFN.dispose();
+    _exStockPriceController.dispose();
+    _exStockCountController.dispose();
+    _newStockPriceController.dispose();
+    _newStockCountController.dispose();
+    _titleTextContorller.dispose();
+    _percentTextController.dispose();
+    _percentFN.dispose();
     super.dispose();
   }
 
@@ -269,9 +269,6 @@ class _MainScreenState extends State<MainScreen> {
                     textController: handleUiDataProvider.exPriceTEC,
                     hintText: '가격 입력',
                     titleText: '현재 평균단가',
-                    // validate: handleUiDataProvider
-                    //     .validate(handleUiDataProvider.exPriceTEC.text),
-                    // errorText: '값을 입력해주세요',
                   ),
                 ),
                 SizedBox(width: 10),
@@ -289,10 +286,6 @@ class _MainScreenState extends State<MainScreen> {
                     hintText: '수익률 입력',
                     titleText: '현재 수익률',
                     focusNode: handleUiDataProvider.percentFN,
-                    // validate: handleUiDataProvider.percentValidate(
-                    //     handleUiDataProvider.exCountTEC.text,
-                    //     int.parse(handleUiDataProvider.percentTEC.text)),
-                    // errorText: '-100 이상 값',
                   ),
                 ),
               ],
