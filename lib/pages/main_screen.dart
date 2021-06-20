@@ -108,7 +108,7 @@ class _MainScreenState extends State<MainScreen> {
                                     SizedBox(height: 5),
                                     Divider(
                                       height: 10,
-                                      thickness: 1,
+                                      thickness: 1.22,
                                       color: Colors.grey,
                                     ),
                                     SizedBox(height: 5),

@@ -14,19 +14,35 @@ class HandleUiDataProvider extends ChangeNotifier {
     )
   ];
 
+  /// fields
+
+  //타이틀
   String title;
-  int average;
+
+  //Row1 - 총 평가금액, 총 보유수량
+  int totalValuationPrice;
+  String totalValuationPriceText;
+  int holdingQuantity;
+  String holdingQuantityText;
+
+  //Row2 - 매입 단가(현재 평단가), 현재 주가
+  int purchasePrice;
+  String purchasePriceText;
+  int currentStockPrice;
+  String currentStockPriceText;
+
+  //Row3 - 구매할 주식의 예상가격, 구매할 예상수량[주]
+  int buyPrice;
+  String buyPriceText;
+  int buyCount;
+  String buyCountText;
+
+  //계산 결과 텍스트들
   String averageText;
-  int diff;
   String diffText;
-  double percent;
   String percentText;
 
-  int exStockPrice;
-  int exStockCount;
-  int newStockPrice;
-  int newStockCount;
-
+  /// TextEditingControllers
   //title
   TextEditingController titleTEC = TextEditingController();
 
@@ -60,19 +76,19 @@ class HandleUiDataProvider extends ChangeNotifier {
     }
   }
 
-  // //percent TextField 유효성 체크
-  // bool percentValidate(String text, int nowPercent) {
-  //   if (!validate(text)) {
-  //     print(nowPercent);
-  //     if (nowPercent < -100) {
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   } else {
-  //     return false;
-  //   }
-  // }
+  //percent TextField 유효성 체크
+  bool percentValidate(String text, int nowPercent) {
+    if (!validate(text)) {
+      print(nowPercent);
+      if (nowPercent < -100) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
 
   //계산 버튼을 눌렀을 때, result text, diff text, percent text 갱신
   void tabCalculateButton(BuildContext _) {
