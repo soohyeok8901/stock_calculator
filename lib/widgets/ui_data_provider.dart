@@ -16,31 +16,34 @@ class HandleUiDataProvider extends ChangeNotifier {
 
   /// fields
 
+  //color, emoji
+  Color primaryColor;
+  String emoji;
+
   //타이틀
   String title;
 
   //Row1 - 총 평가금액, 총 보유수량
-  int totalValuationPrice;
-  String totalValuationPriceText;
-  int holdingQuantity;
-  String holdingQuantityText;
+  String totalValuationPrice;
+  String holdingQuantity;
 
   //Row2 - 매입 단가(현재 평단가), 현재 주가
-  int purchasePrice;
-  String purchasePriceText;
-  int currentStockPrice;
-  String currentStockPriceText;
+  String purchasePrice;
+  String currentStockPrice;
 
   //Row3 - 구매할 주식의 예상가격, 구매할 예상수량[주]
-  int buyPrice;
-  String buyPriceText;
-  int buyCount;
-  String buyCountText;
+  String buyPrice;
+  String buyCount;
 
-  //계산 결과 텍스트들
-  String averageText;
-  String diffText;
-  String percentText;
+  //중간계산용 - 매입총액, 평가 손익
+  int totalPurchasePrice;
+  int valuation;
+
+  //계산 결과 텍스트들 - 계산된 평가총액, 계산된 평가손익, 계산된 수익률, 계산된 평단가
+  String totalValuationResultText;
+  String valuationResultText;
+  String yieldResultText;
+  String purchasePriceResultText;
 
   /// TextEditingControllers
   //title
@@ -94,12 +97,60 @@ class HandleUiDataProvider extends ChangeNotifier {
   void tabCalculateButton(BuildContext _) {
     print('tabCalcuateButton 함수 실행');
 
+    //Controller text fields화
+    controllerTextToFields();
+
+    //TODO: 지금 테스트 중입니다. 현재 평가손익, 수익률을 구할 수 있는가
+    // 평가금액, 평가손익, 수익률 순으로 나와야합니다.
+    // 물타기를 아직 고려하지 않은 계산입니다.
+
+    //평가총액
+    totalValuationResultText =
+        '${currencyFormat(int.parse(totalValuationPrice))} 원';
+
+    //매입총액 중간계산 <int>
+    totalPurchasePrice = calcBrain.calculateTotalPurchase(
+      purchasePrice: purchasePrice,
+      holdingQuantity: holdingQuantity,
+    );
+
+    //평가손익 중간계산 <int>
+    valuation = calcBrain.calculateValuation(
+      totalValuationPrice: totalValuationPrice,
+      totalPurchase: totalPurchasePrice,
+    );
+
+    //평가손익 텍스트화
+    valuationResultText = addSuffixWonWithBrackets(currencyFormat(valuation));
+
+    //수익률 계산
+    yieldResultText = addSuffixPercent(calcBrain.calculateYield(
+      valuation: valuation,
+      totalPurchase: totalPurchasePrice,
+    ));
+
+    //평단가 계산
+    purchasePriceResultText = addSuffixWon(calcBrain.calculatePurchasePrice(
+      totalPurchase: totalPurchasePrice,
+      holdingQuantity: holdingQuantity,
+    ));
+
+    primaryColor = calcBrain.setColor(
+        yieldResult: calcBrain.calculateYield(
+      valuation: valuation,
+      totalPurchase: totalPurchasePrice,
+    ));
+
+    emoji = calcBrain.setEmoji(
+        yieldResult: calcBrain.calculateYield(
+      valuation: valuation,
+      totalPurchase: totalPurchasePrice,
+    ));
+    notifyListeners();
     //키보드 끄기
     FocusScope.of(_).unfocus();
 
-    // percentText = '(${percent.toString()} %)';
-
-    notifyListeners();
+    //TODO:// 수익률, 평가손익에 컬러 적용하고 result box 정렬해봅시다 이모지에 동그란 흰색 패딩주자
   }
 
   //초기화 버튼을 눌렀을 때 result text, diff text, percent text 초기화
@@ -108,15 +159,20 @@ class HandleUiDataProvider extends ChangeNotifier {
     //키보드 끄기
     FocusScope.of(_).unfocus();
 
-    averageText = null;
-    diffText = null;
-    percentText = null;
+    totalValuationResultText = null;
+    valuationResultText = null;
+    yieldResultText = null;
+    purchasePriceResultText = null;
+
     totalValuationPriceTEC.clear();
     holdingQuantityTEC.clear();
     purchasePriceTEC.clear();
     currentStockPriceTEC.clear();
     buyPriceTEC.clear();
     buyCountTEC.clear();
+
+    primaryColor = null;
+    emoji = null;
 
     notifyListeners();
   }
@@ -174,5 +230,27 @@ class HandleUiDataProvider extends ChangeNotifier {
     return formatCurrency.format(price);
     // print(formatCurrency.format(calcResult));
     // notifyListeners();
+  }
+
+  //컨트롤러 텍스트 필드화
+  void controllerTextToFields() {
+    totalValuationPrice = totalValuationPriceTEC.text;
+    holdingQuantity = holdingQuantityTEC.text;
+    purchasePrice = purchasePriceTEC.text;
+    currentStockPrice = currentStockPriceTEC.text;
+    buyPrice = buyPriceTEC.text;
+    buyCount = buyCountTEC.text;
+  }
+
+  String addSuffixWonWithBrackets(String value) {
+    return '($value 원)';
+  }
+
+  String addSuffixPercent(double value) {
+    return '(${value.toStringAsFixed(2)}%)';
+  }
+
+  String addSuffixWon(int value) {
+    return '${value.toString()} 원';
   }
 }

@@ -57,7 +57,7 @@ class _MainScreenState extends State<MainScreen> {
         };
 
         return Scaffold(
-          backgroundColor: Provider.of<CalcBrain>(context).primaryColor ?? grey,
+          backgroundColor: handleUiDataProvider.primaryColor ?? grey,
           body: SafeArea(
             child: Column(
               children: <Widget>[
@@ -66,7 +66,7 @@ class _MainScreenState extends State<MainScreen> {
                     Container(
                       // height: 170,
                       child: Text(
-                        '😱😥😰',
+                        handleUiDataProvider.emoji ?? '🙂',
                         style: TextStyle(
                           fontSize: 90,
                         ),
@@ -151,87 +151,145 @@ class _MainScreenState extends State<MainScreen> {
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  //평단가
-                  Text(
-                    handleUiDataProvider.averageText ?? '0 원',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(width: 8),
-                  //차익
-                  Text(
-                    handleUiDataProvider.diffText ?? '',
-                    style: TextStyle(
-                      fontSize: 17,
-                      textBaseline: TextBaseline.alphabetic,
-                      fontWeight: FontWeight.bold,
-                      // color: Provider.of<CalcBrain>(context).priceDiff[0] == '-'
-                      //     ? Colors.indigoAccent[700]
-                      //     : Colors.red,
-                      fontFamily: 'Cafe24Simplehae',
-                    ),
-                  ),
-                  //수익률
-                  Text(
-                    handleUiDataProvider.percentText ?? '',
-                    style: TextStyle(
-                      fontSize: 17,
-                      textBaseline: TextBaseline.alphabetic,
-                      fontWeight: FontWeight.bold,
-                      // color: Provider.of<CalcBrain>(context).priceDiff[0] == '-'
-                      //     ? Colors.indigoAccent[700]
-                      //     : Colors.red,
-                      fontFamily: 'Cafe24Simplehae',
-                    ),
-                  ),
-                ],
-              ),
               //button
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Expanded(
-                    child: MaterialButton(
-                      minWidth: 30,
-                      height: 30,
-                      color: Colors.blue,
-                      child: Text(
-                        '초기화',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 27,
+              buildButton(clearCB, calcCB),
+              FittedBox(
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          '평가총액',
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.w300,
+                          ),
                         ),
-                      ),
-                      onPressed: clearCB,
-                    ),
-                  ),
-                  SizedBox(width: 20),
-                  Expanded(
-                    child: MaterialButton(
-                      minWidth: 30,
-                      height: 30,
-                      color: Colors.blue,
-                      child: Text(
-                        '계산',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 27,
+                        SizedBox(width: 10),
+
+                        //평가총액
+                        Text(
+                          handleUiDataProvider.totalValuationResultText ??
+                              '0 원',
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      onPressed: calcCB,
+                        SizedBox(width: 15),
+                        //평가손익
+                        Text(
+                          handleUiDataProvider.valuationResultText ?? '',
+                          style: TextStyle(
+                            fontSize: 20,
+                            textBaseline: TextBaseline.alphabetic,
+                            fontWeight: FontWeight.bold,
+                            // color: Provider.of<CalcBrain>(context).priceDiff[0] == '-'
+                            //     ? Colors.indigoAccent[700]
+                            //     : Colors.red,
+                            fontFamily: 'Cafe24Simplehae',
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          '수익률    ',
+                          style: TextStyle(
+                            fontSize: 23,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        //수익률
+                        Text(
+                          handleUiDataProvider.yieldResultText ?? '0%',
+                          style: TextStyle(
+                            fontSize: 23,
+                            textBaseline: TextBaseline.alphabetic,
+                            fontWeight: FontWeight.bold,
+                            // color: Provider.of<CalcBrain>(context).priceDiff[0] == '-'
+                            //     ? Colors.indigoAccent[700]
+                            //     : Colors.red,
+                            fontFamily: 'Cafe24Simplehae',
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          '평단가    ',
+                          style: TextStyle(
+                            fontSize: 23,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Text(
+                          handleUiDataProvider.purchasePriceResultText ?? '0 원',
+                          style: TextStyle(
+                            fontSize: 23,
+                            textBaseline: TextBaseline.alphabetic,
+                            fontWeight: FontWeight.bold,
+                            // color: Provider.of<CalcBrain>(context).priceDiff[0] == '-'
+                            //     ? Colors.indigoAccent[700]
+                            //     : Colors.red,
+                            fontFamily: 'Cafe24Simplehae',
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
         );
       },
+    );
+  }
+
+  Row buildButton(Function clearCB, Function calcCB) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Expanded(
+          child: MaterialButton(
+            minWidth: 30,
+            height: 30,
+            color: Colors.blue,
+            child: Text(
+              '초기화',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 27,
+              ),
+            ),
+            onPressed: clearCB,
+          ),
+        ),
+        SizedBox(width: 20),
+        Expanded(
+          child: MaterialButton(
+            minWidth: 30,
+            height: 30,
+            color: Colors.blue,
+            child: Text(
+              '계산',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 27,
+              ),
+            ),
+            onPressed: calcCB,
+          ),
+        ),
+      ],
     );
   }
 

@@ -1,14 +1,32 @@
+import 'package:averge_price_calc/constant.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class CalcBrain extends ChangeNotifier {
-  Color primaryColor;
-
-  Color setColor() {
-    //TODO: 계산 결과에 따라서 색 바꿔야함
+  Color setColor({double yieldResult}) {
+    if ((yieldResult < 0)) {
+      return Colors.blue[400];
+    } else if ((yieldResult > 0)) {
+      return Colors.red[400];
+    } else {
+      return grey;
+    }
   }
 
-  String setEmoji() {
-    //TODO: 계산 결과에 따라서 이모지 리턴
+  String setEmoji({double yieldResult}) {
+    if ((yieldResult < -40)) {
+      return '😭';
+    } else if ((yieldResult >= -40 && yieldResult < -20)) {
+      return '😟';
+    } else if ((yieldResult >= -20 && yieldResult < 0)) {
+      return '🤨';
+    } else if ((yieldResult >= 0 && yieldResult < 15)) {
+      return '🙂';
+    } else if ((yieldResult >= 15 && yieldResult < 30)) {
+      return '😊';
+    } else {
+      return '🥳';
+    }
   }
 
   /// TODO:<계산 해야 하는 정보>
@@ -32,16 +50,19 @@ class CalcBrain extends ChangeNotifier {
   }
 
   //수익률 계산 = (평가손익 / 매입총액) * 100
-  double calculateYield({String exStockPrice, int average}) {
+  double calculateYield({int valuation, int totalPurchase}) {
     double percent;
-    int _exStockPrice = sanitizeComma(exStockPrice);
-    percent = ((average / _exStockPrice) - 1) * 100;
+    percent = (valuation / totalPurchase) * 100;
     print(percent);
-
     return percent - percent % 0.01;
   }
 
-  //컴마 거르기 함수
+  //평단가 계산 = 매입총액 / 수량
+  int calculatePurchasePrice({int totalPurchase, String holdingQuantity}) {
+    return (totalPurchase / sanitizeComma(holdingQuantity)).round();
+  }
+
+  //컴마, 온점 거르기 함수
   int sanitizeComma(String input) {
     List splitedInput;
     if (input.contains(',')) {
