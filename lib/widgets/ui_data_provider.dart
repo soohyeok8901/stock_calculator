@@ -254,7 +254,7 @@ class HandleUiDataProvider extends ChangeNotifier {
   }
 
   String addSuffixPercent(double value) {
-    return '(${value.toStringAsFixed(2)}%)';
+    return '${value.toStringAsFixed(2)}%';
   }
 
   String addSuffixWon(int value) {

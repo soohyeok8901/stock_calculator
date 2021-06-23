@@ -11,7 +11,7 @@ class TitleTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(50, 2, 50, 16),
+      padding: EdgeInsets.fromLTRB(50, 10, 50, 16),
       child: TextField(
         controller: titleTextController,
         decoration: InputDecoration(

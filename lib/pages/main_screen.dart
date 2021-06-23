@@ -5,6 +5,8 @@ import 'package:averge_price_calc/widgets/TitleTextField.dart';
 import 'package:averge_price_calc/widgets/banner_ad.dart';
 import 'package:averge_price_calc/widgets/ui_data_provider.dart';
 import 'package:flutter/material.dart';
+
+import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:provider/provider.dart';
 
 import '../constant.dart';
@@ -153,32 +155,42 @@ class _MainScreenState extends State<MainScreen> {
             children: <Widget>[
               //button
               buildButton(clearCB, calcCB),
-              FittedBox(
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Text(
+              Column(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 2,
+                        child: AutoSizeText(
                           '평가총액',
                           style: TextStyle(
                             fontSize: 25,
-                            fontWeight: FontWeight.w300,
+                            fontWeight: FontWeight.bold,
                           ),
+                          maxLines: 1,
                         ),
-                        SizedBox(width: 10),
+                      ),
+                      SizedBox(width: 15),
 
-                        //평가총액
-                        Text(
+                      //평가총액
+                      Expanded(
+                        flex: 3,
+                        child: AutoSizeText(
                           handleUiDataProvider.totalValuationResultText ??
                               '0 원',
                           style: TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
                           ),
+                          maxLines: 1,
                         ),
-                        SizedBox(width: 15),
-                        //평가손익
-                        Text(
+                      ),
+                      SizedBox(width: 15),
+                      //평가손익
+                      Expanded(
+                        flex: 2,
+                        child: AutoSizeText(
                           handleUiDataProvider.valuationResultText ?? '',
                           style: TextStyle(
                             fontSize: 20,
@@ -189,22 +201,31 @@ class _MainScreenState extends State<MainScreen> {
                             //     : Colors.red,
                             fontFamily: 'Cafe24Simplehae',
                           ),
+                          maxLines: 1,
                         ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          '수익률    ',
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 3,
+                        child: AutoSizeText(
+                          '수익률',
                           style: TextStyle(
-                            fontSize: 23,
-                            fontWeight: FontWeight.w300,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
                           ),
+                          maxLines: 1,
                         ),
-                        SizedBox(width: 10),
-                        //수익률
-                        Text(
-                          handleUiDataProvider.yieldResultText ?? '0%',
+                      ),
+                      SizedBox(width: 10),
+                      //수익률
+                      Expanded(
+                        flex: 4,
+                        child: AutoSizeText(
+                          handleUiDataProvider.yieldResultText ?? '0 %',
                           style: TextStyle(
                             fontSize: 23,
                             textBaseline: TextBaseline.alphabetic,
@@ -214,20 +235,47 @@ class _MainScreenState extends State<MainScreen> {
                             //     : Colors.red,
                             fontFamily: 'Cafe24Simplehae',
                           ),
+                          maxLines: 1,
                         ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          '평단가    ',
+                      ),
+                      SizedBox(width: 10),
+
+                      Expanded(
+                        flex: 3,
+                        child: AutoSizeText(
+                          '(+ 423 %)',
                           style: TextStyle(
-                            fontSize: 23,
-                            fontWeight: FontWeight.w300,
+                            fontSize: 18,
+                            textBaseline: TextBaseline.alphabetic,
+                            fontWeight: FontWeight.bold,
+                            // color: Provider.of<CalcBrain>(context).priceDiff[0] == '-'
+                            //     ? Colors.indigoAccent[700]
+                            //     : Colors.red,
+                            fontFamily: 'Cafe24Simplehae',
                           ),
+                          maxLines: 1,
                         ),
-                        SizedBox(width: 10),
-                        Text(
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 3,
+                        child: AutoSizeText(
+                          '평단가  ',
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          maxLines: 1,
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Expanded(
+                        flex: 4,
+                        child: AutoSizeText(
                           handleUiDataProvider.purchasePriceResultText ?? '0 원',
                           style: TextStyle(
                             fontSize: 23,
@@ -238,14 +286,32 @@ class _MainScreenState extends State<MainScreen> {
                             //     : Colors.red,
                             fontFamily: 'Cafe24Simplehae',
                           ),
+                          maxLines: 1,
                         ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[],
-                    ),
-                  ],
-                ),
+                      ),
+                      SizedBox(width: 10),
+                      Expanded(
+                        flex: 3,
+                        child: AutoSizeText(
+                          '(0 원)',
+                          style: TextStyle(
+                            fontSize: 23,
+                            textBaseline: TextBaseline.alphabetic,
+                            fontWeight: FontWeight.bold,
+                            // color: Provider.of<CalcBrain>(context).priceDiff[0] == '-'
+                            //     ? Colors.indigoAccent[700]
+                            //     : Colors.red,
+                            fontFamily: 'Cafe24Simplehae',
+                          ),
+                          maxLines: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[],
+                  ),
+                ],
               ),
             ],
           ),
