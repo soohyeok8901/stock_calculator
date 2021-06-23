@@ -293,7 +293,7 @@ class _MainScreenState extends State<MainScreen> {
                       Expanded(
                         flex: 3,
                         child: AutoSizeText(
-                          '(0 원)',
+                          '(+ 43,410 원)',
                           style: TextStyle(
                             fontSize: 23,
                             textBaseline: TextBaseline.alphabetic,

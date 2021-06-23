@@ -157,7 +157,9 @@ class HandleUiDataProvider extends ChangeNotifier {
     //키보드 끄기
     FocusScope.of(_).unfocus();
 
-    //TODO:// 수익률, 평가손익에 컬러 적용하고 result box 정렬해봅시다 이모지에 동그란 흰색 패딩주자
+    //TODO: 수익률, 평가손익에 컬러 적용하고 이모지에 동그란 흰색 패딩주자
+    //TODO: 그리고 계산식 적용, 컴마살균고치기, 텍스트필드 값 입력값 null이면 FN적용 에러메시지출력
+    //TODO: 아이콘버튼 다루기
   }
 
   //초기화 버튼을 눌렀을 때 result text, diff text, percent text 초기화

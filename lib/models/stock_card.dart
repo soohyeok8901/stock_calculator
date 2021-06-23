@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
 //data class
-//TODO://
 class StockCard {
   StockCard(
       {this.exStockPrice,
