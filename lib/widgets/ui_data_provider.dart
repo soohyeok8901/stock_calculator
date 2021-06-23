@@ -39,6 +39,13 @@ class HandleUiDataProvider extends ChangeNotifier {
   int totalPurchasePrice;
   int valuation;
 
+  //구매 이전 보유 주식의 계산 결과들 - 기존 평가총액, 기존 평가손익, 기존 수익률, 기존 평단가
+  //중간계산용입니다.
+  String originTotalValuationResultText;
+  String originvaluationResultText;
+  String originyieldResultText;
+  String originpurchasePriceResultText;
+
   //계산 결과 텍스트들 - 계산된 평가총액, 계산된 평가손익, 계산된 수익률, 계산된 평단가
   String totalValuationResultText;
   String valuationResultText;
