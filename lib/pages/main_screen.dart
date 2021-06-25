@@ -59,7 +59,7 @@ class _MainScreenState extends State<MainScreen> {
         };
 
         return Scaffold(
-          backgroundColor: handleUiDataProvider.primaryColor ?? grey,
+          backgroundColor: handleUiDataProvider.primaryColor,
           body: SafeArea(
             child: Column(
               children: <Widget>[
@@ -67,16 +67,22 @@ class _MainScreenState extends State<MainScreen> {
                   children: <Widget>[
                     Container(
                       // height: 170,
+
                       child: Text(
-                        handleUiDataProvider.emoji ?? '🙂',
+                        handleUiDataProvider.emoji,
                         style: TextStyle(
                           fontSize: 90,
                         ),
                         textAlign: TextAlign.center,
                       ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      // padding: EdgeInsets.all(2),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(bottom: 10),
+                      padding: EdgeInsets.only(bottom: 10, top: 7),
                       child: CardCarousel(),
                     ),
                   ],
@@ -196,9 +202,7 @@ class _MainScreenState extends State<MainScreen> {
                             fontSize: 20,
                             textBaseline: TextBaseline.alphabetic,
                             fontWeight: FontWeight.bold,
-                            // color: Provider.of<CalcBrain>(context).priceDiff[0] == '-'
-                            //     ? Colors.indigoAccent[700]
-                            //     : Colors.red,
+                            color: handleUiDataProvider.primaryColor,
                             fontFamily: 'Cafe24Simplehae',
                           ),
                           maxLines: 1,
@@ -230,9 +234,7 @@ class _MainScreenState extends State<MainScreen> {
                             fontSize: 23,
                             textBaseline: TextBaseline.alphabetic,
                             fontWeight: FontWeight.bold,
-                            // color: Provider.of<CalcBrain>(context).priceDiff[0] == '-'
-                            //     ? Colors.indigoAccent[700]
-                            //     : Colors.red,
+                            color: handleUiDataProvider.primaryColor,
                             fontFamily: 'Cafe24Simplehae',
                           ),
                           maxLines: 1,
@@ -248,9 +250,7 @@ class _MainScreenState extends State<MainScreen> {
                             fontSize: 18,
                             textBaseline: TextBaseline.alphabetic,
                             fontWeight: FontWeight.bold,
-                            // color: Provider.of<CalcBrain>(context).priceDiff[0] == '-'
-                            //     ? Colors.indigoAccent[700]
-                            //     : Colors.red,
+                            color: handleUiDataProvider.primaryColor,
                             fontFamily: 'Cafe24Simplehae',
                           ),
                           maxLines: 1,
@@ -281,9 +281,6 @@ class _MainScreenState extends State<MainScreen> {
                             fontSize: 23,
                             textBaseline: TextBaseline.alphabetic,
                             fontWeight: FontWeight.bold,
-                            // color: Provider.of<CalcBrain>(context).priceDiff[0] == '-'
-                            //     ? Colors.indigoAccent[700]
-                            //     : Colors.red,
                             fontFamily: 'Cafe24Simplehae',
                           ),
                           maxLines: 1,
@@ -298,9 +295,7 @@ class _MainScreenState extends State<MainScreen> {
                             fontSize: 23,
                             textBaseline: TextBaseline.alphabetic,
                             fontWeight: FontWeight.bold,
-                            // color: Provider.of<CalcBrain>(context).priceDiff[0] == '-'
-                            //     ? Colors.indigoAccent[700]
-                            //     : Colors.red,
+                            color: handleUiDataProvider.primaryColor,
                             fontFamily: 'Cafe24Simplehae',
                           ),
                           maxLines: 1,

@@ -20,10 +20,12 @@ class CalcBrain extends ChangeNotifier {
       return '😟';
     } else if ((yieldResult >= -20 && yieldResult < 0)) {
       return '🤨';
-    } else if ((yieldResult >= 0 && yieldResult < 15)) {
+    } else if ((yieldResult >= 0 && yieldResult < 8)) {
       return '🙂';
-    } else if ((yieldResult >= 15 && yieldResult < 30)) {
+    } else if ((yieldResult >= 8 && yieldResult < 17)) {
       return '😊';
+    } else if ((yieldResult >= 17 && yieldResult < 30)) {
+      return '🥰';
     } else {
       return '🥳';
     }
