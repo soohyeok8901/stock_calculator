@@ -57,18 +57,26 @@ class HandleUiDataProvider extends ChangeNotifier {
   /// TextEditingControllers
   //title
   TextEditingController titleTEC = TextEditingController();
+  FocusNode titleFN = FocusNode();
 
   //Row1
   TextEditingController totalValuationPriceTEC = TextEditingController();
+  FocusNode totalValuationPriceFN = FocusNode();
+
   TextEditingController holdingQuantityTEC = TextEditingController();
+  FocusNode holdingQuantityFN = FocusNode();
 
   //Row2
   TextEditingController purchasePriceTEC = TextEditingController();
+  FocusNode purchasePriceFN = FocusNode();
   TextEditingController currentStockPriceTEC = TextEditingController();
+  FocusNode currentStockPriceFN = FocusNode();
 
   //Row3
   TextEditingController buyPriceTEC = TextEditingController();
+  FocusNode buyPriceFN = FocusNode();
   TextEditingController buyCountTEC = TextEditingController();
+  FocusNode buyCountFN = FocusNode();
 
   int nowPageIndex = 0;
 
@@ -79,7 +87,7 @@ class HandleUiDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //TextField 유효성 체크
+  //TextField null 체크
   bool validate(String text) {
     if (text.isEmpty) {
       return true;
@@ -87,6 +95,10 @@ class HandleUiDataProvider extends ChangeNotifier {
       return false;
     }
   }
+
+  // bool checkValidation(){
+  //   if()
+  // }
 
   //percent TextField 유효성 체크
   bool percentValidate(String text, int nowPercent) {
@@ -108,6 +120,8 @@ class HandleUiDataProvider extends ChangeNotifier {
 
     //Controller text fields화
     controllerTextToFields();
+    //컴마, 온점 살균
+    applySanitizeComma();
 
     //TODO: 지금 테스트 중입니다. 현재 평가손익, 수익률을 구할 수 있는가
     // 평가금액, 평가손익, 수익률 순으로 나와야합니다.
@@ -115,7 +129,7 @@ class HandleUiDataProvider extends ChangeNotifier {
 
     //평가총액
     totalValuationResultText =
-        '${currencyFormat(int.parse(totalValuationPrice))} 원';
+        '${currencyFormat(calcBrain.sanitizeComma(totalValuationPrice.toString()))} 원';
 
     //매입총액 중간계산 <int>
     totalPurchasePrice = calcBrain.calculateTotalPurchase(
@@ -250,6 +264,20 @@ class HandleUiDataProvider extends ChangeNotifier {
     currentStockPrice = currentStockPriceTEC.text;
     buyPrice = buyPriceTEC.text;
     buyCount = buyCountTEC.text;
+  }
+
+  //TextField에 전부 sanitizeComma 적용
+  void applySanitizeComma() {
+    totalValuationPriceTEC.text =
+        calcBrain.sanitizeComma(totalValuationPriceTEC.text).toString();
+    holdingQuantityTEC.text =
+        calcBrain.sanitizeComma(holdingQuantityTEC.text).toString();
+    purchasePriceTEC.text =
+        calcBrain.sanitizeComma(purchasePriceTEC.text).toString();
+    currentStockPriceTEC.text =
+        calcBrain.sanitizeComma(currentStockPriceTEC.text).toString();
+    buyPriceTEC.text = calcBrain.sanitizeComma(buyPriceTEC.text).toString();
+    buyCountTEC.text = calcBrain.sanitizeComma(buyCountTEC.text).toString();
   }
 
   String addSuffixWonWithBrackets(String value) {

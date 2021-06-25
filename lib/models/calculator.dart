@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:averge_price_calc/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -67,9 +69,18 @@ class CalcBrain extends ChangeNotifier {
   //컴마, 온점 거르기 함수
   int sanitizeComma(String input) {
     List splitedInput;
+    // String _input;
+
+    // if (input.runtimeType == Double) {
+    //   _input = input.toString();
+    // }else i
+    print('접근도 못해?');
+    print('input - $input');
     if (input.contains(',')) {
       splitedInput = input.split(',');
+      print('1 $splitedInput');
       String joinedInput = splitedInput.join("");
+      print('2 $joinedInput');
       return int.parse(joinedInput);
     } else if (input.contains('.')) {
       splitedInput = input.split('.');
