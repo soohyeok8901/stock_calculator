@@ -25,36 +25,56 @@ class HandleUiDataProvider extends ChangeNotifier {
   //타이틀
   String title;
 
+  ///
+  ///
+  ///
+  ///
+  //////////////////////계산기 관련 변수
   //Row1 - 총 평가금액, 총 보유수량
-  String totalValuationPrice;
-  String holdingQuantity;
+  int totalValuationPrice;
+  int holdingQuantity;
 
   //Row2 - 매입 단가(현재 평단가), 현재 주가
-  String purchasePrice;
-  String currentStockPrice;
+  int purchasePrice;
+  int currentStockPrice;
 
   //Row3 - 구매할 주식의 예상가격, 구매할 예상수량[주]
-  String buyPrice;
-  String buyCount;
+  int buyPrice;
+  int buyQuantity;
 
-  //중간계산용 - 매입총액, 평가 손익
-  int totalPurchasePrice;
-  int valuation;
+  //중간계산용 - 기존 매입총액, 기존 평가 손익, 기존 평가총액, 기존 평가손익, 기존 수익률, 기존 평단가
+  //////////////////구매 이전 보유 주식의 계산 결과들 (평단가 차이, 수익률 차이를 위한 변수들)
+  int exTotalPurchase;
+  int exValuationLoss;
+  // int exTotalValuationResult;
+  // int exValuationLoss;
+  double exYield;
+  int exAveragePurchase;
 
-  //구매 이전 보유 주식의 계산 결과들 - 기존 평가총액, 기존 평가손익, 기존 수익률, 기존 평단가
-  //중간계산용입니다.
-  String originTotalValuationResultText;
-  String originvaluationResultText;
-  String originyieldResultText;
-  String originpurchasePriceResultText;
+  /////////////////구매 이후 계산 결과들 - (계산된) 매입총액, 평단가, 수익률, 평가금액, 평가손익
+  int calculatedTotalPurchase;
+  int calculatedAveragePurchase;
+  double calculatedYield;
+  int calculatedTotalValuation;
+  int calculatedValuationLoss;
 
   //계산 결과 텍스트들 - 계산된 평가총액, 계산된 평가손익, 계산된 수익률, 계산된 평단가
   String totalValuationResultText;
   String valuationResultText;
   String yieldResultText;
   String purchasePriceResultText;
+  // - 평단가 차이, 수익률 차이, (계산된 평가손익)
+  int averagePurchaseDiff;
+  String averagePurchaseDiffText;
+  double yieldDiff;
+  String yieldDiffText;
 
-  /// TextEditingControllers
+  ///
+  ///
+  ///
+  ///
+  ///
+  ////////////////////// TextEditingControllers
   //title
   TextEditingController titleTEC = TextEditingController();
   FocusNode titleFN = FocusNode();
@@ -75,8 +95,8 @@ class HandleUiDataProvider extends ChangeNotifier {
   //Row3
   TextEditingController buyPriceTEC = TextEditingController();
   FocusNode buyPriceFN = FocusNode();
-  TextEditingController buyCountTEC = TextEditingController();
-  FocusNode buyCountFN = FocusNode();
+  TextEditingController buyQuantityTEC = TextEditingController();
+  FocusNode buyQuantityFN = FocusNode();
 
   int nowPageIndex = 0;
 
@@ -120,60 +140,96 @@ class HandleUiDataProvider extends ChangeNotifier {
 
     //Controller text fields화
     controllerTextToFields();
+
     //컴마, 온점 살균
     applySanitizeComma();
 
-    //TODO: 지금 테스트 중입니다. 현재 평가손익, 수익률을 구할 수 있는가
-    // 평가금액, 평가손익, 수익률 순으로 나와야합니다.
-    // 물타기를 아직 고려하지 않은 계산입니다.
-
-    //평가총액
-    totalValuationResultText =
-        '${currencyFormat(calcBrain.sanitizeComma(totalValuationPrice.toString()))} 원';
-
-    //매입총액 중간계산 <int>
-    totalPurchasePrice = calcBrain.calculateTotalPurchase(
+    //기존 매입총액 중간계산 <int>
+    exTotalPurchase = calcBrain.calculateExTotalPurchase(
       purchasePrice: purchasePrice,
       holdingQuantity: holdingQuantity,
     );
 
-    //평가손익 중간계산 <int>
-    valuation = calcBrain.calculateValuation(
+    //기존 평가손익 중간계산 <int>
+    exValuationLoss = calcBrain.calculateExValuationLoss(
       totalValuationPrice: totalValuationPrice,
-      totalPurchase: totalPurchasePrice,
+      totalPurchase: exTotalPurchase,
     );
 
-    //평가손익 텍스트화
-    valuationResultText = addSuffixWonWithBrackets(currencyFormat(valuation));
+    //기존 수익률 계산
+    exYield = calcBrain.calculateExYield(
+      exValuationLoss: exValuationLoss,
+      exTotalPurchase: exTotalPurchase,
+    );
 
-    //수익률 계산
-    yieldResultText = addSuffixPercent(calcBrain.calculateYield(
-      valuation: valuation,
-      totalPurchase: totalPurchasePrice,
-    ));
-
-    //평단가 계산
-    purchasePriceResultText = addSuffixWon(calcBrain.calculatePurchasePrice(
-      totalPurchase: totalPurchasePrice,
+    //기존 평단가 계산
+    exAveragePurchase = calcBrain.calculateExPurchase(
+      totalPurchase: exTotalPurchase,
       holdingQuantity: holdingQuantity,
-    ));
+    );
 
-    primaryColor = calcBrain.setColor(
-        yieldResult: calcBrain.calculateYield(
-      valuation: valuation,
-      totalPurchase: totalPurchasePrice,
-    ));
+    // 새로운 매입총액 계산
+    calculatedTotalPurchase = calcBrain.calculateNewTotalPurchase(
+        exTotalPurchase: exTotalPurchase,
+        buyPrice: buyPrice,
+        buyQuantity: buyQuantity);
 
-    emoji = calcBrain.setEmoji(
-        yieldResult: calcBrain.calculateYield(
-      valuation: valuation,
-      totalPurchase: totalPurchasePrice,
-    ));
+    // 새로운 평단가 계산
+    calculatedAveragePurchase = calcBrain.calculateNewAveragePurchase(
+        calculatedTotalPurchase: calculatedTotalPurchase,
+        holdingQuantity: holdingQuantity,
+        buyQuantity: buyQuantity);
+
+    // 새로운 평가금액 계산
+    calculatedTotalValuation = calcBrain.calculateNewTotalValuation(
+        buyPrice: buyPrice,
+        holdingQuantity: holdingQuantity,
+        buyQuantity: buyQuantity);
+
+    // 새로운 평가손익 계산
+    calculatedValuationLoss = calcBrain.calculateNewValuationLoss(
+        calculatedTotalPurchase: calculatedTotalPurchase,
+        calculatedTotalValuation: calculatedTotalValuation);
+
+    // 새로운 수익률 계산
+    calculatedYield = calcBrain.calculateNewYield(
+        calculatedTotalPurchase: calculatedTotalPurchase,
+        calculatedValuationLoss: calculatedValuationLoss);
+
+    // 평단가 차이 계산
+    averagePurchaseDiff = calcBrain.calculateAveragePurchaseDiff(
+        calculatedAveragePurchase: calculatedAveragePurchase,
+        exAveragePurchase: exAveragePurchase);
+
+    // 수익률 차이 계산
+    yieldDiff = calcBrain.calculateYieldDiff(
+        calculatedYield: calculatedYield, exYield: exYield);
+
+    //////////////////////텍스트화
+    totalValuationResultText =
+        '${currencyFormat(calcBrain.sanitizeComma(calculatedTotalValuation.toString()))} 원';
+    valuationResultText =
+        addSuffixWonWithBrackets(currencyFormat(calculatedValuationLoss));
+    print(calculatedValuationLoss);
+    yieldResultText = addSuffixPercent(calculatedYield);
+    purchasePriceResultText = addSuffixWon(calculatedAveragePurchase);
+
+    // 수익률 차이, 평단가 차이 음수 양수 판단용 메서드
+    determineNegativeForYield();
+    determineNegativeForAveragePurchase();
+
+    ///
+    ///
+    ///
+    ///////////////////////ui용 색, 이모지
+    primaryColor = calcBrain.setColor(yieldResult: calculatedYield);
+
+    emoji = calcBrain.setEmoji(yieldResult: calculatedYield);
     notifyListeners();
     //키보드 끄기
     FocusScope.of(_).unfocus();
 
-    //TODO: 그리고 계산식 적용, 컴마살균고치기, 텍스트필드 값 입력값 null이면 FN적용 에러메시지출력
+    //TODO: 텍스트필드 값 입력값 null이면 FN적용 에러메시지출력
     //TODO: 아이콘버튼 다루기
   }
 
@@ -183,20 +239,23 @@ class HandleUiDataProvider extends ChangeNotifier {
     //키보드 끄기
     FocusScope.of(_).unfocus();
 
-    totalValuationResultText = null;
-    valuationResultText = null;
-    yieldResultText = null;
-    purchasePriceResultText = null;
+    totalValuationResultText = '0 원';
+    valuationResultText = '';
+    yieldResultText = '0 %';
+    purchasePriceResultText = '0 원';
+
+    yieldDiffText = '';
+    averagePurchaseDiffText = '';
 
     totalValuationPriceTEC.clear();
     holdingQuantityTEC.clear();
     purchasePriceTEC.clear();
     currentStockPriceTEC.clear();
     buyPriceTEC.clear();
-    buyCountTEC.clear();
+    buyQuantityTEC.clear();
 
-    primaryColor = null;
-    emoji = null;
+    primaryColor = grey;
+    emoji = '🙂';
 
     notifyListeners();
   }
@@ -248,22 +307,21 @@ class HandleUiDataProvider extends ChangeNotifier {
   }
 
   String currencyFormat(int price) {
-    // print(price);
     final formatCurrency = new NumberFormat.simpleCurrency(
         locale: "ko_KR", name: "", decimalDigits: 0);
     return formatCurrency.format(price);
-    // print(formatCurrency.format(calcResult));
     // notifyListeners();
   }
 
-  //컨트롤러 텍스트 필드화
+  //컨트롤러 텍스트 필드화 (살균 적용)
   void controllerTextToFields() {
-    totalValuationPrice = totalValuationPriceTEC.text;
-    holdingQuantity = holdingQuantityTEC.text;
-    purchasePrice = purchasePriceTEC.text;
-    currentStockPrice = currentStockPriceTEC.text;
-    buyPrice = buyPriceTEC.text;
-    buyCount = buyCountTEC.text;
+    totalValuationPrice = calcBrain.sanitizeComma(totalValuationPriceTEC.text);
+    holdingQuantity = calcBrain.sanitizeComma(holdingQuantityTEC.text);
+    purchasePrice = calcBrain.sanitizeComma(purchasePriceTEC.text);
+    currentStockPrice = calcBrain.sanitizeComma(currentStockPriceTEC.text);
+    buyPrice = calcBrain.sanitizeComma(buyPriceTEC.text);
+    buyQuantity = calcBrain.sanitizeComma(buyQuantityTEC.text);
+    notifyListeners();
   }
 
   //TextField에 전부 sanitizeComma 적용
@@ -277,7 +335,24 @@ class HandleUiDataProvider extends ChangeNotifier {
     currentStockPriceTEC.text =
         calcBrain.sanitizeComma(currentStockPriceTEC.text).toString();
     buyPriceTEC.text = calcBrain.sanitizeComma(buyPriceTEC.text).toString();
-    buyCountTEC.text = calcBrain.sanitizeComma(buyCountTEC.text).toString();
+    buyQuantityTEC.text =
+        calcBrain.sanitizeComma(buyQuantityTEC.text).toString();
+  }
+
+  void determineNegativeForYield() {
+    if (yieldDiff < 0) {
+      yieldDiffText = '${yieldDiff.toStringAsFixed(2)} % ↓';
+    } else {
+      yieldDiffText = '${yieldDiff.toStringAsFixed(2)} % ↑';
+    }
+  }
+
+  void determineNegativeForAveragePurchase() {
+    if (averagePurchaseDiff < 0) {
+      averagePurchaseDiffText = '$averagePurchaseDiff ↓';
+    } else {
+      averagePurchaseDiffText = '$averagePurchaseDiff ↑';
+    }
   }
 
   String addSuffixWonWithBrackets(String value) {
@@ -285,7 +360,7 @@ class HandleUiDataProvider extends ChangeNotifier {
   }
 
   String addSuffixPercent(double value) {
-    return '${value.toStringAsFixed(2)}%';
+    return '${value.toStringAsFixed(2)} %';
   }
 
   String addSuffixWon(int value) {
