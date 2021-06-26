@@ -341,17 +341,17 @@ class HandleUiDataProvider extends ChangeNotifier {
 
   void determineNegativeForYield() {
     if (yieldDiff < 0) {
-      yieldDiffText = '${yieldDiff.toStringAsFixed(2)} % ↓';
+      yieldDiffText = '${yieldDiff.toStringAsFixed(2)} % ⬇';
     } else {
-      yieldDiffText = '${yieldDiff.toStringAsFixed(2)} % ↑';
+      yieldDiffText = '${yieldDiff.toStringAsFixed(2)} % ⬆';
     }
   }
 
   void determineNegativeForAveragePurchase() {
     if (averagePurchaseDiff < 0) {
-      averagePurchaseDiffText = '$averagePurchaseDiff ↓';
+      averagePurchaseDiffText = '$averagePurchaseDiff ⬇';
     } else {
-      averagePurchaseDiffText = '$averagePurchaseDiff ↑';
+      averagePurchaseDiffText = '$averagePurchaseDiff ⬆';
     }
   }
 

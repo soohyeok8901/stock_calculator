@@ -244,18 +244,18 @@ class _MainScreenState extends State<MainScreen> {
 
                       Expanded(
                         flex: 3,
-                        child: Container(),
-                        // child: AutoSizeText(
-                        //   handleUiDataProvider.yieldDiffText ?? '',
-                        //   style: TextStyle(
-                        //     fontSize: 18,
-                        //     textBaseline: TextBaseline.alphabetic,
-                        //     fontWeight: FontWeight.bold,
-                        //     color: Colors.black,
-                        //     fontFamily: 'Cafe24Simplehae',
-                        //   ),
-                        //   maxLines: 1,
-                        // ),
+                        // child: Container(),
+                        child: AutoSizeText(
+                          handleUiDataProvider.yieldDiffText ?? '',
+                          style: TextStyle(
+                            fontSize: 20,
+                            textBaseline: TextBaseline.alphabetic,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontFamily: 'Cafe24Simplehae',
+                          ),
+                          maxLines: 1,
+                        ),
                       ),
                     ],
                   ),
@@ -290,18 +290,18 @@ class _MainScreenState extends State<MainScreen> {
                       SizedBox(width: 10),
                       Expanded(
                         flex: 3,
-                        child: Container(),
-                        // child: AutoSizeText(
-                        //   handleUiDataProvider.averagePurchaseDiffText ?? '',
-                        //   style: TextStyle(
-                        //     fontSize: 23,
-                        //     textBaseline: TextBaseline.alphabetic,
-                        //     fontWeight: FontWeight.bold,
-                        //     color: Colors.black,
-                        //     fontFamily: 'Cafe24Simplehae',
-                        //   ),
-                        //   maxLines: 1,
-                        // ),
+                        // child: Container(),
+                        child: AutoSizeText(
+                          handleUiDataProvider.averagePurchaseDiffText ?? '',
+                          style: TextStyle(
+                            fontSize: 23,
+                            textBaseline: TextBaseline.alphabetic,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontFamily: 'Cafe24Simplehae',
+                          ),
+                          maxLines: 1,
+                        ),
                       ),
                     ],
                   ),
