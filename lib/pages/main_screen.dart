@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constant.dart';
 
@@ -38,9 +39,40 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     // TODO: Shared preference 쓰면 되겠죠? 확인 후 필요없으면 삭제
+    _loadTextData();
     //TODO: 디자인 반응형으로 만들기
 
     super.initState();
+  }
+
+  //시작할 때 저장돼있던 Data들을 불러옵니다.
+  void _loadTextData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //TextField의 텍스트 로딩
+    _loadTextFieldData(prefs);
+
+    //내부 데이터들(중간계산, 결과값 등) 로딩
+    Provider.of<HandleUiDataProvider>(context, listen: false).loadData();
+  }
+
+  void _loadTextFieldData(SharedPreferences prefs) {
+    _totalValuationPriceTEC.text =
+        prefs.getString('totalValuationPriceTF') ?? '';
+    _holdingQuantityTEC.text = prefs.getString('holdingQuantityTF') ?? '';
+    _purchasePriceTEC.text = prefs.getString('purchasePriceTF') ?? '';
+    _currentStockPriceTEC.text = prefs.getString('currentStockPriceTF') ?? '';
+    _buyPriceTEC.text = prefs.getString('buyPriceTF') ?? '';
+    _buyQuantityTEC.text = prefs.getString('buyQuantityTF') ?? '';
+  }
+
+  void _setTextFieldData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('totalValuationPriceTF', _totalValuationPriceTEC.text);
+    prefs.setString('holdingQuantityTF', _holdingQuantityTEC.text);
+    prefs.setString('purchasePriceTF', _purchasePriceTEC.text);
+    prefs.setString('currentStockPriceTF', _currentStockPriceTEC.text);
+    prefs.setString('buyPriceTF', _buyPriceTEC.text);
+    prefs.setString('buyQuantityTF', _buyQuantityTEC.text);
   }
 
   @override
@@ -51,18 +83,14 @@ class _MainScreenState extends State<MainScreen> {
         Function calculateButtonCB = () {
           handleUiDataProvider.tabCalculateButton(context);
 
-          _totalValuationPriceTEC.text =
-              calcBrain.sanitizeComma(_totalValuationPriceTEC.text).toString();
-          _holdingQuantityTEC.text =
-              calcBrain.sanitizeComma(_holdingQuantityTEC.text).toString();
-          _purchasePriceTEC.text =
-              calcBrain.sanitizeComma(_purchasePriceTEC.text).toString();
-          _currentStockPriceTEC.text =
-              calcBrain.sanitizeComma(_currentStockPriceTEC.text).toString();
-          _buyPriceTEC.text =
-              calcBrain.sanitizeComma(_buyPriceTEC.text).toString();
-          _buyQuantityTEC.text =
-              calcBrain.sanitizeComma(_buyQuantityTEC.text).toString();
+          //shared_preferences textfield 데이터 저장
+          _setTextFieldData();
+
+          //shared_preferences 내부 데이터들(중간계산, 결과값 등) 저장
+          Provider.of<HandleUiDataProvider>(context, listen: false).saveData();
+
+          //컴마 살균
+          _sanitizingComma(calcBrain);
         };
 
         Function clearButtonCB = () {
@@ -176,6 +204,20 @@ class _MainScreenState extends State<MainScreen> {
         );
       },
     );
+  }
+
+  void _sanitizingComma(CalcBrain calcBrain) {
+    _totalValuationPriceTEC.text =
+        calcBrain.sanitizeComma(_totalValuationPriceTEC.text).toString();
+    _holdingQuantityTEC.text =
+        calcBrain.sanitizeComma(_holdingQuantityTEC.text).toString();
+    _purchasePriceTEC.text =
+        calcBrain.sanitizeComma(_purchasePriceTEC.text).toString();
+    _currentStockPriceTEC.text =
+        calcBrain.sanitizeComma(_currentStockPriceTEC.text).toString();
+    _buyPriceTEC.text = calcBrain.sanitizeComma(_buyPriceTEC.text).toString();
+    _buyQuantityTEC.text =
+        calcBrain.sanitizeComma(_buyQuantityTEC.text).toString();
   }
 
   Widget buildCalculator(
@@ -450,7 +492,7 @@ class _MainScreenState extends State<MainScreen> {
                   child: InputTextField(
                     textController: _totalValuationPriceTEC,
                     hintText: '가격 입력',
-                    titleText: '평가 금액 (평가 손익 X)',
+                    titleText: '현재 평가금액 (평가손익 X)',
                     onChangedCB: (newData) {
                       Provider.of<HandleUiDataProvider>(context, listen: false)
                           .changeTotalValuationPriceData(newData);
