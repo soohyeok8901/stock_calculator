@@ -1,7 +1,5 @@
 import 'package:averge_price_calc/models/calculator.dart';
-import 'package:averge_price_calc/widgets/CardCarousel.dart';
 import 'package:averge_price_calc/widgets/InputTextField.dart';
-import 'package:averge_price_calc/widgets/TitleTextField.dart';
 import 'package:averge_price_calc/widgets/banner_ad.dart';
 import 'package:averge_price_calc/widgets/ui_data_provider.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +38,8 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     // TODO: Shared preference 쓰면 되겠죠? 확인 후 필요없으면 삭제
+    //TODO: 디자인 반응형으로 만들기
+
     super.initState();
   }
 
@@ -117,7 +117,6 @@ class _MainScreenState extends State<MainScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          //TODO: 타이틀 다루기
                           Padding(
                             padding: EdgeInsets.fromLTRB(50, 10, 50, 20),
                             child: Container(),
@@ -354,7 +353,6 @@ class _MainScreenState extends State<MainScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Expanded(
-              //TODO: 버튼 이쁘게 꾸미기
               child: MaterialButton(
                 minWidth: 30,
                 height: 30,
@@ -372,7 +370,6 @@ class _MainScreenState extends State<MainScreen> {
             ),
             SizedBox(width: 20),
             Expanded(
-              //TODO: 버튼 이쁘게 꾸미기
               child: MaterialButton(
                 minWidth: 30,
                 height: 30,

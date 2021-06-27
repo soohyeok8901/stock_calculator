@@ -1,21 +1,11 @@
 import 'package:averge_price_calc/models/calculator.dart';
-import 'package:averge_price_calc/models/stock_card.dart';
+// import 'package:averge_price_calc/models/stock_card.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../constant.dart';
 
 class HandleUiDataProvider extends ChangeNotifier {
-  //Carousel Slider에도 사용할 예정
-  List<StockCard> _uiDataList = [
-    StockCard(
-      title: '계산기 1',
-      result: '0 원',
-      diff: null,
-      percent: null,
-    )
-  ];
-
   /// fields
 
   //color, emoji
@@ -71,25 +61,6 @@ class HandleUiDataProvider extends ChangeNotifier {
   String yieldDiffText;
 
   ///
-  ///
-  ///
-  ///
-  ///
-  ////////////////////// TextEditingControllers
-  //title
-  // TextEditingController titleTEC = TextEditingController();
-
-  // //Row1
-  // TextEditingController totalValuationPriceTEC = TextEditingController();
-  // TextEditingController holdingQuantityTEC = TextEditingController();
-
-  // //Row2
-  // TextEditingController purchasePriceTEC = TextEditingController();
-  // TextEditingController currentStockPriceTEC = TextEditingController();
-
-  // //Row3
-  // TextEditingController buyPriceTEC = TextEditingController();
-  // TextEditingController buyQuantityTEC = TextEditingController();
 
   int nowPageIndex = 0;
 
@@ -109,24 +80,9 @@ class HandleUiDataProvider extends ChangeNotifier {
     }
   }
 
-  // bool checkValidation() {
-  //   return ((totalValuationPriceTEC.text.length > 0) &&
-  //       (holdingQuantityTEC.text.length > 0) &&
-  //       (purchasePriceTEC.text.length > 0) &&
-  //       (currentStockPriceTEC.text.length > 0) &&
-  //       (buyPriceTEC.text.length > 0) &&
-  //       (buyQuantityTEC.text.length > 0));
-  // }
-
   //계산 버튼을 눌렀을 때, result text, diff text, percent text 갱신
   void tabCalculateButton(BuildContext _) {
     print('tabCalcuateButton 함수 실행');
-
-    //Controller text fields화
-    // controllerTextToFields();
-
-    //컴마, 온점 살균
-    // applySanitizeComma();
 
     //기존 매입총액 중간계산 <int>
     exTotalPurchase = calcBrain.calculateExTotalPurchase(
@@ -202,14 +158,6 @@ class HandleUiDataProvider extends ChangeNotifier {
     determineNegativeForYield();
     determineNegativeForAveragePurchase();
 
-    // //이모지 설정용 수익률 합 구하기
-    // yieldSum = calculatedYield + yieldDiff;
-    // print(currentStockPrice);
-    // print(yieldSum);
-
-    ///
-    ///
-    ///
     ///////////////////////ui용 색, 이모지
     primaryColor = calcBrain.setColor(yieldResult: calculatedYield);
 
@@ -217,8 +165,6 @@ class HandleUiDataProvider extends ChangeNotifier {
     notifyListeners();
     //키보드 끄기
     FocusScope.of(_).unfocus();
-
-    //TODO: 아이콘버튼 다루기
   }
 
   //초기화 버튼을 눌렀을 때 result text, diff text, percent text 초기화
@@ -239,52 +185,6 @@ class HandleUiDataProvider extends ChangeNotifier {
     emoji = '🙂';
 
     notifyListeners();
-  }
-
-  //계산, 초기화, 타이틀 수정 시 해당 List[i]의 data들 해당 ui의 data들로 수정
-  //TODO: 이제 이거 하면 됨
-  void modifyData() {
-    notifyListeners();
-  }
-
-  void modifyTitle() {
-    notifyListeners();
-  }
-
-  //list[i-2] 에 새로운 요소 추가 (카드 추가시)
-  void addData() {
-    if (_uiDataList.length == 2) {
-      _uiDataList.insert(
-        _uiDataList.length - 1,
-        StockCard(title: '계산기 ${_uiDataList.length - 1}'),
-      );
-    } else if (_uiDataList.length == 3) {
-      _uiDataList.insert(
-        _uiDataList.length - 1,
-        StockCard(title: '계산기 ${_uiDataList.length - 1}'),
-      );
-    } else {
-      _uiDataList.insert(
-        _uiDataList.length - 2,
-        StockCard(title: '계산기 ${_uiDataList.length - 2}'),
-      );
-    }
-    notifyListeners();
-  }
-
-  //카드 추가 (추가 카드 눌렀을 때 동작할 이벤트)
-  void addCard() {
-    addData();
-  }
-
-  void deleteData(int index) {
-    _uiDataList.removeAt(index);
-    notifyListeners();
-  }
-
-  //카드 삭제 list[i] 번째 데이터 삭제하면 됨
-  void deleteCard(int index) {
-    deleteData(index);
   }
 
   String currencyFormat(int price) {
@@ -343,10 +243,10 @@ class HandleUiDataProvider extends ChangeNotifier {
     String data;
     if (averagePurchaseDiff < 0) {
       data = currencyFormat(averagePurchaseDiff);
-      averagePurchaseDiffText = '${data}⬇';
+      averagePurchaseDiffText = '$data⬇';
     } else {
       data = currencyFormat(averagePurchaseDiff);
-      averagePurchaseDiffText = '${data}⬆';
+      averagePurchaseDiffText = '$data⬆';
     }
   }
 

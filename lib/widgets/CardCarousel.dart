@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-//TODO: 캐러샐 카드 꾸미기
 class CardCarousel extends StatelessWidget {
   const CardCarousel({
     Key key,
