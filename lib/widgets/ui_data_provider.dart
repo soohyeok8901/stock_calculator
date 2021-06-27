@@ -197,7 +197,7 @@ class HandleUiDataProvider extends ChangeNotifier {
   ///////////////필드각각 대응되는 changeString 메서드
   void changeTitleData(String newData) {
     title = newData;
-    print(title);
+
     notifyListeners();
   }
 

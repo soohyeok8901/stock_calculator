@@ -412,7 +412,7 @@ class _MainScreenState extends State<MainScreen> {
                   child: InputTextField(
                     textController: _buyPriceTEC,
                     hintText: '가격 입력',
-                    titleText: '구매할 주식의 예상가격',
+                    titleText: '미래의 예상 주가',
                     onChangedCB: (newData) {
                       Provider.of<HandleUiDataProvider>(context, listen: false)
                           .changeBuyPriceData(newData);
@@ -424,7 +424,7 @@ class _MainScreenState extends State<MainScreen> {
                   child: InputTextField(
                     textController: _buyQuantityTEC,
                     hintText: '개수 입력',
-                    titleText: '구매할 예상 수량[주]',
+                    titleText: '구매 수량[주] (0주 가능)',
                     onChangedCB: (newData) {
                       Provider.of<HandleUiDataProvider>(context, listen: false)
                           .changeBuyQuantityData(newData);
@@ -450,7 +450,7 @@ class _MainScreenState extends State<MainScreen> {
                   child: InputTextField(
                     textController: _totalValuationPriceTEC,
                     hintText: '가격 입력',
-                    titleText: '총 평가금액 (평가 손익 X)',
+                    titleText: '평가 금액 (평가 손익 X)',
                     onChangedCB: (newData) {
                       Provider.of<HandleUiDataProvider>(context, listen: false)
                           .changeTotalValuationPriceData(newData);
@@ -462,7 +462,7 @@ class _MainScreenState extends State<MainScreen> {
                   child: InputTextField(
                     textController: _holdingQuantityTEC,
                     hintText: '개수 입력',
-                    titleText: '총 보유수량[주]',
+                    titleText: '현재 보유수량[주]',
                     onChangedCB: (newData) {
                       Provider.of<HandleUiDataProvider>(context, listen: false)
                           .changeHoldingQuantityData(newData);
