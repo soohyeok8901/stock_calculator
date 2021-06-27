@@ -76,27 +76,19 @@ class HandleUiDataProvider extends ChangeNotifier {
   ///
   ////////////////////// TextEditingControllers
   //title
-  TextEditingController titleTEC = TextEditingController();
-  FocusNode titleFN = FocusNode();
+  // TextEditingController titleTEC = TextEditingController();
 
-  //Row1
-  TextEditingController totalValuationPriceTEC = TextEditingController();
-  FocusNode totalValuationPriceFN = FocusNode();
+  // //Row1
+  // TextEditingController totalValuationPriceTEC = TextEditingController();
+  // TextEditingController holdingQuantityTEC = TextEditingController();
 
-  TextEditingController holdingQuantityTEC = TextEditingController();
-  FocusNode holdingQuantityFN = FocusNode();
+  // //Row2
+  // TextEditingController purchasePriceTEC = TextEditingController();
+  // TextEditingController currentStockPriceTEC = TextEditingController();
 
-  //Row2
-  TextEditingController purchasePriceTEC = TextEditingController();
-  FocusNode purchasePriceFN = FocusNode();
-  TextEditingController currentStockPriceTEC = TextEditingController();
-  FocusNode currentStockPriceFN = FocusNode();
-
-  //Row3
-  TextEditingController buyPriceTEC = TextEditingController();
-  FocusNode buyPriceFN = FocusNode();
-  TextEditingController buyQuantityTEC = TextEditingController();
-  FocusNode buyQuantityFN = FocusNode();
+  // //Row3
+  // TextEditingController buyPriceTEC = TextEditingController();
+  // TextEditingController buyQuantityTEC = TextEditingController();
 
   int nowPageIndex = 0;
 
@@ -116,33 +108,24 @@ class HandleUiDataProvider extends ChangeNotifier {
     }
   }
 
-  // bool checkValidation(){
-  //   if()
+  // bool checkValidation() {
+  //   return ((totalValuationPriceTEC.text.length > 0) &&
+  //       (holdingQuantityTEC.text.length > 0) &&
+  //       (purchasePriceTEC.text.length > 0) &&
+  //       (currentStockPriceTEC.text.length > 0) &&
+  //       (buyPriceTEC.text.length > 0) &&
+  //       (buyQuantityTEC.text.length > 0));
   // }
-
-  //percent TextField 유효성 체크
-  bool percentValidate(String text, int nowPercent) {
-    if (!validate(text)) {
-      print(nowPercent);
-      if (nowPercent < -100) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
-  }
 
   //계산 버튼을 눌렀을 때, result text, diff text, percent text 갱신
   void tabCalculateButton(BuildContext _) {
     print('tabCalcuateButton 함수 실행');
 
     //Controller text fields화
-    controllerTextToFields();
+    // controllerTextToFields();
 
     //컴마, 온점 살균
-    applySanitizeComma();
+    // applySanitizeComma();
 
     //기존 매입총액 중간계산 <int>
     exTotalPurchase = calcBrain.calculateExTotalPurchase(
@@ -210,7 +193,6 @@ class HandleUiDataProvider extends ChangeNotifier {
         '${currencyFormat(calcBrain.sanitizeComma(calculatedTotalValuation.toString()))} 원';
     valuationResultText =
         addSuffixWonWithBrackets(currencyFormat(calculatedValuationLoss));
-    print(calculatedValuationLoss);
     yieldResultText = addSuffixPercent(calculatedYield);
     purchasePriceResultText = addSuffixWon(calculatedAveragePurchase);
 
@@ -247,12 +229,12 @@ class HandleUiDataProvider extends ChangeNotifier {
     yieldDiffText = '';
     averagePurchaseDiffText = '';
 
-    totalValuationPriceTEC.clear();
-    holdingQuantityTEC.clear();
-    purchasePriceTEC.clear();
-    currentStockPriceTEC.clear();
-    buyPriceTEC.clear();
-    buyQuantityTEC.clear();
+    // totalValuationPriceTEC.clear();
+    // holdingQuantityTEC.clear();
+    // purchasePriceTEC.clear();
+    // currentStockPriceTEC.clear();
+    // buyPriceTEC.clear();
+    // buyQuantityTEC.clear();
 
     primaryColor = grey;
     emoji = '🙂';
@@ -314,30 +296,69 @@ class HandleUiDataProvider extends ChangeNotifier {
   }
 
   //컨트롤러 텍스트 필드화 (살균 적용)
-  void controllerTextToFields() {
-    totalValuationPrice = calcBrain.sanitizeComma(totalValuationPriceTEC.text);
-    holdingQuantity = calcBrain.sanitizeComma(holdingQuantityTEC.text);
-    purchasePrice = calcBrain.sanitizeComma(purchasePriceTEC.text);
-    currentStockPrice = calcBrain.sanitizeComma(currentStockPriceTEC.text);
-    buyPrice = calcBrain.sanitizeComma(buyPriceTEC.text);
-    buyQuantity = calcBrain.sanitizeComma(buyQuantityTEC.text);
+  // void controllerTextToFields() {
+  //   //TODO: 지금 빈텍스트 일 시 계산버튼 비활성시키는 방법 찾고 있음
+  //   //TODO: 그중 하나가  InputTextField 위젯에서 이걸 onsubmit할 때 계속 호출하는거임
+  //   //TODO: 존나 별로라서 생각을 더 해보자
+  //   // totalValuationPrice = calcBrain.sanitizeComma(totalValuationPriceTEC.text);
+  //   // holdingQuantity = calcBrain.sanitizeComma(holdingQuantityTEC.text);
+  //   // purchasePrice = calcBrain.sanitizeComma(purchasePriceTEC.text);
+  //   // currentStockPrice = calcBrain.sanitizeComma(currentStockPriceTEC.text);
+  //   // buyPrice = calcBrain.sanitizeComma(buyPriceTEC.text);
+  //   // buyQuantity = calcBrain.sanitizeComma(buyQuantityTEC.text);
+  //   notifyListeners();
+  // }
+
+  ///////////////필드각각 대응되는 changeString 메서드
+  void changeTitleData(String newData) {
+    title = newData;
+    notifyListeners();
+  }
+
+  void changeTotalValuationPriceData(String newData) {
+    totalValuationPrice = calcBrain.sanitizeComma(newData);
+    notifyListeners();
+  }
+
+  void changeHoldingQuantityData(String newData) {
+    holdingQuantity = calcBrain.sanitizeComma(newData);
+    notifyListeners();
+  }
+
+  void changePurchasePriceData(String newData) {
+    purchasePrice = calcBrain.sanitizeComma(newData);
+    notifyListeners();
+  }
+
+  void changeCurrentStockPriceData(String newData) {
+    currentStockPrice = calcBrain.sanitizeComma(newData);
+    notifyListeners();
+  }
+
+  void changeBuyPriceData(String newData) {
+    buyPrice = calcBrain.sanitizeComma(newData);
+    notifyListeners();
+  }
+
+  void changeBuyQuantityData(String newData) {
+    buyQuantity = calcBrain.sanitizeComma(newData);
     notifyListeners();
   }
 
   //TextField에 전부 sanitizeComma 적용
-  void applySanitizeComma() {
-    totalValuationPriceTEC.text =
-        calcBrain.sanitizeComma(totalValuationPriceTEC.text).toString();
-    holdingQuantityTEC.text =
-        calcBrain.sanitizeComma(holdingQuantityTEC.text).toString();
-    purchasePriceTEC.text =
-        calcBrain.sanitizeComma(purchasePriceTEC.text).toString();
-    currentStockPriceTEC.text =
-        calcBrain.sanitizeComma(currentStockPriceTEC.text).toString();
-    buyPriceTEC.text = calcBrain.sanitizeComma(buyPriceTEC.text).toString();
-    buyQuantityTEC.text =
-        calcBrain.sanitizeComma(buyQuantityTEC.text).toString();
-  }
+  // void applySanitizeComma() {
+  //   totalValuationPriceTEC.text =
+  //       calcBrain.sanitizeComma(totalValuationPriceTEC.text).toString();
+  //   holdingQuantityTEC.text =
+  //       calcBrain.sanitizeComma(holdingQuantityTEC.text).toString();
+  //   purchasePriceTEC.text =
+  //       calcBrain.sanitizeComma(purchasePriceTEC.text).toString();
+  //   currentStockPriceTEC.text =
+  //       calcBrain.sanitizeComma(currentStockPriceTEC.text).toString();
+  //   buyPriceTEC.text = calcBrain.sanitizeComma(buyPriceTEC.text).toString();
+  //   buyQuantityTEC.text =
+  //       calcBrain.sanitizeComma(buyQuantityTEC.text).toString();
+  // }
 
   void determineNegativeForYield() {
     if (yieldDiff < 0) {

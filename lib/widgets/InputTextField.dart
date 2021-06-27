@@ -1,16 +1,19 @@
+import 'package:averge_price_calc/widgets/ui_data_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class InputTextField extends StatelessWidget {
   InputTextField({
     @required this.textController,
     @required this.titleText,
     @required this.hintText,
+    @required this.onChangedCB,
   });
 
   final TextEditingController textController;
   final String titleText;
   final String hintText;
-
+  final Function onChangedCB;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -46,6 +49,7 @@ class InputTextField extends StatelessWidget {
                 ),
               ),
             ),
+            onChanged: onChangedCB,
             keyboardType: TextInputType.number,
           ),
         ),

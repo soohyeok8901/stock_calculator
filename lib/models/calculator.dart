@@ -89,6 +89,8 @@ class CalcBrain extends ChangeNotifier {
   //평단가 차이 계산 = 계산된 평단가 - 기존 평단가
   int calculateAveragePurchaseDiff(
       {int calculatedAveragePurchase, int exAveragePurchase}) {
+    print(exAveragePurchase);
+    print(calculatedAveragePurchase);
     return calculatedAveragePurchase - exAveragePurchase;
   }
 
@@ -100,6 +102,9 @@ class CalcBrain extends ChangeNotifier {
   //컴마, 온점 거르기 함수
   int sanitizeComma(String input) {
     List splitedInput;
+    if (input.length == 0) {
+      return null;
+    }
 
     if (input.contains(',')) {
       splitedInput = input.split(',');

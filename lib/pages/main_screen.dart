@@ -17,25 +17,23 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final TextEditingController _exStockPriceController = TextEditingController();
-  final TextEditingController _exStockCountController = TextEditingController();
-  final TextEditingController _newStockPriceController =
-      TextEditingController();
-  final TextEditingController _newStockCountController =
-      TextEditingController();
-  final TextEditingController _titleTextContorller = TextEditingController();
-  final TextEditingController _percentTextController = TextEditingController();
+  final TextEditingController _titleTEC = TextEditingController();
+  final TextEditingController _totalValuationPriceTEC = TextEditingController();
+  final TextEditingController _holdingQuantityTEC = TextEditingController();
+  final TextEditingController _purchasePriceTEC = TextEditingController();
+  final TextEditingController _currentStockPriceTEC = TextEditingController();
+  final TextEditingController _buyPriceTEC = TextEditingController();
+  final TextEditingController _buyQuantityTEC = TextEditingController();
 
-  final FocusNode _percentFN = FocusNode();
   @override
   void dispose() {
-    _exStockPriceController.dispose();
-    _exStockCountController.dispose();
-    _newStockPriceController.dispose();
-    _newStockCountController.dispose();
-    _titleTextContorller.dispose();
-    _percentTextController.dispose();
-    _percentFN.dispose();
+    _titleTEC.dispose();
+    _totalValuationPriceTEC.dispose();
+    _holdingQuantityTEC.dispose();
+    _purchasePriceTEC.dispose();
+    _currentStockPriceTEC.dispose();
+    _buyPriceTEC.dispose();
+    _buyQuantityTEC.dispose();
     super.dispose();
   }
 
@@ -52,10 +50,29 @@ class _MainScreenState extends State<MainScreen> {
         //callbacks
         Function calculateButtonCB = () {
           handleUiDataProvider.tabCalculateButton(context);
+
+          _totalValuationPriceTEC.text =
+              calcBrain.sanitizeComma(_totalValuationPriceTEC.text).toString();
+          _holdingQuantityTEC.text =
+              calcBrain.sanitizeComma(_holdingQuantityTEC.text).toString();
+          _purchasePriceTEC.text =
+              calcBrain.sanitizeComma(_purchasePriceTEC.text).toString();
+          _currentStockPriceTEC.text =
+              calcBrain.sanitizeComma(_currentStockPriceTEC.text).toString();
+          _buyPriceTEC.text =
+              calcBrain.sanitizeComma(_buyPriceTEC.text).toString();
+          _buyQuantityTEC.text =
+              calcBrain.sanitizeComma(_buyQuantityTEC.text).toString();
         };
 
         Function clearButtonCB = () {
           handleUiDataProvider.tabClearButton(context);
+          _totalValuationPriceTEC.clear();
+          _holdingQuantityTEC.clear();
+          _purchasePriceTEC.clear();
+          _currentStockPriceTEC.clear();
+          _buyPriceTEC.clear();
+          _buyQuantityTEC.clear();
         };
 
         return Scaffold(
@@ -101,7 +118,7 @@ class _MainScreenState extends State<MainScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           TitleTextField(
-                            titleTextController: handleUiDataProvider.titleTEC,
+                            titleTextController: _titleTEC,
                           ),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -160,7 +177,7 @@ class _MainScreenState extends State<MainScreen> {
             // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               //button
-              buildButton(clearCB, calcCB),
+              buildButton(clearCB: clearCB, calcCB: calcCB, context: context),
               Column(
                 children: <Widget>[
                   Row(
@@ -243,7 +260,7 @@ class _MainScreenState extends State<MainScreen> {
                       SizedBox(width: 10),
 
                       Expanded(
-                        flex: 3,
+                        flex: 4,
                         // child: Container(),
                         child: AutoSizeText(
                           handleUiDataProvider.yieldDiffText ?? '',
@@ -289,7 +306,7 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                       SizedBox(width: 10),
                       Expanded(
-                        flex: 3,
+                        flex: 4,
                         // child: Container(),
                         child: AutoSizeText(
                           handleUiDataProvider.averagePurchaseDiffText ?? '',
@@ -317,43 +334,58 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  Row buildButton(Function clearCB, Function calcCB) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        Expanded(
-          child: MaterialButton(
-            minWidth: 30,
-            height: 30,
-            color: Colors.blue,
-            child: Text(
-              '초기화',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 27,
+  Widget buildButton(
+      {Function clearCB, Function calcCB, BuildContext context}) {
+    return Consumer<HandleUiDataProvider>(
+      builder: (_, handleUiDataProvider, __) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Expanded(
+              child: MaterialButton(
+                minWidth: 30,
+                height: 30,
+                color: Colors.blue,
+                child: Text(
+                  '초기화',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 27,
+                  ),
+                ),
+                onPressed: clearCB,
               ),
             ),
-            onPressed: clearCB,
-          ),
-        ),
-        SizedBox(width: 20),
-        Expanded(
-          child: MaterialButton(
-            minWidth: 30,
-            height: 30,
-            color: Colors.blue,
-            child: Text(
-              '계산',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 27,
+            SizedBox(width: 20),
+            Expanded(
+              child: MaterialButton(
+                minWidth: 30,
+                height: 30,
+                color: Colors.blue,
+                child: Text(
+                  '계산',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 27,
+                  ),
+                ),
+                onPressed: _checkValidation() ? calcCB : null,
+                disabledColor: grey,
               ),
             ),
-            onPressed: calcCB,
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
+  }
+
+  bool _checkValidation() {
+    return ((_totalValuationPriceTEC.text.length > 0) &&
+        (_holdingQuantityTEC.text.length > 0) &&
+        (_purchasePriceTEC.text.length > 0) &&
+        (_currentStockPriceTEC.text.length > 0) &&
+        (_buyPriceTEC.text.length > 0) &&
+        (_buyQuantityTEC.text.length > 0));
   }
 
   Widget buildNewTextFieldColumn(BuildContext context) {
@@ -365,17 +397,25 @@ class _MainScreenState extends State<MainScreen> {
               children: <Widget>[
                 Expanded(
                   child: InputTextField(
-                    textController: handleUiDataProvider.buyPriceTEC,
+                    textController: _buyPriceTEC,
                     hintText: '가격 입력',
                     titleText: '구매할 주식의 예상가격',
+                    onChangedCB: (newData) {
+                      Provider.of<HandleUiDataProvider>(context, listen: false)
+                          .changeBuyPriceData(newData);
+                    },
                   ),
                 ),
                 SizedBox(width: 10),
                 Expanded(
                   child: InputTextField(
-                    textController: handleUiDataProvider.buyQuantityTEC,
+                    textController: _buyQuantityTEC,
                     hintText: '개수 입력',
                     titleText: '구매할 예상 수량[주]',
+                    onChangedCB: (newData) {
+                      Provider.of<HandleUiDataProvider>(context, listen: false)
+                          .changeBuyQuantityData(newData);
+                    },
                   ),
                 ),
               ],
@@ -395,17 +435,25 @@ class _MainScreenState extends State<MainScreen> {
               children: <Widget>[
                 Expanded(
                   child: InputTextField(
-                    textController: handleUiDataProvider.totalValuationPriceTEC,
+                    textController: _totalValuationPriceTEC,
                     hintText: '가격 입력',
                     titleText: '총 평가금액 (평가 손익 X)',
+                    onChangedCB: (newData) {
+                      Provider.of<HandleUiDataProvider>(context, listen: false)
+                          .changeTotalValuationPriceData(newData);
+                    },
                   ),
                 ),
                 SizedBox(width: 10),
                 Expanded(
                   child: InputTextField(
-                    textController: handleUiDataProvider.holdingQuantityTEC,
+                    textController: _holdingQuantityTEC,
                     hintText: '개수 입력',
                     titleText: '총 보유수량[주]',
+                    onChangedCB: (newData) {
+                      Provider.of<HandleUiDataProvider>(context, listen: false)
+                          .changeHoldingQuantityData(newData);
+                    },
                   ),
                 ),
               ],
@@ -425,17 +473,25 @@ class _MainScreenState extends State<MainScreen> {
               children: <Widget>[
                 Expanded(
                   child: InputTextField(
-                    textController: handleUiDataProvider.purchasePriceTEC,
+                    textController: _purchasePriceTEC,
                     hintText: '가격 입력',
                     titleText: '매입 단가 (현재 평단가)',
+                    onChangedCB: (newData) {
+                      Provider.of<HandleUiDataProvider>(context, listen: false)
+                          .changePurchasePriceData(newData);
+                    },
                   ),
                 ),
                 SizedBox(width: 10),
                 Expanded(
                   child: InputTextField(
-                    textController: handleUiDataProvider.currentStockPriceTEC,
+                    textController: _currentStockPriceTEC,
                     hintText: '개수 입력',
                     titleText: '현재 주가',
+                    onChangedCB: (newData) {
+                      Provider.of<HandleUiDataProvider>(context, listen: false)
+                          .changeCurrentStockPriceData(newData);
+                    },
                   ),
                 ),
               ],
