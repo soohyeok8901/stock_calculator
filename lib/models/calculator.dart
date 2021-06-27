@@ -14,11 +14,11 @@ class CalcBrain extends ChangeNotifier {
   }
 
   String setEmoji({double yieldResult}) {
-    if ((yieldResult < -40)) {
+    if ((yieldResult < -30)) {
       return '😭';
-    } else if ((yieldResult >= -40 && yieldResult < -20)) {
+    } else if ((yieldResult >= -30 && yieldResult < -10)) {
       return '😟';
-    } else if ((yieldResult >= -20 && yieldResult < 0)) {
+    } else if ((yieldResult >= -10 && yieldResult < 0)) {
       return '🤨';
     } else if ((yieldResult >= 0 && yieldResult < 8)) {
       return '🙂';

@@ -88,7 +88,7 @@ class _MainScreenState extends State<MainScreen> {
                       child: Text(
                         handleUiDataProvider.emoji,
                         style: TextStyle(
-                          fontSize: 90,
+                          fontSize: 100,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -100,7 +100,7 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(bottom: 10, top: 7),
-                      child: CardCarousel(),
+                      child: Container(),
                     ),
                   ],
                 ),
@@ -117,8 +117,20 @@ class _MainScreenState extends State<MainScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          TitleTextField(
-                            titleTextController: _titleTEC,
+                          //TODO: 타이틀 다루기
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(50, 10, 50, 20),
+                            child: Container(),
+                            // child: TitleTextField(
+                            //   context: context,
+                            //   titleTextController: _titleTEC,
+                            //   onChangedCB: (newData) {
+                            //     handleUiDataProvider.changeTitleData(newData);
+                            //   },
+                            //   onPressedCB: () {
+                            //     //해당 pageIndex의 stock_card데이터의 title데이터 수정해야함.
+                            //   },
+                            // ),
                           ),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -184,7 +196,7 @@ class _MainScreenState extends State<MainScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Expanded(
-                        flex: 2,
+                        flex: 3,
                         child: AutoSizeText(
                           '평가총액',
                           style: TextStyle(
@@ -198,7 +210,7 @@ class _MainScreenState extends State<MainScreen> {
 
                       //평가총액
                       Expanded(
-                        flex: 3,
+                        flex: 4,
                         child: AutoSizeText(
                           handleUiDataProvider.totalValuationResultText ??
                               '0 원',
@@ -212,7 +224,7 @@ class _MainScreenState extends State<MainScreen> {
                       SizedBox(width: 15),
                       //평가손익
                       Expanded(
-                        flex: 2,
+                        flex: 4,
                         child: AutoSizeText(
                           handleUiDataProvider.valuationResultText ?? '',
                           style: TextStyle(
@@ -342,6 +354,7 @@ class _MainScreenState extends State<MainScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Expanded(
+              //TODO: 버튼 이쁘게 꾸미기
               child: MaterialButton(
                 minWidth: 30,
                 height: 30,
@@ -354,10 +367,12 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                 ),
                 onPressed: clearCB,
+                elevation: 8,
               ),
             ),
             SizedBox(width: 20),
             Expanded(
+              //TODO: 버튼 이쁘게 꾸미기
               child: MaterialButton(
                 minWidth: 30,
                 height: 30,
@@ -371,6 +386,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 onPressed: _checkValidation() ? calcCB : null,
                 disabledColor: grey,
+                elevation: 8,
               ),
             ),
           ],

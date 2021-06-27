@@ -51,10 +51,11 @@ class HandleUiDataProvider extends ChangeNotifier {
   double exYield;
   int exAveragePurchase;
 
-  /////////////////구매 이후 계산 결과들 - (계산된) 매입총액, 평단가, 수익률, 평가금액, 평가손익
+  /////////////////구매 이후 계산 결과들 - (계산된) 매입총액, 평단가, 수익률, (이전수익률+계산수익률) 평가금액, 평가손익
   int calculatedTotalPurchase;
   int calculatedAveragePurchase;
   double calculatedYield;
+  double yieldSum;
   int calculatedTotalValuation;
   int calculatedValuationLoss;
 
@@ -194,11 +195,17 @@ class HandleUiDataProvider extends ChangeNotifier {
     valuationResultText =
         addSuffixWonWithBrackets(currencyFormat(calculatedValuationLoss));
     yieldResultText = addSuffixPercent(calculatedYield);
-    purchasePriceResultText = addSuffixWon(calculatedAveragePurchase);
+    purchasePriceResultText =
+        addSuffixWon(currencyFormat(calculatedAveragePurchase));
 
     // 수익률 차이, 평단가 차이 음수 양수 판단용 메서드
     determineNegativeForYield();
     determineNegativeForAveragePurchase();
+
+    // //이모지 설정용 수익률 합 구하기
+    // yieldSum = calculatedYield + yieldDiff;
+    // print(currentStockPrice);
+    // print(yieldSum);
 
     ///
     ///
@@ -211,7 +218,6 @@ class HandleUiDataProvider extends ChangeNotifier {
     //키보드 끄기
     FocusScope.of(_).unfocus();
 
-    //TODO: 텍스트필드 값 입력값 null이면 FN적용 에러메시지출력
     //TODO: 아이콘버튼 다루기
   }
 
@@ -228,13 +234,6 @@ class HandleUiDataProvider extends ChangeNotifier {
 
     yieldDiffText = '';
     averagePurchaseDiffText = '';
-
-    // totalValuationPriceTEC.clear();
-    // holdingQuantityTEC.clear();
-    // purchasePriceTEC.clear();
-    // currentStockPriceTEC.clear();
-    // buyPriceTEC.clear();
-    // buyQuantityTEC.clear();
 
     primaryColor = grey;
     emoji = '🙂';
@@ -295,23 +294,10 @@ class HandleUiDataProvider extends ChangeNotifier {
     // notifyListeners();
   }
 
-  //컨트롤러 텍스트 필드화 (살균 적용)
-  // void controllerTextToFields() {
-  //   //TODO: 지금 빈텍스트 일 시 계산버튼 비활성시키는 방법 찾고 있음
-  //   //TODO: 그중 하나가  InputTextField 위젯에서 이걸 onsubmit할 때 계속 호출하는거임
-  //   //TODO: 존나 별로라서 생각을 더 해보자
-  //   // totalValuationPrice = calcBrain.sanitizeComma(totalValuationPriceTEC.text);
-  //   // holdingQuantity = calcBrain.sanitizeComma(holdingQuantityTEC.text);
-  //   // purchasePrice = calcBrain.sanitizeComma(purchasePriceTEC.text);
-  //   // currentStockPrice = calcBrain.sanitizeComma(currentStockPriceTEC.text);
-  //   // buyPrice = calcBrain.sanitizeComma(buyPriceTEC.text);
-  //   // buyQuantity = calcBrain.sanitizeComma(buyQuantityTEC.text);
-  //   notifyListeners();
-  // }
-
   ///////////////필드각각 대응되는 changeString 메서드
   void changeTitleData(String newData) {
     title = newData;
+    print(title);
     notifyListeners();
   }
 
@@ -345,34 +331,22 @@ class HandleUiDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //TextField에 전부 sanitizeComma 적용
-  // void applySanitizeComma() {
-  //   totalValuationPriceTEC.text =
-  //       calcBrain.sanitizeComma(totalValuationPriceTEC.text).toString();
-  //   holdingQuantityTEC.text =
-  //       calcBrain.sanitizeComma(holdingQuantityTEC.text).toString();
-  //   purchasePriceTEC.text =
-  //       calcBrain.sanitizeComma(purchasePriceTEC.text).toString();
-  //   currentStockPriceTEC.text =
-  //       calcBrain.sanitizeComma(currentStockPriceTEC.text).toString();
-  //   buyPriceTEC.text = calcBrain.sanitizeComma(buyPriceTEC.text).toString();
-  //   buyQuantityTEC.text =
-  //       calcBrain.sanitizeComma(buyQuantityTEC.text).toString();
-  // }
-
   void determineNegativeForYield() {
     if (yieldDiff < 0) {
-      yieldDiffText = '${yieldDiff.toStringAsFixed(2)} % ⬇';
+      yieldDiffText = '${yieldDiff.toStringAsFixed(2)} %⬇';
     } else {
-      yieldDiffText = '${yieldDiff.toStringAsFixed(2)} % ⬆';
+      yieldDiffText = '${yieldDiff.toStringAsFixed(2)} %⬆';
     }
   }
 
   void determineNegativeForAveragePurchase() {
+    String data;
     if (averagePurchaseDiff < 0) {
-      averagePurchaseDiffText = '$averagePurchaseDiff ⬇';
+      data = currencyFormat(averagePurchaseDiff);
+      averagePurchaseDiffText = '${data}⬇';
     } else {
-      averagePurchaseDiffText = '$averagePurchaseDiff ⬆';
+      data = currencyFormat(averagePurchaseDiff);
+      averagePurchaseDiffText = '${data}⬆';
     }
   }
 
@@ -384,7 +358,21 @@ class HandleUiDataProvider extends ChangeNotifier {
     return '${value.toStringAsFixed(2)} %';
   }
 
-  String addSuffixWon(int value) {
-    return '${value.toString()} 원';
+  String addSuffixWon(String value) {
+    return '$value 원';
+  }
+
+  ///////////////////// title Widget 관련 ///////////////////
+  ///
+  bool modifyMode = true;
+
+  bool toggleModifyMode(bool mode) {
+    ChangeNotifier();
+    print(modifyMode);
+    if (mode) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }
