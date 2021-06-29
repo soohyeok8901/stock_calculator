@@ -60,8 +60,6 @@ class HandleUiDataProvider extends ChangeNotifier {
   double yieldDiff;
   String yieldDiffText;
 
-  ///
-
   int nowPageIndex = 0;
 
   CalcBrain calcBrain = CalcBrain();
@@ -71,16 +69,13 @@ class HandleUiDataProvider extends ChangeNotifier {
     print('loadData()');
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    //생각해보니까 텍스트필드에 저장이 돼있으면 그거 기반으로 계산하는거잖아
-    //저장할 필요가 없네?
-    //텍스트필드 데이터랑 resultBox 데이터만 저장하면 되는거아니야?
     // //TextField 파트
-    // totalValuationPrice = prefs.getInt('totalValuationPrice') ?? 0;
-    // holdingQuantity = prefs.getInt('holdingQuantity') ?? 0;
-    // purchasePrice = prefs.getInt('purchasePrice') ?? 0;
-    // currentStockPrice = prefs.getInt('currentStockPrice') ?? 0;
-    // buyPrice = prefs.getInt('buyPrice') ?? 0;
-    // buyQuantity = prefs.getInt('buyQuantity') ?? 0;
+    totalValuationPrice = prefs.getInt('totalValuationPrice') ?? 0;
+    holdingQuantity = prefs.getInt('holdingQuantity') ?? 0;
+    purchasePrice = prefs.getInt('purchasePrice') ?? 0;
+    currentStockPrice = prefs.getInt('currentStockPrice') ?? 0;
+    buyPrice = prefs.getInt('buyPrice') ?? 0;
+    buyQuantity = prefs.getInt('buyQuantity') ?? 0;
 
     // //중간계산 파트
     // exTotalPurchase = prefs.getInt('exTotalPurchase') ?? 0;
@@ -95,6 +90,10 @@ class HandleUiDataProvider extends ChangeNotifier {
     yieldDiffText = prefs.getString('yieldDiffText');
     emoji = prefs.getString('emoji');
     calculatedYield = prefs.getDouble('calculatedYield');
+
+    //색깔 결정
+    primaryColor = calcBrain.setColor(yieldResult: calculatedYield);
+
     notifyListeners();
   }
 
@@ -102,8 +101,13 @@ class HandleUiDataProvider extends ChangeNotifier {
     print('saveData()');
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    //TODO: shared_preferences를 이용해 전부 저장할 것
     //필드 파트
+    prefs.setInt('totalValuationPrice', totalValuationPrice);
+    prefs.setInt('holdingQuantity', holdingQuantity);
+    prefs.setInt('purchasePrice', purchasePrice);
+    prefs.setInt('currentStockPrice', currentStockPrice);
+    prefs.setInt('buyPrice', buyPrice);
+    prefs.setInt('buyQuantity', buyQuantity);
 
     //중간 계산 파트
 
@@ -118,6 +122,33 @@ class HandleUiDataProvider extends ChangeNotifier {
     prefs.setString('yieldDiffText', yieldDiffText);
     prefs.setString('emoji', emoji);
     prefs.setDouble('calculatedYield', calculatedYield);
+  }
+
+  void saveDataForClear() async {
+    print('saveDataForClear()');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    //필드 파트
+    prefs.setInt('totalValuationPrice', 0);
+    prefs.setInt('holdingQuantity', 0);
+    prefs.setInt('purchasePrice', 0);
+    prefs.setInt('currentStockPrice', 0);
+    prefs.setInt('buyPrice', 0);
+    prefs.setInt('buyQuantity', 0);
+
+    //중간 계산 파트
+
+    //결과값(number)파트
+
+    //result text(String) 파트
+    prefs.setString('totalValuationResultText', totalValuationResultText);
+    prefs.setString('valuationResultText', valuationResultText);
+    prefs.setString('yieldResultText', yieldResultText);
+    prefs.setString('purchasePriceResultText', purchasePriceResultText);
+    prefs.setString('averagePurchaseDiffText', averagePurchaseDiffText);
+    prefs.setString('yieldDiffText', yieldDiffText);
+    prefs.setString('emoji', emoji);
+    prefs.setDouble('calculatedYield', 0);
   }
 
   //ui 값들을 List[i] 값으로 전부 수정 (페이지슬라이드시 동작)
@@ -137,10 +168,6 @@ class HandleUiDataProvider extends ChangeNotifier {
   //계산 버튼을 눌렀을 때, result text, diff text, percent text 갱신
   void tabCalculateButton(BuildContext _) {
     print('tabCalcuateButton 함수 실행');
-
-    //TODO: 계산 버튼 눌렀을 때 모든 텍스트필드들 값 저장되도록 하는 메서드 필요
-    //TODO: 왜냐하면 shared_preferences에서 값 로딩했을 때 저장이 안됑ㅆ기 때문 아그냥 다 저장하면 되잖아? ㅇㅋ
-    //TODO: sharedPreferences에서 중간 값 전부 다 저장해둘것 ㅇㅇ
 
     //기존 매입총액 중간계산 <int>
     exTotalPurchase = calcBrain.calculateExTotalPurchase(

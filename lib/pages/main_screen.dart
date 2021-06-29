@@ -38,9 +38,10 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-    // TODO: Shared preference 쓰면 되겠죠? 확인 후 필요없으면 삭제
+    //shared_preferences
     _loadTextData();
     //TODO: 디자인 반응형으로 만들기
+    //TODO: 이건 실기기 테스트도 같이해야하는데
 
     super.initState();
   }
@@ -101,6 +102,13 @@ class _MainScreenState extends State<MainScreen> {
           _currentStockPriceTEC.clear();
           _buyPriceTEC.clear();
           _buyQuantityTEC.clear();
+
+          //shared_preferences textfield 데이터 저장
+          _setTextFieldData();
+
+          //shared_preferences 내부 데이터들(중간계산, 결과값 등) 저장
+          Provider.of<HandleUiDataProvider>(context, listen: false)
+              .saveDataForClear();
         };
 
         return Scaffold(
