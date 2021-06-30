@@ -1,5 +1,5 @@
 import 'package:averge_price_calc/models/calculator.dart';
-// import 'package:averge_price_calc/models/stock_card.dart';
+import 'package:averge_price_calc/models/stock_card.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,8 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../constant.dart';
 
 class HandleUiDataProvider extends ChangeNotifier {
-  /// fields
-
+  ////////////////////////////// fields
   //color, emoji
   Color primaryColor = grey;
   String emoji = '🙂';
@@ -20,7 +19,7 @@ class HandleUiDataProvider extends ChangeNotifier {
   ///
   ///
   ///
-  //////////////////////계산기 관련 변수
+  ///                           계산기 관련 변수
   //Row1 - 총 평가금액, 총 보유수량
   int totalValuationPrice;
   int holdingQuantity;
@@ -33,16 +32,14 @@ class HandleUiDataProvider extends ChangeNotifier {
   int buyPrice;
   int buyQuantity;
 
-  //중간계산용 - 기존 매입총액, 기존 평가 손익, 기존 평가총액, 기존 평가손익, 기존 수익률, 기존 평단가
-  //////////////////구매 이전 보유 주식의 계산 결과들 (평단가 차이, 수익률 차이를 위한 변수들)
+  //중간계산용 - 기존 매입총액, 기존 평가 손익, 기존 수익률, 기존 평단가
+  //            구매 이전 보유 주식의 계산 결과들 (평단가 차이, 수익률 차이를 위한 변수들)
   int exTotalPurchase;
   int exValuationLoss;
-  // int exTotalValuationResult;
-  // int exValuationLoss;
   double exYield;
   int exAveragePurchase;
 
-  /////////////////구매 이후 계산 결과들 - (계산된) 매입총액, 평단가, 수익률, (이전수익률+계산수익률) 평가금액, 평가손익
+  //구매 이후 계산 결과들 - (계산된) 매입총액, 평단가, 수익률, (이전수익률+계산수익률) 평가금액, 평가손익
   int calculatedTotalPurchase;
   int calculatedAveragePurchase;
   double calculatedYield;
@@ -54,7 +51,7 @@ class HandleUiDataProvider extends ChangeNotifier {
   String valuationResultText;
   String yieldResultText;
   String purchasePriceResultText;
-  // - 평단가 차이, 수익률 차이, (계산된 평가손익)
+  //                   평단가 차이, 수익률 차이, (계산된 평가손익)
   int averagePurchaseDiff;
   String averagePurchaseDiffText;
   double yieldDiff;
@@ -64,7 +61,10 @@ class HandleUiDataProvider extends ChangeNotifier {
 
   CalcBrain calcBrain = CalcBrain();
 
-  //////////////////////////shared_preferences
+  ///
+  ///                 shared_preferences methods
+  ///
+  ///
   void loadData() async {
     print('loadData()');
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -151,20 +151,10 @@ class HandleUiDataProvider extends ChangeNotifier {
     prefs.setDouble('calculatedYield', 0);
   }
 
-  //ui 값들을 List[i] 값으로 전부 수정 (페이지슬라이드시 동작)
-  void setData() {
-    notifyListeners();
-  }
-
-  //TextField null 체크
-  bool validate(String text) {
-    if (text.isEmpty) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
+  ///
+  ///                  UI, 계산기 관련 methods
+  ///
+  ///
   //계산 버튼을 눌렀을 때, result text, diff text, percent text 갱신
   void tabCalculateButton(BuildContext _) {
     print('tabCalcuateButton 함수 실행');
@@ -230,7 +220,7 @@ class HandleUiDataProvider extends ChangeNotifier {
     yieldDiff = calcBrain.calculateYieldDiff(
         calculatedYield: calculatedYield, exYield: exYield);
 
-    //////////////////////텍스트화
+    //텍스트화
     totalValuationResultText =
         '${currencyFormat(calcBrain.sanitizeComma(calculatedTotalValuation.toString()))} 원';
     valuationResultText =
@@ -239,14 +229,14 @@ class HandleUiDataProvider extends ChangeNotifier {
     purchasePriceResultText =
         addSuffixWon(currencyFormat(calculatedAveragePurchase));
 
-    // 수익률 차이, 평단가 차이 음수 양수 판단용 메서드
+    //수익률 차이, 평단가 차이 음수 양수 판단용 메서드
     determineNegativeForYield();
     determineNegativeForAveragePurchase();
 
-    ///////////////////////ui용 색, 이모지
+    //ui용 색, 이모지
     primaryColor = calcBrain.setColor(yieldResult: calculatedYield);
-
     emoji = calcBrain.setEmoji(yieldResult: calculatedYield);
+
     notifyListeners();
     //키보드 끄기
     FocusScope.of(_).unfocus();
@@ -272,14 +262,14 @@ class HandleUiDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  //통화단위(원) 붙이기
   String currencyFormat(int price) {
     final formatCurrency = new NumberFormat.simpleCurrency(
         locale: "ko_KR", name: "", decimalDigits: 0);
     return formatCurrency.format(price);
-    // notifyListeners();
   }
 
-  ///////////////필드각각 대응되는 changeString 메서드
+  //                     필드각각 대응되는 changeString 메서드
   void changeTitleData(String newData) {
     title = newData;
 
@@ -316,6 +306,7 @@ class HandleUiDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  //계산결과의 차이값에 방향화살표 붙이기
   void determineNegativeForYield() {
     if (yieldDiff < 0) {
       yieldDiffText = '${yieldDiff.toStringAsFixed(2)} %⬇';
@@ -335,6 +326,7 @@ class HandleUiDataProvider extends ChangeNotifier {
     }
   }
 
+  //원, 괄호 붙이기
   String addSuffixWonWithBrackets(String value) {
     return '($value 원)';
   }
@@ -347,7 +339,9 @@ class HandleUiDataProvider extends ChangeNotifier {
     return '$value 원';
   }
 
-  ///////////////////// title Widget 관련 ///////////////////
+  ///
+  ///                     title Widget 관련
+  ///
   ///
   bool modifyMode = true;
 
@@ -359,5 +353,14 @@ class HandleUiDataProvider extends ChangeNotifier {
     } else {
       return true;
     }
+  }
+
+  ///
+  ///                   Carousel Card 관련 methods
+  ///
+  //TODO: 여기서부터 하면 되겠죠?
+  //ui 값들을 List[i] 값으로 전부 수정 (페이지슬라이드시 동작)
+  void setData() {
+    notifyListeners();
   }
 }
