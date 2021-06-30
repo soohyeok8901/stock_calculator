@@ -1,5 +1,7 @@
 import 'package:averge_price_calc/models/calculator.dart';
+import 'package:averge_price_calc/widgets/CardCarousel.dart';
 import 'package:averge_price_calc/widgets/InputTextField.dart';
+import 'package:averge_price_calc/widgets/TitleTextField.dart';
 import 'package:averge_price_calc/widgets/banner_ad.dart';
 import 'package:averge_price_calc/widgets/ui_data_provider.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +11,12 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constant.dart';
+
+//TODO: 타이틀 다루기
+// TODO:캐러샐 연동
+// TODO:캐러샐 마지막요소 추가로 변경
+// TODO: 리팩토링
+//TODO: 애드몹 배포버전으로 수정
 
 class MainScreen extends StatefulWidget {
   @override
@@ -38,8 +46,8 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-    //shared_preferences
-    _loadTextData();
+    //shared_preferences init
+    _initData();
     //TODO: 디자인 반응형으로 만들기
     //TODO: 이건 실기기 테스트도 같이해야하는데
     //TODO: 잠시 핫스팟좀 틀어달라고 해야겠네요.
@@ -47,41 +55,11 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
   }
 
-  //시작할 때 저장돼있던 Data들을 불러옵니다.
-  void _loadTextData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    //TextField의 텍스트 로딩
-    _loadTextFieldData(prefs);
-
-    //내부 데이터들(중간계산, 결과값 등) 로딩
-    Provider.of<HandleUiDataProvider>(context, listen: false).loadData();
-  }
-
-  void _loadTextFieldData(SharedPreferences prefs) {
-    _totalValuationPriceTEC.text =
-        prefs.getString('totalValuationPriceTF') ?? '';
-    _holdingQuantityTEC.text = prefs.getString('holdingQuantityTF') ?? '';
-    _purchasePriceTEC.text = prefs.getString('purchasePriceTF') ?? '';
-    _currentStockPriceTEC.text = prefs.getString('currentStockPriceTF') ?? '';
-    _buyPriceTEC.text = prefs.getString('buyPriceTF') ?? '';
-    _buyQuantityTEC.text = prefs.getString('buyQuantityTF') ?? '';
-  }
-
-  void _setTextFieldData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('totalValuationPriceTF', _totalValuationPriceTEC.text);
-    prefs.setString('holdingQuantityTF', _holdingQuantityTEC.text);
-    prefs.setString('purchasePriceTF', _purchasePriceTEC.text);
-    prefs.setString('currentStockPriceTF', _currentStockPriceTEC.text);
-    prefs.setString('buyPriceTF', _buyPriceTEC.text);
-    prefs.setString('buyQuantityTF', _buyQuantityTEC.text);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Consumer2<HandleUiDataProvider, CalcBrain>(
       builder: (context, handleUiDataProvider, calcBrain, widget) {
-        //callbacks
+        /////////////////////////button callbacks
         Function calculateButtonCB = () {
           handleUiDataProvider.tabCalculateButton(context);
 
@@ -89,7 +67,7 @@ class _MainScreenState extends State<MainScreen> {
           _setTextFieldData();
 
           //shared_preferences 내부 데이터들(중간계산, 결과값 등) 저장
-          Provider.of<HandleUiDataProvider>(context, listen: false).saveData();
+          _setInnerData(context);
 
           //컴마 살균
           _sanitizingComma(calcBrain);
@@ -97,19 +75,14 @@ class _MainScreenState extends State<MainScreen> {
 
         Function clearButtonCB = () {
           handleUiDataProvider.tabClearButton(context);
-          _totalValuationPriceTEC.clear();
-          _holdingQuantityTEC.clear();
-          _purchasePriceTEC.clear();
-          _currentStockPriceTEC.clear();
-          _buyPriceTEC.clear();
-          _buyQuantityTEC.clear();
+          //텍스트필드 clear
+          _clearTextField();
 
           //shared_preferences textfield 데이터 저장
           _setTextFieldData();
 
           //shared_preferences 내부 데이터들(중간계산, 결과값 등) 저장
-          Provider.of<HandleUiDataProvider>(context, listen: false)
-              .saveDataForClear();
+          _setInnerDataForClear(context);
         };
 
         return Scaffold(
@@ -117,57 +90,54 @@ class _MainScreenState extends State<MainScreen> {
           body: SafeArea(
             child: Column(
               children: <Widget>[
+                //////////////////////Top Container
                 Column(
                   children: <Widget>[
-                    Container(
-                      // height: 170,
-
-                      child: Text(
-                        handleUiDataProvider.emoji,
-                        style: TextStyle(
-                          fontSize: 100,
+                    ///////////////////////Emoji Container
+                    Padding(
+                      padding: EdgeInsets.only(top: 10),
+                      child: Container(
+                        child: Text(
+                          handleUiDataProvider.emoji,
+                          style: kEmojiTextStyle,
+                          textAlign: kTextAlignCenter,
                         ),
-                        textAlign: TextAlign.center,
+                        decoration: kEmojiContainerBoxDecoration,
+                        // padding: EdgeInsets.all(2),
                       ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      // padding: EdgeInsets.all(2),
                     ),
+                    ///////////////////////Carousel Card
                     Padding(
                       padding: EdgeInsets.only(bottom: 10, top: 7),
-                      child: Container(),
+                      child: CardCarousel(), //TODO: 여기에 캐러샐이 들어가야겠죠?
                     ),
                   ],
                 ),
+                //////////////////////Main Container
                 Expanded(
                   child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(19),
-                        topLeft: Radius.circular(19),
-                      ),
-                    ),
+                    decoration: kMainContainerBorderRadius,
                     child: SingleChildScrollView(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
+                          /////////////////////////TitleTextField
                           Padding(
                             padding: EdgeInsets.fromLTRB(50, 10, 50, 20),
-                            child: Container(),
-                            // child: TitleTextField(
-                            //   context: context,
-                            //   titleTextController: _titleTEC,
-                            //   onChangedCB: (newData) {
-                            //     handleUiDataProvider.changeTitleData(newData);
-                            //   },
-                            //   onPressedCB: () {
-                            //     //해당 pageIndex의 stock_card데이터의 title데이터 수정해야함.
-                            //   },
-                            // ),
+                            // child: Container(),
+                            //TODO: 여기에 타이틀이 들어가야겠죠? 잘 해봅시다.. 화이팅...!
+                            child: TitleTextField(
+                              context: context,
+                              titleTextController: _titleTEC,
+                              onChangedCB: (newData) {
+                                handleUiDataProvider.changeTitleData(newData);
+                              },
+                              onPressedCB: () {
+                                //해당 pageIndex의 stock_card데이터의 title데이터 수정해야함.
+                              },
+                            ),
                           ),
+                          /////////////////////////TextFields
                           Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
@@ -179,11 +149,7 @@ class _MainScreenState extends State<MainScreen> {
                                     SizedBox(height: 10),
                                     buildExTextFieldColumn2(context),
                                     SizedBox(height: 5),
-                                    Divider(
-                                      height: 10,
-                                      thickness: 1.22,
-                                      color: Colors.grey,
-                                    ),
+                                    kGreyDivider,
                                     SizedBox(height: 5),
                                     buildNewTextFieldColumn(context),
                                   ],
@@ -191,13 +157,16 @@ class _MainScreenState extends State<MainScreen> {
                               ),
                             ],
                           ),
+                          /////////////////////////resultBox, banner
                           Padding(
                             padding: EdgeInsets.only(top: 14.0),
                             child: Column(
                               children: [
-                                buildCalculator(
+                                //resultBox
+                                buildResultBox(
                                     context, calculateButtonCB, clearButtonCB),
                                 SizedBox(height: 10),
+                                //배너
                                 ShowBannerAd(),
                               ],
                             ),
@@ -215,6 +184,84 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///                             Shared_preferences
+  //앱 실행 시, 저장돼있던 Data들을 불러옵니다.
+  void _initData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //TextField의 텍스트 로딩
+    _loadTextFieldData(prefs);
+
+    //내부 데이터들(중간계산, 결과값 등) 로딩
+    _loadInnerData();
+  }
+
+  //앱 실행 시, 저장돼있던 ui_data_provider 데이터들을 불러옵니다.
+  void _loadInnerData() {
+    Provider.of<HandleUiDataProvider>(context, listen: false).loadData();
+  }
+
+  //앱 실행 시, 저장돼있던 TextField input값들을 불러옵니다.
+  void _loadTextFieldData(SharedPreferences prefs) {
+    _totalValuationPriceTEC.text =
+        prefs.getString('totalValuationPriceTF') ?? '';
+    _holdingQuantityTEC.text = prefs.getString('holdingQuantityTF') ?? '';
+    _purchasePriceTEC.text = prefs.getString('purchasePriceTF') ?? '';
+    _currentStockPriceTEC.text = prefs.getString('currentStockPriceTF') ?? '';
+    _buyPriceTEC.text = prefs.getString('buyPriceTF') ?? '';
+    _buyQuantityTEC.text = prefs.getString('buyQuantityTF') ?? '';
+  }
+
+  // 계산 버튼을 누르면 TextField input값들을 저장합니다.
+  void _setTextFieldData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('totalValuationPriceTF', _totalValuationPriceTEC.text);
+    prefs.setString('holdingQuantityTF', _holdingQuantityTEC.text);
+    prefs.setString('purchasePriceTF', _purchasePriceTEC.text);
+    prefs.setString('currentStockPriceTF', _currentStockPriceTEC.text);
+    prefs.setString('buyPriceTF', _buyPriceTEC.text);
+    prefs.setString('buyQuantityTF', _buyQuantityTEC.text);
+  }
+
+  //클리어버튼 눌렀을 때 데이터 초기화된 채로 저장
+  void _setInnerDataForClear(BuildContext context) {
+    Provider.of<HandleUiDataProvider>(context, listen: false)
+        .saveDataForClear();
+  }
+
+  void _setInnerData(BuildContext context) {
+    Provider.of<HandleUiDataProvider>(context, listen: false).saveData();
+  }
+
+  ///
+  ///
+  ///
+  ///
+  ///
+  ///
+  //////////////////////////////UI methods
+
+  // 텍스트 필드 clears
+  void _clearTextField() {
+    _totalValuationPriceTEC.clear();
+    _holdingQuantityTEC.clear();
+    _purchasePriceTEC.clear();
+    _currentStockPriceTEC.clear();
+    _buyPriceTEC.clear();
+    _buyQuantityTEC.clear();
+  }
+
+  //컴마, -, 온점 살균
   void _sanitizingComma(CalcBrain calcBrain) {
     _totalValuationPriceTEC.text =
         calcBrain.sanitizeComma(_totalValuationPriceTEC.text).toString();
@@ -229,7 +276,8 @@ class _MainScreenState extends State<MainScreen> {
         calcBrain.sanitizeComma(_buyQuantityTEC.text).toString();
   }
 
-  Widget buildCalculator(
+  //계산 결과 박스 생성
+  Widget buildResultBox(
       BuildContext context, Function calcCB, Function clearCB) {
     return Consumer2<HandleUiDataProvider, CalcBrain>(
       builder: (context, handleUiDataProvider, calcBrain, widget) {
@@ -242,37 +290,30 @@ class _MainScreenState extends State<MainScreen> {
               buildButton(clearCB: clearCB, calcCB: calcCB, context: context),
               Column(
                 children: <Widget>[
+                  /////////////////////평가총액
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
+                      /////평가총액 타이틀
                       Expanded(
                         flex: 3,
-                        child: AutoSizeText(
-                          '평가총액',
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          maxLines: 1,
-                        ),
+                        child: kTotalValuationTitle,
                       ),
                       SizedBox(width: 15),
 
-                      //평가총액
+                      //계산된 평가총액
                       Expanded(
                         flex: 4,
                         child: AutoSizeText(
                           handleUiDataProvider.totalValuationResultText ??
                               '0 원',
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: kTotalValuationTextStyle,
                           maxLines: 1,
                         ),
                       ),
                       SizedBox(width: 15),
-                      //평가손익
+
+                      //계산된 평가손익
                       Expanded(
                         flex: 4,
                         child: AutoSizeText(
@@ -289,22 +330,18 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                     ],
                   ),
+                  /////////////////////수익률
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
+                      //수익률 타이틀
                       Expanded(
                         flex: 3,
-                        child: AutoSizeText(
-                          '수익률',
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          maxLines: 1,
-                        ),
+                        child: kYieldTitle,
                       ),
                       SizedBox(width: 10),
-                      //수익률
+
+                      //계산된 수익률
                       Expanded(
                         flex: 4,
                         child: AutoSizeText(
@@ -321,6 +358,7 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                       SizedBox(width: 10),
 
+                      //계산된 수익률 차이
                       Expanded(
                         flex: 4,
                         // child: Container(),
@@ -338,21 +376,19 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                     ],
                   ),
+
+                  /////////////////////평단가
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
+                      //평단가 타이틀
                       Expanded(
                         flex: 3,
-                        child: AutoSizeText(
-                          '평단가  ',
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          maxLines: 1,
-                        ),
+                        child: kPurchasePriceTitle,
                       ),
                       SizedBox(width: 10),
+
+                      //계산된 평단가
                       Expanded(
                         flex: 4,
                         child: AutoSizeText(
@@ -367,25 +403,18 @@ class _MainScreenState extends State<MainScreen> {
                         ),
                       ),
                       SizedBox(width: 10),
+
+                      //계산된 평단가 차이
                       Expanded(
                         flex: 4,
                         // child: Container(),
                         child: AutoSizeText(
                           handleUiDataProvider.averagePurchaseDiffText ?? '',
-                          style: TextStyle(
-                            fontSize: 23,
-                            textBaseline: TextBaseline.alphabetic,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                            fontFamily: 'Cafe24Simplehae',
-                          ),
+                          style: kAveragePurchaseDiffTextStyle,
                           maxLines: 1,
                         ),
                       ),
                     ],
-                  ),
-                  Row(
-                    children: <Widget>[],
                   ),
                 ],
               ),
@@ -396,6 +425,7 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+  //초기화, 계산 버튼 생성
   Widget buildButton(
       {Function clearCB, Function calcCB, BuildContext context}) {
     return Consumer<HandleUiDataProvider>(
@@ -408,13 +438,7 @@ class _MainScreenState extends State<MainScreen> {
                 minWidth: 30,
                 height: 30,
                 color: Colors.blue,
-                child: Text(
-                  '초기화',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 27,
-                  ),
-                ),
+                child: kClearButtonText,
                 onPressed: clearCB,
                 elevation: 8,
               ),
@@ -425,13 +449,7 @@ class _MainScreenState extends State<MainScreen> {
                 minWidth: 30,
                 height: 30,
                 color: Colors.blue,
-                child: Text(
-                  '계산',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 27,
-                  ),
-                ),
+                child: kCalculateButtonText,
                 onPressed: _checkValidation() ? calcCB : null,
                 disabledColor: grey,
                 elevation: 8,
@@ -443,6 +461,7 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+  //계산 버튼 활성화 조건
   bool _checkValidation() {
     return ((_totalValuationPriceTEC.text.length > 0) &&
         (_holdingQuantityTEC.text.length > 0) &&
@@ -452,44 +471,8 @@ class _MainScreenState extends State<MainScreen> {
         (_buyQuantityTEC.text.length > 0));
   }
 
-  Widget buildNewTextFieldColumn(BuildContext context) {
-    return Consumer<HandleUiDataProvider>(
-      builder: (context, handleUiDataProvider, widget) {
-        return Column(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: InputTextField(
-                    textController: _buyPriceTEC,
-                    hintText: '가격 입력',
-                    titleText: '미래의 예상 주가',
-                    onChangedCB: (newData) {
-                      Provider.of<HandleUiDataProvider>(context, listen: false)
-                          .changeBuyPriceData(newData);
-                    },
-                  ),
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: InputTextField(
-                    textController: _buyQuantityTEC,
-                    hintText: '개수 입력',
-                    titleText: '구매 수량[주] (0주 가능)',
-                    onChangedCB: (newData) {
-                      Provider.of<HandleUiDataProvider>(context, listen: false)
-                          .changeBuyQuantityData(newData);
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ],
-        );
-      },
-    );
-  }
-
+  ///////////////////////////////TextFields
+  ///현재 평가금액, 현재 보유수량[주]
   Widget buildExTextFieldColumn(BuildContext context) {
     return Consumer<HandleUiDataProvider>(
       builder: (context, handleUiDataProvider, __) {
@@ -528,6 +511,7 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+  /// 매입단가, 현재주가
   Widget buildExTextFieldColumn2(BuildContext context) {
     return Consumer<HandleUiDataProvider>(
       builder: (context, handleUiDataProvider, __) {
@@ -555,6 +539,45 @@ class _MainScreenState extends State<MainScreen> {
                     onChangedCB: (newData) {
                       Provider.of<HandleUiDataProvider>(context, listen: false)
                           .changeCurrentStockPriceData(newData);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // 미래의 예상주가, 예상 구매 수량
+  Widget buildNewTextFieldColumn(BuildContext context) {
+    return Consumer<HandleUiDataProvider>(
+      builder: (context, handleUiDataProvider, widget) {
+        return Column(
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: InputTextField(
+                    textController: _buyPriceTEC,
+                    hintText: '가격 입력',
+                    titleText: '미래의 예상 주가',
+                    onChangedCB: (newData) {
+                      Provider.of<HandleUiDataProvider>(context, listen: false)
+                          .changeBuyPriceData(newData);
+                    },
+                  ),
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: InputTextField(
+                    textController: _buyQuantityTEC,
+                    hintText: '개수 입력',
+                    titleText: '구매 수량[주] (0주 가능)',
+                    onChangedCB: (newData) {
+                      Provider.of<HandleUiDataProvider>(context, listen: false)
+                          .changeBuyQuantityData(newData);
                     },
                   ),
                 ),
