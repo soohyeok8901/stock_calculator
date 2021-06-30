@@ -7,7 +7,30 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../constant.dart';
 
 class HandleUiDataProvider extends ChangeNotifier {
-  ////////////////////////////// fields
+  //캐러샐용 DataClass List
+  List<StockCard> stockCardList = [
+    StockCard(
+      primaryColor: grey,
+      emoji: '🙂',
+      title: '계산기 1',
+      totalValuationPrice: null,
+      holdingQuantity: null,
+      purchasePrice: null,
+      currentStockPrice: null,
+      buyPrice: null,
+      buyQuantity: null,
+      totalValuationResultText: '0 원',
+      valuationResultText: null,
+      yieldResultText: '0 %',
+      yieldDiffText: null,
+      purchasePriceResultText: '0 원',
+      averagePurchaseDiffText: null,
+    ),
+    StockCard(
+      isEnd: true,
+    ),
+  ];
+
   //color, emoji
   Color primaryColor = grey;
   String emoji = '🙂';
@@ -17,9 +40,9 @@ class HandleUiDataProvider extends ChangeNotifier {
 
   ///
   ///
-  ///
-  ///
   ///                           계산기 관련 변수
+  ///
+  ///
   //Row1 - 총 평가금액, 총 보유수량
   int totalValuationPrice;
   int holdingQuantity;
@@ -46,16 +69,18 @@ class HandleUiDataProvider extends ChangeNotifier {
   int calculatedTotalValuation;
   int calculatedValuationLoss;
 
-  //계산 결과 텍스트들 - 계산된 평가총액, 계산된 평가손익, 계산된 수익률, 계산된 평단가
+  //                          계산 결과 텍스트들
+  //계산된 평가총액, 계산된 평가손익
   String totalValuationResultText;
   String valuationResultText;
+  //계산된수익률, 수익률 차이
   String yieldResultText;
-  String purchasePriceResultText;
-  //                   평단가 차이, 수익률 차이, (계산된 평가손익)
-  int averagePurchaseDiff;
-  String averagePurchaseDiffText;
   double yieldDiff;
   String yieldDiffText;
+  //계산된 평단가, 평단가 차이
+  String purchasePriceResultText;
+  int averagePurchaseDiff;
+  String averagePurchaseDiffText;
 
   int nowPageIndex = 0;
 
