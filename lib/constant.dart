@@ -92,3 +92,24 @@ const kAveragePurchaseDiffTextStyle = TextStyle(
   color: Colors.black,
   fontFamily: 'Cafe24Simplehae',
 );
+
+//////////////////////////////InputTextField
+const kInputTextFieldTitleTextStyle = TextStyle(
+  fontWeight: FontWeight.bold,
+);
+
+var kInputTextFieldEnableBorder = OutlineInputBorder(
+  borderRadius: BorderRadius.circular(10),
+  borderSide: BorderSide(
+    color: Colors.grey,
+    width: 1,
+  ),
+);
+
+var kInputTextFieldFocusedBorder = OutlineInputBorder(
+  borderRadius: BorderRadius.circular(10),
+  borderSide: BorderSide(
+    color: Colors.green,
+    width: 2,
+  ),
+);

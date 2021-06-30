@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constant.dart';
+
 class InputTextField extends StatelessWidget {
   InputTextField({
     @required this.textController,
@@ -19,9 +21,7 @@ class InputTextField extends StatelessWidget {
       children: <Widget>[
         Text(
           titleText,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+          style: kInputTextFieldTitleTextStyle,
         ),
         SizedBox(height: 8),
         Container(
@@ -32,20 +32,8 @@ class InputTextField extends StatelessWidget {
             textAlignVertical: TextAlignVertical.bottom,
             decoration: InputDecoration(
               hintText: hintText,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                  color: Colors.grey,
-                  width: 1,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                  color: Colors.green,
-                  width: 2,
-                ),
-              ),
+              enabledBorder: kInputTextFieldEnableBorder,
+              focusedBorder: kInputTextFieldFocusedBorder,
             ),
             onChanged: onChangedCB,
             keyboardType: TextInputType.number,
