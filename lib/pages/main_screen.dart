@@ -42,6 +42,7 @@ class _MainScreenState extends State<MainScreen> {
     _loadTextData();
     //TODO: 디자인 반응형으로 만들기
     //TODO: 이건 실기기 테스트도 같이해야하는데
+    //TODO: 잠시 핫스팟좀 틀어달라고 해야겠네요.
 
     super.initState();
   }
