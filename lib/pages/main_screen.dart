@@ -71,6 +71,9 @@ class _MainScreenState extends State<MainScreen> {
 
           //컴마 살균
           _sanitizingComma(calcBrain);
+
+          //stockCardList[nowPageIndex]에 데이터들 set
+          handleUiDataProvider.setData();
         };
 
         Function clearButtonCB = () {

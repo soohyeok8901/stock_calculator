@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:averge_price_calc/models/calculator.dart';
 import 'package:averge_price_calc/models/stock_card.dart';
 import 'package:flutter/material.dart';
@@ -83,15 +85,16 @@ class HandleUiDataProvider extends ChangeNotifier {
   String averagePurchaseDiffText;
 
   int nowPageIndex = 0;
+  int lastIndex = 1;
 
   CalcBrain calcBrain = CalcBrain();
 
-  ///
   ///                 shared_preferences methods
   ///
   ///
   void loadData() async {
     print('loadData()');
+    // clearList();
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     // //TextField 파트
@@ -119,6 +122,11 @@ class HandleUiDataProvider extends ChangeNotifier {
     //색깔 결정
     primaryColor = calcBrain.setColor(yieldResult: calculatedYield);
 
+    //stockCardList 파트
+    var encodedListData = prefs.getString('stockCardList');
+    if (encodedListData != null) {
+      stockCardList = StockCard.decode(encodedListData);
+    }
     notifyListeners();
   }
 
@@ -147,6 +155,14 @@ class HandleUiDataProvider extends ChangeNotifier {
     prefs.setString('yieldDiffText', yieldDiffText);
     prefs.setString('emoji', emoji);
     prefs.setDouble('calculatedYield', calculatedYield);
+
+    //stockCardList 파트
+    //TODO: 지금 앱을 구동했을 때 stockCardList가 저장돼있지 않아서 null로 시작을 한다.
+    //TODO: 고로 stockCardList를 저장을 해야한다. (계산, 초기화일때, 카드삭제, 카드 추가, 타이틀 변경 때만 하면 됨)
+    //1. list 직렬화
+    var encodedListData = StockCard.encode(stockCardList);
+    //2. 직렬화한 list를 setString으로 저장
+    prefs.setString('stockCardList', encodedListData);
   }
 
   void saveDataForClear() async {
@@ -176,7 +192,6 @@ class HandleUiDataProvider extends ChangeNotifier {
     prefs.setDouble('calculatedYield', 0);
   }
 
-  ///
   ///                  UI, 계산기 관련 methods
   ///
   ///
@@ -364,7 +379,6 @@ class HandleUiDataProvider extends ChangeNotifier {
     return '$value 원';
   }
 
-  ///
   ///                     title Widget 관련
   ///
   ///
@@ -380,12 +394,105 @@ class HandleUiDataProvider extends ChangeNotifier {
     }
   }
 
-  ///
   ///                   Carousel Card 관련 methods
   ///
   //TODO: 여기서부터 하면 되겠죠?
-  //ui 값들을 List[i] 값으로 전부 수정 (페이지슬라이드시 동작)
   void setData() {
+    print('$nowPageIndex 에 저장');
+    stockCardList[nowPageIndex].primaryColor = primaryColor;
+    stockCardList[nowPageIndex].emoji = emoji;
+    stockCardList[nowPageIndex].title = title;
+    stockCardList[nowPageIndex].totalValuationPrice = totalValuationPrice;
+    stockCardList[nowPageIndex].holdingQuantity = holdingQuantity;
+    stockCardList[nowPageIndex].purchasePrice = purchasePrice;
+    stockCardList[nowPageIndex].currentStockPrice = currentStockPrice;
+    stockCardList[nowPageIndex].buyPrice = buyPrice;
+    stockCardList[nowPageIndex].buyQuantity = buyQuantity;
+    stockCardList[nowPageIndex].totalValuationResultText =
+        totalValuationResultText;
+    stockCardList[nowPageIndex].valuationResultText = valuationResultText;
+    stockCardList[nowPageIndex].yieldResultText = yieldResultText;
+    stockCardList[nowPageIndex].yieldDiffText = yieldDiffText;
+    stockCardList[nowPageIndex].purchasePriceResultText =
+        purchasePriceResultText;
+    stockCardList[nowPageIndex].averagePurchaseDiffText =
+        averagePurchaseDiffText;
     notifyListeners();
+  }
+
+  //TODO: 캐러샐 onPageChanged 리스너용 data Load 메서드
+  //ui 값들을 List[i] 값으로 전부 수정 (페이지슬라이드시 동작)
+  void loadUiByChangedPage({int index}) {
+    //인덱스에 따른 데이터들을 필드들에 저장하면 되겠죠??
+
+    primaryColor = stockCardList[index].primaryColor;
+    emoji = stockCardList[index].emoji;
+    title = stockCardList[index].title;
+    totalValuationPrice = stockCardList[index].totalValuationPrice;
+    holdingQuantity = stockCardList[index].holdingQuantity;
+    purchasePrice = stockCardList[index].purchasePrice;
+    currentStockPrice = stockCardList[index].currentStockPrice;
+    buyPrice = stockCardList[index].buyPrice;
+    buyQuantity = stockCardList[index].buyQuantity;
+    totalValuationResultText = stockCardList[index].totalValuationResultText;
+    valuationResultText = stockCardList[index].valuationResultText;
+    yieldResultText = stockCardList[index].yieldResultText;
+    yieldDiffText = stockCardList[index].yieldDiffText;
+    purchasePriceResultText = stockCardList[index].purchasePriceResultText;
+    averagePurchaseDiffText = stockCardList[index].averagePurchaseDiffText;
+    //TODO: main_screen에서 TextField에서도 여기서 저장한데이터들 연동시켜줘야함
+
+    notifyListeners();
+  }
+
+  //TODO: 카드 더하기
+  void addCard() {
+    increaseLastIndex();
+    stockCardList.add(
+      StockCard(
+        primaryColor: grey,
+        emoji: '🙂',
+        title: '계산기 $lastIndex',
+        totalValuationPrice: null,
+        holdingQuantity: null,
+        purchasePrice: null,
+        currentStockPrice: null,
+        buyPrice: null,
+        buyQuantity: null,
+        totalValuationResultText: '0 원',
+        valuationResultText: null,
+        yieldResultText: '0 %',
+        yieldDiffText: null,
+        purchasePriceResultText: '0 원',
+        averagePurchaseDiffText: null,
+      ),
+    );
+    //TODO: 만약 필요하면 main_screen에서도 textField관리해주기
+    notifyListeners();
+  }
+
+  //TODO: 카드 삭제
+  void deleteCard({int index}) {
+    decreaseLastIndex();
+    stockCardList.removeAt(index);
+    //TODO: 만약 필요하면 main_screen에서도 textField관리해주기
+    notifyListeners();
+  }
+
+  //TODO: 마지막인덱스 (추가 카드) 관리
+  void increaseLastIndex() {
+    lastIndex++;
+    notifyListeners();
+  }
+
+  void decreaseLastIndex() {
+    lastIndex--;
+    notifyListeners();
+  }
+
+  //테스트용 stockCardList 초기화
+  void clearList() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('stockCardList');
   }
 }

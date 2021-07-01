@@ -1,3 +1,4 @@
+import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:averge_price_calc/models/stock_card.dart';
 import 'package:averge_price_calc/widgets/ui_data_provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -11,6 +12,7 @@ class CardCarousel extends StatelessWidget {
 
   //TODO: stockCardList를 이용해서 캐러샐과연동을 해봅시다.
   //TODO: i-1 은 추가 카드인점 명심하세요.
+  //TODO: 리팩토링
   @override
   Widget build(BuildContext context) {
     // Provider.of<HandleUiDataProvider>(context).;
@@ -18,11 +20,13 @@ class CardCarousel extends StatelessWidget {
       builder: (context, handleUidDataProvider, widget) {
         return CarouselSlider(
           options: CarouselOptions(
-            height: 100,
+            height: 130,
             enableInfiniteScroll: false,
             onPageChanged: (index, reason) {
               //TODO:여기에 슬라이드 했을 때 ui_data_provider에 ui<->data 연동 메서드 만들어서
               //TODO: 데이터 동기화 되게 만들면 되겠네요 근데 reason은 뭐죠
+              print(index);
+              handleUidDataProvider.nowPageIndex = index;
             },
           ),
           items: handleUidDataProvider.stockCardList.map((i) {
@@ -76,37 +80,41 @@ class CardCarousel extends StatelessWidget {
         ],
       );
     } else {
-      // 데이터를 이용해서 정상적인 캐러샐 카드 리턴
+      // TODO: 데이터를 이용해서 정상적인 캐러샐 카드 리턴
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         //              카드 생성 파트
         children: <Widget>[
-          Text(
-            cardData.title,
-            style: TextStyle(fontSize: 30.0),
-            textAlign: TextAlign.center,
-          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            textBaseline: TextBaseline.alphabetic,
             children: <Widget>[
-              Text(
-                cardData.totalValuationResultText,
-                style: TextStyle(
-                  fontSize: 20,
-                ),
-              ),
-              SizedBox(width: 4),
-              Text(
-                cardData.yieldResultText,
-                style: TextStyle(
-                  color: cardData.primaryColor,
-                  fontSize: 17,
-                ),
+              AutoSizeText(
+                '씹씹이 가즈아 ${cardData.emoji}',
+                style: TextStyle(fontSize: 30.0),
+                textAlign: TextAlign.center,
               ),
             ],
-          )
+          ),
+          AutoSizeText(
+            '${cardData.totalValuationResultText}',
+            style: TextStyle(
+              fontSize: 20,
+            ),
+          ),
+          AutoSizeText(
+            '${cardData.valuationResultText}',
+            style: TextStyle(
+              color: cardData.primaryColor,
+              fontSize: 17,
+            ),
+          ),
+          AutoSizeText(
+            '${cardData.yieldResultText}',
+            style: TextStyle(
+              color: cardData.primaryColor,
+              fontSize: 17,
+            ),
+          ),
         ],
       );
     }
