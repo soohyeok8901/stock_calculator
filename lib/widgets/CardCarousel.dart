@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:averge_price_calc/models/stock_card.dart';
 import 'package:averge_price_calc/widgets/ui_data_provider.dart';
@@ -15,6 +17,7 @@ class CardCarousel extends StatelessWidget {
   //TODO: 리팩토링
   @override
   Widget build(BuildContext context) {
+    int pageIndex = -1; //카드 동적생성 관리용 index
     // Provider.of<HandleUiDataProvider>(context).;
     return Consumer<HandleUiDataProvider>(
       builder: (context, handleUidDataProvider, widget) {
@@ -30,6 +33,7 @@ class CardCarousel extends StatelessWidget {
             },
           ),
           items: handleUidDataProvider.stockCardList.map((i) {
+            print('${i.totalValuationResultText} ${i.isEnd}');
             return Builder(
               builder: (BuildContext context) {
                 return Container(
@@ -39,7 +43,11 @@ class CardCarousel extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(15)),
                   ),
-                  child: makeCards(cardData: i),
+                  child: makeCards(
+                    cardData: i,
+                    context: context,
+                    // pageIndex: pageIndex,
+                  ),
                 );
               },
             );
@@ -50,21 +58,11 @@ class CardCarousel extends StatelessWidget {
   }
 
   //카드위젯 동적생성
-  Column makeCards({StockCard cardData}) {
-    // List<CoinCard> cards = [];
-    // for (String crypto in kCryptoList) {
-    //   cards.add(
-    //     CoinCard(
-    //         dropdownValue: dropdownValue,
-    //         ticker: crypto,
-    //         price: isWaiting ? '?' : coinValues[crypto]),
-    //   );
-    // }
-
-    //TODO: 인덱스를 확인해야겠네요
-    //TODO: 인덱스가 i-1 일 경우 추가카드를 return 합시다.
-
-    if (cardData.isEnd) {
+  Column makeCards({StockCard cardData, BuildContext context}) {
+    // print(cardData.totalValuationResultText);
+    // print(cardData.isEnd);
+    if (cardData.isEnd && cardData.totalValuationResultText == null) {
+      // 새카드는 결과텍스트가 0 원으로 입력 받은 상태
       //TODO:추가카드 생성해봅시다.
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -72,9 +70,10 @@ class CardCarousel extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () {
-              //TODO: 여기에는 i-2 (개수 계산필요)에다가 빈 계산기 생성
-              //TODO: List에 i-2( 개수 계산필요) 인덱스에 새로운 요소 추가
+              Provider.of<HandleUiDataProvider>(context, listen: false)
+                  .addCard();
               //TODO: 데이터도 연동(초기화 된듯한 ui)
+              //TODO: sharedPreferences stockCardList save시키기
             },
           ),
         ],

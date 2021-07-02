@@ -1,6 +1,8 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:flutter/material.dart';
 
+import 'models/stock_card.dart';
+
 const INF = double.infinity;
 Color green = Color(0xFF44D375);
 Color weakGreen = Color(0xFFf3ffed);

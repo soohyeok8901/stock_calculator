@@ -76,44 +76,48 @@ class StockCard {
   factory StockCard.fromJson(Map<String, dynamic> jsonData) {
     //Color 객체가 json에서 지원하지 않아서 하드코딩
     //TODO: 리팩토링 해봅시다 나중에
-    String colorString = jsonData['primaryColor'];
-    Color newColor;
 
-    try {
-      String valueString = colorString
-          .toString()
-          .substring(8, colorString.length - 1); // kind of hacky..
-      print(valueString);
-      int value = int.parse(valueString, radix: 16);
-      newColor = Color(value);
-    } catch (e) {
-      //마지막 인덱스가 exception에 걸리게된다.
-      print(e);
+    if (!jsonData['isEnd']) {
+      String colorString = jsonData['primaryColor'];
+      Color newColor;
+
+      try {
+        String valueString = colorString
+            .toString()
+            .substring(8, colorString.length - 1); // kind of hacky..
+        print(valueString);
+        int value = int.parse(valueString, radix: 16);
+        newColor = Color(value);
+      } catch (e) {
+        //마지막 인덱스가 exception에 걸리게된다.
+        print(e);
+      }
+
+      return StockCard(
+        primaryColor: newColor,
+        emoji: jsonData['emoji'],
+        title: jsonData['title'],
+        totalValuationPrice: jsonData['totalValuationPrice'],
+        holdingQuantity: jsonData['holdingQuantity'],
+        purchasePrice: jsonData['purchasePrice'],
+        currentStockPrice: jsonData['currentStockPrice'],
+        buyPrice: jsonData['buyPrice'],
+        buyQuantity: jsonData['buyQuantity'],
+        totalValuationResultText: jsonData['totalValuationResultText'],
+        valuationResultText: jsonData['valuationResultText'],
+        yieldResultText: jsonData['yieldResultText'],
+        yieldDiffText: jsonData['yieldDiffText'],
+        purchasePriceResultText: jsonData['purchasePriceResultText'],
+        averagePurchaseDiffText: jsonData['averagePurchaseDiffText'],
+        isEnd: false,
+      );
+    } else {
+      return StockCard(isEnd: true);
     }
-
-    return StockCard(
-      primaryColor: newColor,
-      emoji: jsonData['emoji'],
-      title: jsonData['title'],
-      totalValuationPrice: jsonData['totalValuationPrice'],
-      holdingQuantity: jsonData['holdingQuantity'],
-      purchasePrice: jsonData['purchasePrice'],
-      currentStockPrice: jsonData['currentStockPrice'],
-      buyPrice: jsonData['buyPrice'],
-      buyQuantity: jsonData['buyQuantity'],
-      totalValuationResultText: jsonData['totalValuationResultText'],
-      valuationResultText: jsonData['valuationResultText'],
-      yieldResultText: jsonData['yieldResultText'],
-      yieldDiffText: jsonData['yieldDiffText'],
-      purchasePriceResultText: jsonData['purchasePriceResultText'],
-      averagePurchaseDiffText: jsonData['averagePurchaseDiffText'],
-      isEnd: jsonData['isEnd'],
-    );
   }
 
   static Map<String, dynamic> toMap(StockCard stockCard) => {
-        //TODO: Color화 시켜줘야함
-        'primaryColor': stockCard.primaryColor,
+        'primaryColor': stockCard.primaryColor.toString(),
         'emoji': stockCard.emoji,
         'title': stockCard.title,
         'totalValuationPrice': stockCard.totalValuationPrice,
@@ -132,9 +136,9 @@ class StockCard {
       };
 
   static String encode(List<StockCard> stockCardList) => json.encode(
-        stockCardList
-            .map<Map<String, dynamic>>((cardData) => StockCard.toMap(cardData))
-            .toList(),
+        stockCardList.map<Map<String, dynamic>>((cardData) {
+          return StockCard.toMap(cardData);
+        }).toList(),
       );
 
   static List<StockCard> decode(String stockCardLists) =>
