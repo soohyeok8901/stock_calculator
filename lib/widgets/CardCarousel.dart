@@ -46,15 +46,6 @@ class CardCarousel extends StatelessWidget {
             );
           },
         ),
-        //delete test
-        // RaisedButton(onPressed: () {
-        //   Provider.of<UiDataProvider>(context, listen: false).deleteCard(
-        //       index: Provider.of<UiDataProvider>(context, listen: false)
-        //               .stockCardList
-        //               .length -
-        //           2);
-        //   carouselController.previousPage();
-        // }),
       ],
     );
   }
@@ -77,14 +68,18 @@ class AddCard extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
+          MaterialButton(
+            color: Colors.grey[400],
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(100),
+            ),
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
             onPressed: () {
-              print('버튼눌렸습니다.');
               Provider.of<UiDataProvider>(context, listen: false).addCard();
               mainScreenUiCb();
-
-              ///TODO: sharedPreferences stockCardList save시키기
             },
           )
         ],

@@ -542,7 +542,7 @@ class _MainScreenState extends State<MainScreen> {
                   child: InputTextField(
                     textController: _purchasePriceTEC,
                     hintText: '가격 입력',
-                    titleText: '매입 단가 (현재 평단가)',
+                    titleText: '현재 매입단가 (평단가)',
                     onChangedCB: (newData) {
                       Provider.of<UiDataProvider>(context, listen: false)
                           .changePurchasePriceData(newData);
@@ -593,7 +593,7 @@ class _MainScreenState extends State<MainScreen> {
                   child: InputTextField(
                     textController: _buyQuantityTEC,
                     hintText: '개수 입력',
-                    titleText: '구매 수량[주] (0주 가능)',
+                    titleText: '구매수량[주] (0주 가능)',
                     onChangedCB: (newData) {
                       Provider.of<UiDataProvider>(context, listen: false)
                           .changeBuyQuantityData(newData);
