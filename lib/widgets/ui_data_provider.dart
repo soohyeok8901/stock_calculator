@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:averge_price_calc/models/calculator.dart';
 import 'package:averge_price_calc/models/stock_card.dart';
 import 'package:flutter/material.dart';
@@ -152,6 +150,8 @@ class UiDataProvider extends ChangeNotifier {
     }
     lastIndex = prefs.getInt('lastIndex') ?? 1;
 
+    nowPageIndex = prefs.getInt('nowPageIndex');
+
     notifyListeners();
   }
 
@@ -183,15 +183,13 @@ class UiDataProvider extends ChangeNotifier {
     prefs.setDouble('calculatedYield', calculatedYield);
 
     //stockCardList 파트
-
-    // prefs.setInt('lastIndex', 1);
-
-    //TODO: 고로 stockCardList를 저장을 해야한다. (계산, 초기화일때, 카드삭제, 카드 추가, 타이틀 변경 때만 하면 됨)
     //1. list 직렬화
-
     var encodedListData = StockCard.encode(stockCardList);
     //2. 직렬화한 list를 setString으로 저장
     prefs.setString('stockCardList', encodedListData);
+
+    //nowPageIndex 저장
+    prefs.setInt('nowPageIndex', nowPageIndex);
   }
 
   void saveDataForClear() async {
@@ -471,7 +469,6 @@ class UiDataProvider extends ChangeNotifier {
 
   ///                   Carousel Card 관련 methods
   ///
-  //TODO: 여기서부터 하면 되겠죠?
   void setData() {
     print('$nowPageIndex 에 저장');
     print('현재 lastIndex $lastIndex');
@@ -502,11 +499,10 @@ class UiDataProvider extends ChangeNotifier {
     }
   }
 
-  //TODO: 캐러샐 onPageChanged 리스너용 data Load 메서드
+  //캐러샐 onPageChanged 리스너용 data Load 메서드
   //ui 값들을 List[i] 값으로 전부 수정 (페이지슬라이드시 동작)
   void loadUiByChangedPage({int index}) {
-    print('인덱스 $index 라스트인덱스 $lastIndex');
-    print('리스트의 마지막인덱스 ${stockCardList.length - 1} ');
+    print('인덱스 $index 마지막인덱스 ${stockCardList.length - 1} ');
 
     //인덱스에 따른 데이터들을 필드들에 저장하면 되겠죠??
     if (index != stockCardList.length - 1) {
@@ -526,13 +522,12 @@ class UiDataProvider extends ChangeNotifier {
       purchasePriceResultText = stockCardList[index].purchasePriceResultText;
       averagePurchaseDiffText = stockCardList[index].averagePurchaseDiffText;
       valuationLossDiffText = stockCardList[index].valuationLossDiffText;
-      //TODO: main_screen에서 TextField에서도 여기서 저장한데이터들 연동시켜줘야함
 
       notifyListeners();
     }
   }
 
-  //TODO: 카드 더하기
+  // 카드 더하기
   void addCard() {
     print('addCard() 실행');
     var newStockCard = StockCard(
@@ -563,32 +558,32 @@ class UiDataProvider extends ChangeNotifier {
     loadUiByChangedPage(index: stockCardList.length - 2);
 
     // decreaseLastIndex();
-    //TODO: 만약 필요하면 main_screen에서도 textField관리해주기
+    // main_screen에서도 textField관리해주기
     saveData();
     notifyListeners();
   }
 
-  //TODO: 카드 삭제
+  //카드 삭제
   void deleteCard({int index}) {
     // decreaseLastIndex();
     stockCardList.removeAt(index);
-    //TODO: 만약 필요하면 main_screen에서도 textField관리해주기
+    // main_screen에서도 textField관리해주기
     saveData();
     notifyListeners();
   }
 
-  //TODO: 마지막인덱스 (추가 카드) 관리
-  void increaseLastIndex() {
-    lastIndex++;
-    print('현재 lastIndex = $lastIndex');
-    notifyListeners();
-  }
+  // 마지막인덱스 (추가 카드) 관리
+  // void increaseLastIndex() {
+  //   lastIndex++;
+  //   print('현재 lastIndex = $lastIndex');
+  //   notifyListeners();
+  // }
 
-  void decreaseLastIndex() {
-    lastIndex--;
-    print('현재 lastIndex = $lastIndex');
-    notifyListeners();
-  }
+  // void decreaseLastIndex() {
+  //   lastIndex--;
+  //   print('현재 lastIndex = $lastIndex');
+  //   notifyListeners();
+  // }
 
   //테스트용 stockCardList 초기화
   void clearList() async {

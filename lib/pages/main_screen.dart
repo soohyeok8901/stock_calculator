@@ -13,11 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constant.dart';
 
-//TODO: 타이틀 다루기
-// TODO:캐러샐 연동
-// TODO:캐러샐 마지막요소 추가로 변경
 // TODO: 리팩토링
-//TODO: 애드몹 배포버전으로 수정
 
 CarouselController carouselController = CarouselController();
 
@@ -26,7 +22,7 @@ class MainScreen extends StatefulWidget {
   _MainScreenState createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   final TextEditingController _titleTEC = TextEditingController();
   final TextEditingController _totalValuationPriceTEC = TextEditingController();
   final TextEditingController _holdingQuantityTEC = TextEditingController();
@@ -44,11 +40,16 @@ class _MainScreenState extends State<MainScreen> {
     _currentStockPriceTEC.dispose();
     _buyPriceTEC.dispose();
     _buyQuantityTEC.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+
     super.dispose();
   }
 
   @override
   void initState() {
+    //LifeCycleWatcher init
+    WidgetsBinding.instance.addObserver(this);
+
     //shared_preferences init
     _initData();
     //TODO: 디자인 반응형으로 만들기
@@ -56,6 +57,27 @@ class _MainScreenState extends State<MainScreen> {
     //TODO: 잠시 핫스팟좀 틀어달라고 해야겠네요.
 
     super.initState();
+  }
+
+  // 앱 상태 변경시 호출
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    //https://api.flutter.dev/flutter/dart-ui/AppLifecycleState-class.html
+    switch (state) {
+      case AppLifecycleState.resumed:
+        print("resumed");
+        break;
+      case AppLifecycleState.inactive:
+        Provider.of<UiDataProvider>(context, listen: false).saveData();
+        print("inactive");
+        break;
+      case AppLifecycleState.paused:
+        print("paused");
+        break;
+      case AppLifecycleState.detached:
+        print("detached");
+        break;
+    }
   }
 
   @override
@@ -128,6 +150,7 @@ class _MainScreenState extends State<MainScreen> {
                   padding: EdgeInsets.only(bottom: 20, top: 5),
                   child: CardCarousel(
                     mainScreenUiCb: carouselOnPageChangedCb,
+                    initPageNumber: handleUiDataProvider.nowPageIndex,
                   ),
                 ),
 
@@ -142,7 +165,6 @@ class _MainScreenState extends State<MainScreen> {
                           /////////////////////////TitleTextField
                           Padding(
                             padding: EdgeInsets.fromLTRB(50, 5, 50, 5),
-                            // child: Container(),
                             //TODO: 여기에 타이틀이 들어가야겠죠? 잘 해봅시다.. 화이팅...!
                             child: TitleTextField(
                               context: context,
@@ -181,6 +203,7 @@ class _MainScreenState extends State<MainScreen> {
                             child: Column(
                               children: [
                                 //resultBox
+
                                 // buildResultBox(
                                 //     context, calculateButtonCB, clearButtonCB),
                                 buildButton(

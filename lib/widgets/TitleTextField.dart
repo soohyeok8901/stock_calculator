@@ -3,6 +3,7 @@ import 'package:averge_price_calc/widgets/ui_data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+//TODO: 타이틀 화이팅
 class TitleTextField extends StatelessWidget {
   const TitleTextField({
     @required this.titleTextController,

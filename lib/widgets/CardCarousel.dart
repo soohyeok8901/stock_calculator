@@ -7,14 +7,18 @@ import 'package:provider/provider.dart';
 
 import '../constant.dart';
 
+final CarouselController carouselController = CarouselController();
+
 class CardCarousel extends StatelessWidget {
-  CardCarousel({this.mainScreenUiCb});
+  CardCarousel({this.mainScreenUiCb, this.initPageNumber});
 
   final Function mainScreenUiCb;
-  final CarouselController carouselController = CarouselController();
+  final int initPageNumber;
 
   @override
   Widget build(BuildContext context) {
+    // jumpToNowPageIndex(context);
+
     return Column(
       children: [
         Consumer<UiDataProvider>(
@@ -27,6 +31,7 @@ class CardCarousel extends StatelessWidget {
                 enableInfiniteScroll: false,
                 enlargeCenterPage: true,
                 viewportFraction: 0.8,
+                initialPage: initPageNumber,
                 onPageChanged: (index, reason) {
                   print(index);
                   uiProvider.nowPageIndex = index;
@@ -38,7 +43,10 @@ class CardCarousel extends StatelessWidget {
               itemBuilder: (context, index, _) {
                 StockCard cardData = uiProvider.stockCardList[index];
                 if (uiProvider.stockCardList[index].isEnd) {
-                  return AddCard(mainScreenUiCb: mainScreenUiCb);
+                  return AddCard(
+                    mainScreenUiCb: mainScreenUiCb,
+                    initPageNumber: initPageNumber,
+                  );
                 } else {
                   return MainCard(cardData: cardData, index: index);
                 }
@@ -55,12 +63,13 @@ class AddCard extends StatelessWidget {
   const AddCard({
     Key key,
     @required this.mainScreenUiCb,
+    this.initPageNumber,
   }) : super(key: key);
-
+  final int initPageNumber;
   final Function mainScreenUiCb;
-
   @override
   Widget build(BuildContext context) {
+    carouselController.animateToPage(initPageNumber);
     return Container(
       width: 500,
       margin: EdgeInsets.symmetric(horizontal: 5.0),
@@ -79,6 +88,7 @@ class AddCard extends StatelessWidget {
             ),
             onPressed: () {
               Provider.of<UiDataProvider>(context, listen: false).addCard();
+
               mainScreenUiCb();
             },
           )
@@ -250,6 +260,7 @@ class MainCard extends StatelessWidget {
                   onPressed: () {
                     Provider.of<UiDataProvider>(context, listen: false)
                         .deleteCard(index: index);
+                    // carouselController.animateToPage(index - 2);
                   },
                 ),
               ),
@@ -257,3 +268,20 @@ class MainCard extends StatelessWidget {
     );
   }
 }
+
+// void jumpToNowPageIndex(BuildContext context) {
+//   if (isLoaded && !isJumped) {
+//     print('로딩됐고 점프하겠습니다.');
+//     carouselController
+//         .jumpToPage(Provider.of<UiDataProvider>(context).nowPageIndex);
+//     isJumped = true;
+//   } else {
+//     return;
+//   }
+// }
+
+// void setIsLoaded() {
+//   if (!isLoaded) {
+//     isLoaded = true;
+//   }
+// }

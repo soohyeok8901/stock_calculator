@@ -1,6 +1,7 @@
-import 'package:averge_price_calc/constant.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter/material.dart';
+
+//TODO: 애드몹 배포버전으로 수정
 
 class ShowBannerAd extends StatefulWidget {
   @override

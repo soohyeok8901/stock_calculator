@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../constant.dart';
 
@@ -29,6 +30,9 @@ class InputTextField extends StatelessWidget {
           width: 200,
           child: TextField(
             controller: textController,
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp('[0-9]')), //0~9만 입력가능
+            ],
             textAlignVertical: TextAlignVertical.bottom,
             decoration: InputDecoration(
               hintText: hintText,
