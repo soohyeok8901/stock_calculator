@@ -20,6 +20,7 @@ class StockCard {
       this.yieldDiffText,
       this.purchasePriceResultText,
       this.averagePurchaseDiffText,
+      this.valuationLossDiffText,
       this.isEnd = false});
 
   // 색, 이모지
@@ -56,6 +57,9 @@ class StockCard {
   //계산된 평가총액, 계산된 평가손익
   String totalValuationResultText;
   String valuationResultText;
+
+  //평가손익 차이
+  String valuationLossDiffText;
 
   //계산된수익률, 수익률 차이
   String yieldResultText;
@@ -109,6 +113,7 @@ class StockCard {
         yieldDiffText: jsonData['yieldDiffText'],
         purchasePriceResultText: jsonData['purchasePriceResultText'],
         averagePurchaseDiffText: jsonData['averagePurchaseDiffText'],
+        valuationLossDiffText: jsonData['valuationLossDiffText'],
         isEnd: false,
       );
     } else {
@@ -132,6 +137,7 @@ class StockCard {
         'yieldDiffText': stockCard.yieldDiffText,
         'purchasePriceResultText': stockCard.purchasePriceResultText,
         'averagePurchaseDiffText': stockCard.averagePurchaseDiffText,
+        'valuationLossDiffText': stockCard.valuationLossDiffText,
         'isEnd': stockCard.isEnd,
       };
 

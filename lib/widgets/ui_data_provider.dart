@@ -23,6 +23,7 @@ class UiDataProvider extends ChangeNotifier {
       buyQuantity: 0,
       totalValuationResultText: '0 원',
       valuationResultText: '0 원',
+      valuationLossDiffText: '',
       yieldResultText: '0.00 %',
       yieldDiffText: '',
       purchasePriceResultText: '0 원',
@@ -90,6 +91,9 @@ class UiDataProvider extends ChangeNotifier {
   //계산된 평가총액, 계산된 평가손익
   String totalValuationResultText;
   String valuationResultText;
+  //평가손익 차이
+  int valuationLossDiff;
+  String valuationLossDiffText;
   //계산된수익률, 수익률 차이
   String yieldResultText;
   double yieldDiff;
@@ -101,6 +105,9 @@ class UiDataProvider extends ChangeNotifier {
 
   int nowPageIndex = 0;
   int lastIndex = 1;
+
+  bool isFirst;
+  bool isEnd;
 
   CalcBrain calcBrain = CalcBrain();
 
@@ -129,6 +136,7 @@ class UiDataProvider extends ChangeNotifier {
     valuationResultText = prefs.getString('valuationResultText');
     yieldResultText = prefs.getString('yieldResultText');
     purchasePriceResultText = prefs.getString('purchasePriceResultText');
+    valuationLossDiffText = prefs.getString('valuationLossDiffText');
     averagePurchaseDiffText = prefs.getString('averagePurchaseDiffText');
     yieldDiffText = prefs.getString('yieldDiffText');
     emoji = prefs.getString('emoji');
@@ -168,6 +176,7 @@ class UiDataProvider extends ChangeNotifier {
     prefs.setString('valuationResultText', valuationResultText);
     prefs.setString('yieldResultText', yieldResultText);
     prefs.setString('purchasePriceResultText', purchasePriceResultText);
+    prefs.setString('valuationLossDiffText', valuationLossDiffText);
     prefs.setString('averagePurchaseDiffText', averagePurchaseDiffText);
     prefs.setString('yieldDiffText', yieldDiffText);
     prefs.setString('emoji', emoji);
@@ -206,6 +215,7 @@ class UiDataProvider extends ChangeNotifier {
     prefs.setString('valuationResultText', valuationResultText);
     prefs.setString('yieldResultText', yieldResultText);
     prefs.setString('purchasePriceResultText', purchasePriceResultText);
+    prefs.setString('valuationLossDiffText', valuationLossDiffText);
     prefs.setString('averagePurchaseDiffText', averagePurchaseDiffText);
     prefs.setString('yieldDiffText', yieldDiffText);
     prefs.setString('emoji', emoji);
@@ -279,6 +289,11 @@ class UiDataProvider extends ChangeNotifier {
           calculatedValuationLoss: calculatedValuationLoss);
     }
 
+    // 평가손익 차이 계산
+    valuationLossDiff = calcBrain.calculateValuationLoss(
+        exValuationLoss: exValuationLoss,
+        newValuationLoss: calculatedValuationLoss);
+
     // 평단가 차이 계산
     averagePurchaseDiff = calcBrain.calculateAveragePurchaseDiff(
         calculatedAveragePurchase: calculatedAveragePurchase,
@@ -311,6 +326,7 @@ class UiDataProvider extends ChangeNotifier {
         addSuffixWon(currencyFormat(calculatedAveragePurchase));
 
     //수익률 차이, 평단가 차이 음수 양수 판단용 메서드
+    determineNegativeForValuationLossDiff();
     determineNegativeForYield();
     determineNegativeForAveragePurchase();
 
@@ -388,13 +404,26 @@ class UiDataProvider extends ChangeNotifier {
   }
 
   //계산결과의 차이값에 방향화살표 붙이기
+  void determineNegativeForValuationLossDiff() {
+    String data;
+    if (valuationLossDiff < 0) {
+      data = currencyFormat(valuationLossDiff);
+      valuationLossDiffText = '($data 원)';
+    } else if (yieldDiff == 0) {
+      valuationLossDiffText = '';
+    } else {
+      data = currencyFormat(valuationLossDiff);
+      valuationLossDiffText = '(+$data 원)';
+    }
+  }
+
   void determineNegativeForYield() {
     if (yieldDiff < 0) {
-      yieldDiffText = '${yieldDiff.toStringAsFixed(2)} %';
+      yieldDiffText = '(${yieldDiff.toStringAsFixed(2)} %)';
     } else if (yieldDiff == 0) {
-      yieldDiffText = '${yieldDiff.toStringAsFixed(2)} %';
+      yieldDiffText = '';
     } else {
-      yieldDiffText = '+${yieldDiff.toStringAsFixed(2)} %';
+      yieldDiffText = '(+${yieldDiff.toStringAsFixed(2)} %)';
     }
   }
 
@@ -402,13 +431,13 @@ class UiDataProvider extends ChangeNotifier {
     String data;
     if (averagePurchaseDiff < 0) {
       data = currencyFormat(averagePurchaseDiff);
-      averagePurchaseDiffText = '$data 원';
+      averagePurchaseDiffText = '($data 원)';
     } else if (averagePurchaseDiff == 0) {
       data = currencyFormat(averagePurchaseDiff);
-      averagePurchaseDiffText = '$data 원';
+      averagePurchaseDiffText = '';
     } else {
       data = currencyFormat(averagePurchaseDiff);
-      averagePurchaseDiffText = '+$data 원';
+      averagePurchaseDiffText = '(+$data 원)';
     }
   }
 
@@ -465,6 +494,8 @@ class UiDataProvider extends ChangeNotifier {
           purchasePriceResultText;
       stockCardList[nowPageIndex].averagePurchaseDiffText =
           averagePurchaseDiffText;
+      stockCardList[nowPageIndex].valuationLossDiffText = valuationLossDiffText;
+
       notifyListeners();
     } else {
       print('추가 카드입니다. 저장 불가능');
@@ -494,6 +525,7 @@ class UiDataProvider extends ChangeNotifier {
       yieldDiffText = stockCardList[index].yieldDiffText;
       purchasePriceResultText = stockCardList[index].purchasePriceResultText;
       averagePurchaseDiffText = stockCardList[index].averagePurchaseDiffText;
+      valuationLossDiffText = stockCardList[index].valuationLossDiffText;
       //TODO: main_screen에서 TextField에서도 여기서 저장한데이터들 연동시켜줘야함
 
       notifyListeners();
@@ -517,8 +549,9 @@ class UiDataProvider extends ChangeNotifier {
       valuationResultText: '0 원',
       yieldResultText: '0.00 %',
       yieldDiffText: '',
-      purchasePriceResultText: '',
+      purchasePriceResultText: '0 원',
       averagePurchaseDiffText: '',
+      valuationLossDiffText: '',
     );
 
     if (stockCardList.length == 2) {

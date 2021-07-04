@@ -111,30 +111,26 @@ class _MainScreenState extends State<MainScreen> {
             child: Column(
               children: <Widget>[
                 //////////////////////Top Container
-                Column(
-                  children: <Widget>[
-                    ///////////////////////Emoji Container
-                    Padding(
-                      padding: EdgeInsets.only(top: 10),
-                      child: Container(
-                        child: Text(
-                          handleUiDataProvider.emoji,
-                          style: kEmojiTextStyle,
-                          textAlign: kTextAlignCenter,
-                        ),
-                        decoration: kEmojiContainerBoxDecoration,
-                        // padding: EdgeInsets.all(2),
-                      ),
+                Padding(
+                  padding: EdgeInsets.only(top: 10),
+                  child: Container(
+                    // transform: Transform(transform: ,),
+                    child: Text(
+                      handleUiDataProvider.emoji,
+                      style: kEmojiTextStyle,
+                      textAlign: kTextAlignCenter,
                     ),
-                    ///////////////////////Carousel Card
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 10, top: 7),
-                      child: CardCarousel(
-                        mainScreenUiCb: carouselOnPageChangedCb,
-                      ),
-                    ),
-                  ],
+                    // decoration: kEmojiContainerBoxDecoration,
+                    // padding: EdgeInsets.all(2),
+                  ),
                 ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 20, top: 5),
+                  child: CardCarousel(
+                    mainScreenUiCb: carouselOnPageChangedCb,
+                  ),
+                ),
+
                 //////////////////////Main Container
                 Expanded(
                   child: Container(
@@ -145,7 +141,7 @@ class _MainScreenState extends State<MainScreen> {
                         children: <Widget>[
                           /////////////////////////TitleTextField
                           Padding(
-                            padding: EdgeInsets.fromLTRB(50, 10, 50, 20),
+                            padding: EdgeInsets.fromLTRB(50, 5, 50, 5),
                             // child: Container(),
                             //TODO: 여기에 타이틀이 들어가야겠죠? 잘 해봅시다.. 화이팅...!
                             child: TitleTextField(
@@ -185,8 +181,12 @@ class _MainScreenState extends State<MainScreen> {
                             child: Column(
                               children: [
                                 //resultBox
-                                buildResultBox(
-                                    context, calculateButtonCB, clearButtonCB),
+                                // buildResultBox(
+                                //     context, calculateButtonCB, clearButtonCB),
+                                buildButton(
+                                    calcCB: calculateButtonCB,
+                                    clearCB: clearButtonCB,
+                                    context: context),
                                 SizedBox(height: 10),
                                 //배너
                                 ShowBannerAd(),
@@ -440,32 +440,41 @@ class _MainScreenState extends State<MainScreen> {
       {Function clearCB, Function calcCB, BuildContext context}) {
     return Consumer<UiDataProvider>(
       builder: (_, handleUiDataProvider, __) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Expanded(
-              child: MaterialButton(
-                minWidth: 30,
-                height: 30,
-                color: Colors.blue,
-                child: kClearButtonText,
-                onPressed: clearCB,
-                elevation: 8,
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Expanded(
+                child: MaterialButton(
+                  minWidth: 30,
+                  height: 30,
+                  color: handleUiDataProvider.primaryColor,
+                  child: kClearButtonText,
+                  onPressed: clearCB,
+                  elevation: 8,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
               ),
-            ),
-            SizedBox(width: 20),
-            Expanded(
-              child: MaterialButton(
-                minWidth: 30,
-                height: 30,
-                color: Colors.blue,
-                child: kCalculateButtonText,
-                onPressed: _checkValidation() ? calcCB : null,
-                disabledColor: grey,
-                elevation: 8,
+              SizedBox(width: 20),
+              Expanded(
+                child: MaterialButton(
+                  minWidth: 30,
+                  height: 30,
+                  color: handleUiDataProvider.primaryColor,
+                  child: kCalculateButtonText,
+                  onPressed: _checkValidation() ? calcCB : null,
+                  disabledColor: Colors.grey[800],
+                  elevation: 8,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );

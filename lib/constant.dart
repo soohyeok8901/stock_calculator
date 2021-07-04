@@ -12,14 +12,15 @@ Color grey = Color(0xFF8D8D8D);
 
 //////////////////////////// Emoji Container
 const kEmojiTextStyle = TextStyle(
-  fontSize: 100,
+  fontSize: 90,
 );
 
 const kTextAlignCenter = TextAlign.center;
 
 var kEmojiContainerBoxDecoration = BoxDecoration(
   color: Colors.white,
-  borderRadius: BorderRadius.circular(100),
+  border: Border.all(width: 0.1),
+  borderRadius: BorderRadius.circular(0),
 );
 
 //////////////////////////// main Conatiner
@@ -42,7 +43,7 @@ const kClearButtonText = Text(
   '초기화',
   style: TextStyle(
     color: Colors.white,
-    fontSize: 27,
+    fontSize: 17,
   ),
 );
 
@@ -50,7 +51,7 @@ const kCalculateButtonText = Text(
   '계산',
   style: TextStyle(
     color: Colors.white,
-    fontSize: 27,
+    fontSize: 17,
   ),
 );
 

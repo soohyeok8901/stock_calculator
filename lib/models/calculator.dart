@@ -114,6 +114,11 @@ class CalcBrain extends ChangeNotifier {
     return calculatedYield - exYield;
   }
 
+  //평가손익 차이계산 = 계산된 평가손익 - 기존 평가손익
+  int calculateValuationLoss({int exValuationLoss, int newValuationLoss}) {
+    return newValuationLoss - exValuationLoss;
+  }
+
   //컴마, 온점 거르기 함수
   int sanitizeComma(String input) {
     List splitedInput;
