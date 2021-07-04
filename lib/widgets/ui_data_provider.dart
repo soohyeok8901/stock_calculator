@@ -23,10 +23,10 @@ class UiDataProvider extends ChangeNotifier {
       buyQuantity: 0,
       totalValuationResultText: '0 원',
       valuationResultText: '0 원',
-      yieldResultText: '0 %',
-      yieldDiffText: null,
+      yieldResultText: '0.00 %',
+      yieldDiffText: '',
       purchasePriceResultText: '0 원',
-      averagePurchaseDiffText: null,
+      averagePurchaseDiffText: '',
     ),
     StockCard(
       primaryColor: null,
@@ -267,9 +267,17 @@ class UiDataProvider extends ChangeNotifier {
         calculatedTotalValuation: calculatedTotalValuation);
 
     // 새로운 수익률 계산
-    calculatedYield = calcBrain.calculateNewYield(
-        calculatedTotalPurchase: calculatedTotalPurchase,
-        calculatedValuationLoss: calculatedValuationLoss);
+    if (calcBrain
+        .calculateNewYield(
+            calculatedTotalPurchase: calculatedTotalPurchase,
+            calculatedValuationLoss: calculatedValuationLoss)
+        .isNaN) {
+      calculatedYield = 0;
+    } else {
+      calculatedYield = calcBrain.calculateNewYield(
+          calculatedTotalPurchase: calculatedTotalPurchase,
+          calculatedValuationLoss: calculatedValuationLoss);
+    }
 
     // 평단가 차이 계산
     averagePurchaseDiff = calcBrain.calculateAveragePurchaseDiff(
@@ -277,8 +285,14 @@ class UiDataProvider extends ChangeNotifier {
         exAveragePurchase: exAveragePurchase);
 
     // 수익률 차이 계산
-    yieldDiff = calcBrain.calculateYieldDiff(
-        calculatedYield: calculatedYield, exYield: exYield);
+    if (calcBrain
+        .calculateYieldDiff(calculatedYield: calculatedYield, exYield: exYield)
+        .isNaN) {
+      yieldDiff = 0;
+    } else {
+      yieldDiff = calcBrain.calculateYieldDiff(
+          calculatedYield: calculatedYield, exYield: exYield);
+    }
 
     //텍스트화
     totalValuationResultText =
@@ -492,7 +506,7 @@ class UiDataProvider extends ChangeNotifier {
     var newStockCard = StockCard(
       primaryColor: grey,
       emoji: '🙂',
-      title: '계산기 $lastIndex',
+      title: '계산기 ${stockCardList.length - 1}',
       totalValuationPrice: 0,
       holdingQuantity: 0,
       purchasePrice: 0,
@@ -501,10 +515,10 @@ class UiDataProvider extends ChangeNotifier {
       buyQuantity: 0,
       totalValuationResultText: '0 원',
       valuationResultText: '0 원',
-      yieldResultText: '0 %',
-      yieldDiffText: null,
-      purchasePriceResultText: null,
-      averagePurchaseDiffText: null,
+      yieldResultText: '0.00 %',
+      yieldDiffText: '',
+      purchasePriceResultText: '',
+      averagePurchaseDiffText: '',
     );
 
     if (stockCardList.length == 2) {
@@ -513,8 +527,11 @@ class UiDataProvider extends ChangeNotifier {
       stockCardList.insert(stockCardList.length - 1, newStockCard);
     }
 
+    loadUiByChangedPage(index: stockCardList.length - 2);
+
     // decreaseLastIndex();
     //TODO: 만약 필요하면 main_screen에서도 textField관리해주기
+    saveData();
     notifyListeners();
   }
 
@@ -523,6 +540,7 @@ class UiDataProvider extends ChangeNotifier {
     // decreaseLastIndex();
     stockCardList.removeAt(index);
     //TODO: 만약 필요하면 main_screen에서도 textField관리해주기
+    saveData();
     notifyListeners();
   }
 

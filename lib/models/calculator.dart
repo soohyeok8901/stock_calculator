@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class CalcBrain extends ChangeNotifier {
   Color setColor({double yieldResult}) {
     if ((yieldResult < 0)) {
-      return Colors.blue[400];
+      return Colors.blue[800];
     } else if ((yieldResult > 0)) {
       return Colors.red[400];
     } else {
@@ -45,13 +45,21 @@ class CalcBrain extends ChangeNotifier {
   //기존 수익률 계산 = (기존 평가손익 / 매입총액) * 100
   double calculateExYield({int exValuationLoss, int exTotalPurchase}) {
     double percent;
-    percent = (exValuationLoss / exTotalPurchase) * 100;
-    return percent - percent % 0.01;
+    try {
+      percent = (exValuationLoss / exTotalPurchase) * 100;
+      return percent - percent % 0.01;
+    } catch (e) {
+      return 0;
+    }
   }
 
   //기존 평단가 계산 = 매입총액 / 수량
   int calculateExPurchase({int totalPurchase, int holdingQuantity}) {
-    return (totalPurchase / holdingQuantity).round();
+    try {
+      return (totalPurchase / holdingQuantity).round();
+    } catch (e) {
+      return 0;
+    }
   }
 
   //계산된 매입총액 = 기존 매입총액 + (구매예상 가격 * 구매수량)
@@ -63,7 +71,12 @@ class CalcBrain extends ChangeNotifier {
   //게산된 평단가 = 계산된 매입총액 / (기존 수량 + 구매 수량)
   int calculateNewAveragePurchase(
       {int calculatedTotalPurchase, int holdingQuantity, int buyQuantity}) {
-    return (calculatedTotalPurchase / (holdingQuantity + buyQuantity)).round();
+    try {
+      return (calculatedTotalPurchase / (holdingQuantity + buyQuantity))
+          .round();
+    } catch (e) {
+      return 0;
+    }
   }
 
   //계산된 평가금액 = 구매가 * (기존 수량 + 구매 수량)
@@ -82,8 +95,12 @@ class CalcBrain extends ChangeNotifier {
   double calculateNewYield(
       {int calculatedValuationLoss, int calculatedTotalPurchase}) {
     double percent;
-    percent = (calculatedValuationLoss / calculatedTotalPurchase) * 100;
-    return percent - percent % 0.01;
+    try {
+      percent = (calculatedValuationLoss / calculatedTotalPurchase) * 100;
+      return percent - percent % 0.01;
+    } catch (e) {
+      return 0;
+    }
   }
 
   //평단가 차이 계산 = 계산된 평단가 - 기존 평단가
