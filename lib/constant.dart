@@ -115,3 +115,9 @@ var kInputTextFieldFocusedBorder = OutlineInputBorder(
     width: 2,
   ),
 );
+
+/////////////////Carousel Card
+const kCarouselCardDecoration = BoxDecoration(
+  color: Colors.white,
+  borderRadius: BorderRadius.all(Radius.circular(15)),
+);

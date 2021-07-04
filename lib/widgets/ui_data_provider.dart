@@ -8,21 +8,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constant.dart';
 
-class HandleUiDataProvider extends ChangeNotifier {
+class UiDataProvider extends ChangeNotifier {
   //캐러샐용 DataClass List
   List<StockCard> stockCardList = [
     StockCard(
       primaryColor: grey,
       emoji: '🙂',
       title: '계산기 1',
-      totalValuationPrice: null,
-      holdingQuantity: null,
-      purchasePrice: null,
-      currentStockPrice: null,
-      buyPrice: null,
-      buyQuantity: null,
+      totalValuationPrice: 0,
+      holdingQuantity: 0,
+      purchasePrice: 0,
+      currentStockPrice: 0,
+      buyPrice: 0,
+      buyQuantity: 0,
       totalValuationResultText: '0 원',
-      valuationResultText: null,
+      valuationResultText: '0 원',
       yieldResultText: '0 %',
       yieldDiffText: null,
       purchasePriceResultText: '0 원',
@@ -60,7 +60,7 @@ class HandleUiDataProvider extends ChangeNotifier {
   ///                           계산기 관련 변수
   ///
   ///
-  //Row1 - 총 평가금액, 총 보유수량
+  //Row1 - 현재 평가금액, 현재 보유수량
   int totalValuationPrice;
   int holdingQuantity;
 
@@ -175,7 +175,7 @@ class HandleUiDataProvider extends ChangeNotifier {
 
     //stockCardList 파트
 
-    prefs.setInt('lastIndex', lastIndex);
+    // prefs.setInt('lastIndex', 1);
 
     //TODO: 고로 stockCardList를 저장을 해야한다. (계산, 초기화일때, 카드삭제, 카드 추가, 타이틀 변경 때만 하면 됨)
     //1. list 직렬화
@@ -432,7 +432,7 @@ class HandleUiDataProvider extends ChangeNotifier {
   void setData() {
     print('$nowPageIndex 에 저장');
     print('현재 lastIndex $lastIndex');
-    if (nowPageIndex != lastIndex) {
+    if (nowPageIndex != stockCardList.length - 1) {
       stockCardList[nowPageIndex].primaryColor = primaryColor;
       stockCardList[nowPageIndex].emoji = emoji;
       stockCardList[nowPageIndex].title = title;
@@ -460,8 +460,11 @@ class HandleUiDataProvider extends ChangeNotifier {
   //TODO: 캐러샐 onPageChanged 리스너용 data Load 메서드
   //ui 값들을 List[i] 값으로 전부 수정 (페이지슬라이드시 동작)
   void loadUiByChangedPage({int index}) {
+    print('인덱스 $index 라스트인덱스 $lastIndex');
+    print('리스트의 마지막인덱스 ${stockCardList.length - 1} ');
+
     //인덱스에 따른 데이터들을 필드들에 저장하면 되겠죠??
-    if (index != lastIndex) {
+    if (index != stockCardList.length - 1) {
       primaryColor = stockCardList[index].primaryColor;
       emoji = stockCardList[index].emoji;
       title = stockCardList[index].title;
@@ -490,41 +493,34 @@ class HandleUiDataProvider extends ChangeNotifier {
       primaryColor: grey,
       emoji: '🙂',
       title: '계산기 $lastIndex',
-      totalValuationPrice: null,
-      holdingQuantity: null,
-      purchasePrice: null,
-      currentStockPrice: null,
-      buyPrice: null,
-      buyQuantity: null,
+      totalValuationPrice: 0,
+      holdingQuantity: 0,
+      purchasePrice: 0,
+      currentStockPrice: 0,
+      buyPrice: 0,
+      buyQuantity: 0,
       totalValuationResultText: '0 원',
       valuationResultText: '0 원',
       yieldResultText: '0 %',
       yieldDiffText: null,
-      purchasePriceResultText: '0 원',
+      purchasePriceResultText: null,
       averagePurchaseDiffText: null,
     );
-    // stockCardList.add(
-    //   StockCard(
-    //     isEnd: true,
-    //   ),
-    // );
-    // print('add했습니다. stockCardList.length => ${stockCardList.length}');
+
     if (stockCardList.length == 2) {
       stockCardList.insert(1, newStockCard);
     } else {
       stockCardList.insert(stockCardList.length - 1, newStockCard);
     }
-    print('insert했습니다. stockCardList.length => ${stockCardList.length}');
-    // stockCardList.removeAt(stockCardList.length - 2);
-    // print('removeAt했습니다. stockCardList.length => ${stockCardList.length}');
-    increaseLastIndex();
+
+    // decreaseLastIndex();
     //TODO: 만약 필요하면 main_screen에서도 textField관리해주기
     notifyListeners();
   }
 
   //TODO: 카드 삭제
   void deleteCard({int index}) {
-    decreaseLastIndex();
+    // decreaseLastIndex();
     stockCardList.removeAt(index);
     //TODO: 만약 필요하면 main_screen에서도 textField관리해주기
     notifyListeners();
@@ -547,5 +543,6 @@ class HandleUiDataProvider extends ChangeNotifier {
   void clearList() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('stockCardList');
+    prefs.remove('lastIndex');
   }
 }

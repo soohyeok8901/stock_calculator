@@ -4,6 +4,7 @@ import 'package:averge_price_calc/widgets/InputTextField.dart';
 import 'package:averge_price_calc/widgets/TitleTextField.dart';
 import 'package:averge_price_calc/widgets/banner_ad.dart';
 import 'package:averge_price_calc/widgets/ui_data_provider.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
@@ -17,6 +18,8 @@ import '../constant.dart';
 // TODO:캐러샐 마지막요소 추가로 변경
 // TODO: 리팩토링
 //TODO: 애드몹 배포버전으로 수정
+
+CarouselController carouselController = CarouselController();
 
 class MainScreen extends StatefulWidget {
   @override
@@ -57,7 +60,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<HandleUiDataProvider, CalcBrain>(
+    return Consumer2<UiDataProvider, CalcBrain>(
       builder: (context, handleUiDataProvider, calcBrain, widget) {
         /////////////////////////button callbacks
         Function calculateButtonCB = () {
@@ -88,6 +91,20 @@ class _MainScreenState extends State<MainScreen> {
           _setInnerDataForClear(context);
         };
 
+        Function carouselOnPageChangedCb = () {
+          _titleTEC.text = handleUiDataProvider.title;
+          _totalValuationPriceTEC.text =
+              handleUiDataProvider.totalValuationPrice.toString();
+          _holdingQuantityTEC.text =
+              handleUiDataProvider.holdingQuantity.toString();
+          _purchasePriceTEC.text =
+              handleUiDataProvider.purchasePrice.toString();
+          _currentStockPriceTEC.text =
+              handleUiDataProvider.currentStockPrice.toString();
+          _buyPriceTEC.text = handleUiDataProvider.buyPrice.toString();
+          _buyQuantityTEC.text = handleUiDataProvider.buyQuantity.toString();
+        };
+
         return Scaffold(
           backgroundColor: handleUiDataProvider.primaryColor,
           body: SafeArea(
@@ -112,7 +129,9 @@ class _MainScreenState extends State<MainScreen> {
                     ///////////////////////Carousel Card
                     Padding(
                       padding: EdgeInsets.only(bottom: 10, top: 7),
-                      child: CardCarousel(), //TODO: 여기에 캐러샐이 들어가야겠죠?
+                      child: CardCarousel(
+                        mainScreenUiCb: carouselOnPageChangedCb,
+                      ),
                     ),
                   ],
                 ),
@@ -187,17 +206,6 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  ///
-  ///
-  ///
-  ///
-  ///
-  ///
-  ///
-  ///
-  ///
-  ///
-  ///
   ///                             Shared_preferences
   //앱 실행 시, 저장돼있던 Data들을 불러옵니다.
   void _initData() async {
@@ -211,7 +219,7 @@ class _MainScreenState extends State<MainScreen> {
 
   //앱 실행 시, 저장돼있던 ui_data_provider 데이터들을 불러옵니다.
   void _loadInnerData() {
-    Provider.of<HandleUiDataProvider>(context, listen: false).loadData();
+    Provider.of<UiDataProvider>(context, listen: false).loadData();
   }
 
   //앱 실행 시, 저장돼있던 TextField input값들을 불러옵니다.
@@ -238,12 +246,11 @@ class _MainScreenState extends State<MainScreen> {
 
   //클리어버튼 눌렀을 때 데이터 초기화된 채로 저장
   void _setInnerDataForClear(BuildContext context) {
-    Provider.of<HandleUiDataProvider>(context, listen: false)
-        .saveDataForClear();
+    Provider.of<UiDataProvider>(context, listen: false).saveDataForClear();
   }
 
   void _setInnerData(BuildContext context) {
-    Provider.of<HandleUiDataProvider>(context, listen: false).saveData();
+    Provider.of<UiDataProvider>(context, listen: false).saveData();
   }
 
   ///
@@ -282,7 +289,7 @@ class _MainScreenState extends State<MainScreen> {
   //계산 결과 박스 생성
   Widget buildResultBox(
       BuildContext context, Function calcCB, Function clearCB) {
-    return Consumer2<HandleUiDataProvider, CalcBrain>(
+    return Consumer2<UiDataProvider, CalcBrain>(
       builder: (context, handleUiDataProvider, calcBrain, widget) {
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),
@@ -431,7 +438,7 @@ class _MainScreenState extends State<MainScreen> {
   //초기화, 계산 버튼 생성
   Widget buildButton(
       {Function clearCB, Function calcCB, BuildContext context}) {
-    return Consumer<HandleUiDataProvider>(
+    return Consumer<UiDataProvider>(
       builder: (_, handleUiDataProvider, __) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -477,7 +484,7 @@ class _MainScreenState extends State<MainScreen> {
   ///////////////////////////////TextFields
   ///현재 평가금액, 현재 보유수량[주]
   Widget buildExTextFieldColumn(BuildContext context) {
-    return Consumer<HandleUiDataProvider>(
+    return Consumer<UiDataProvider>(
       builder: (context, handleUiDataProvider, __) {
         return Column(
           children: <Widget>[
@@ -489,7 +496,7 @@ class _MainScreenState extends State<MainScreen> {
                     hintText: '가격 입력',
                     titleText: '현재 평가금액 (평가손익 X)',
                     onChangedCB: (newData) {
-                      Provider.of<HandleUiDataProvider>(context, listen: false)
+                      Provider.of<UiDataProvider>(context, listen: false)
                           .changeTotalValuationPriceData(newData);
                     },
                   ),
@@ -501,7 +508,7 @@ class _MainScreenState extends State<MainScreen> {
                     hintText: '개수 입력',
                     titleText: '현재 보유수량[주]',
                     onChangedCB: (newData) {
-                      Provider.of<HandleUiDataProvider>(context, listen: false)
+                      Provider.of<UiDataProvider>(context, listen: false)
                           .changeHoldingQuantityData(newData);
                     },
                   ),
@@ -516,7 +523,7 @@ class _MainScreenState extends State<MainScreen> {
 
   /// 매입단가, 현재주가
   Widget buildExTextFieldColumn2(BuildContext context) {
-    return Consumer<HandleUiDataProvider>(
+    return Consumer<UiDataProvider>(
       builder: (context, handleUiDataProvider, __) {
         return Column(
           children: <Widget>[
@@ -528,7 +535,7 @@ class _MainScreenState extends State<MainScreen> {
                     hintText: '가격 입력',
                     titleText: '매입 단가 (현재 평단가)',
                     onChangedCB: (newData) {
-                      Provider.of<HandleUiDataProvider>(context, listen: false)
+                      Provider.of<UiDataProvider>(context, listen: false)
                           .changePurchasePriceData(newData);
                     },
                   ),
@@ -540,7 +547,7 @@ class _MainScreenState extends State<MainScreen> {
                     hintText: '개수 입력',
                     titleText: '현재 주가',
                     onChangedCB: (newData) {
-                      Provider.of<HandleUiDataProvider>(context, listen: false)
+                      Provider.of<UiDataProvider>(context, listen: false)
                           .changeCurrentStockPriceData(newData);
                     },
                   ),
@@ -555,7 +562,7 @@ class _MainScreenState extends State<MainScreen> {
 
   // 미래의 예상주가, 예상 구매 수량
   Widget buildNewTextFieldColumn(BuildContext context) {
-    return Consumer<HandleUiDataProvider>(
+    return Consumer<UiDataProvider>(
       builder: (context, handleUiDataProvider, widget) {
         return Column(
           children: <Widget>[
@@ -567,7 +574,7 @@ class _MainScreenState extends State<MainScreen> {
                     hintText: '가격 입력',
                     titleText: '미래의 예상 주가',
                     onChangedCB: (newData) {
-                      Provider.of<HandleUiDataProvider>(context, listen: false)
+                      Provider.of<UiDataProvider>(context, listen: false)
                           .changeBuyPriceData(newData);
                     },
                   ),
@@ -579,7 +586,7 @@ class _MainScreenState extends State<MainScreen> {
                     hintText: '개수 입력',
                     titleText: '구매 수량[주] (0주 가능)',
                     onChangedCB: (newData) {
-                      Provider.of<HandleUiDataProvider>(context, listen: false)
+                      Provider.of<UiDataProvider>(context, listen: false)
                           .changeBuyQuantityData(newData);
                     },
                   ),

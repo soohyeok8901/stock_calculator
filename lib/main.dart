@@ -18,8 +18,8 @@ class AverageCalculator extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<HandleUiDataProvider>(
-          create: (_) => HandleUiDataProvider(),
+        ChangeNotifierProvider<UiDataProvider>(
+          create: (_) => UiDataProvider(),
         ),
         ChangeNotifierProvider<CalcBrain>(
           create: (_) => CalcBrain(),
