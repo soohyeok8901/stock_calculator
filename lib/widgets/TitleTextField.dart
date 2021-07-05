@@ -3,8 +3,9 @@ import 'package:averge_price_calc/widgets/ui_data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-//TODO: 타이틀 화이팅
-class TitleTextField extends StatelessWidget {
+bool modifyMode = false;
+
+class TitleTextField extends StatefulWidget {
   const TitleTextField({
     @required this.titleTextController,
     @required this.onChangedCB,
@@ -18,20 +19,23 @@ class TitleTextField extends StatelessWidget {
   final BuildContext context;
 
   @override
+  _TitleTextFieldState createState() => _TitleTextFieldState();
+}
+
+class _TitleTextFieldState extends State<TitleTextField> {
+  @override
   Widget build(BuildContext context) {
-    bool modifyMode = true;
     return showTitle(modifyMode);
   }
 
   Widget showTitle(modifyMode) {
-    return modifyMode ? showText() : showTextField();
+    return modifyMode ? showTextField() : showText();
   }
 
-  // bool toggleModifyMode() {
-  //   ChangeNotifier();
-  //   print(modifyMode);
-  //   return modifyMode = !modifyMode;
-  // }
+  bool toggleModifyMode() {
+    print('모드변경 =>  $modifyMode');
+    return modifyMode = !modifyMode;
+  }
 
   Widget showText() {
     return Row(
@@ -40,17 +44,15 @@ class TitleTextField extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(left: 10),
           child: Text(
-            // titleTextController.text,
-            'asda',
+            widget.titleTextController.text,
+            // 'asda',
             style: TextStyle(fontSize: 23),
           ),
         ),
         IconButton(
           icon: Icon(Icons.edit),
           onPressed: () {
-            // modifyMode =
-            //     Provider.of<HandleUiDataProvider>(context, listen: false)
-            //         .toggleModifyMode(modifyMode);
+            toggleModifyMode();
           },
         ),
       ],
@@ -59,21 +61,24 @@ class TitleTextField extends StatelessWidget {
 
   Widget showTextField() {
     return TextField(
-      controller: titleTextController,
+      controller: widget.titleTextController,
       decoration: InputDecoration(
           hintText: '타이틀',
-          suffixIcon: (titleTextController.text.length > 0)
+          suffixIcon: (widget.titleTextController.text.length > 0)
               ? IconButton(
                   icon: Icon(Icons.done_outline),
                   color: green,
-                  onPressed: onPressedCB,
+                  onPressed: () {
+                    toggleModifyMode();
+                    widget.onPressedCB();
+                  },
                 )
               : null),
       textAlignVertical: TextAlignVertical.bottom,
       textAlign: TextAlign.center,
-      style: TextStyle(fontSize: 23),
+      style: TextStyle(fontSize: 21.5),
       maxLength: 12,
-      onChanged: onChangedCB,
+      onChanged: widget.onChangedCB,
     );
   }
 }

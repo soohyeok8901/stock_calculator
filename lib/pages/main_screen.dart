@@ -54,7 +54,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     _initData();
     //TODO: 디자인 반응형으로 만들기
     //TODO: 이건 실기기 테스트도 같이해야하는데
-    //TODO: 잠시 핫스팟좀 틀어달라고 해야겠네요.
 
     super.initState();
   }
@@ -155,70 +154,79 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
                 //////////////////////Main Container
                 Expanded(
-                  child: Container(
-                    decoration: kMainContainerBorderRadius,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          /////////////////////////TitleTextField
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(50, 5, 50, 5),
-                            //TODO: 여기에 타이틀이 들어가야겠죠? 잘 해봅시다.. 화이팅...!
-                            child: TitleTextField(
-                              context: context,
-                              titleTextController: _titleTEC,
-                              onChangedCB: (newData) {
-                                handleUiDataProvider.changeTitleData(newData);
-                              },
-                              onPressedCB: () {
-                                //해당 pageIndex의 stock_card데이터의 title데이터 수정해야함.
-                              },
-                            ),
-                          ),
-                          /////////////////////////TextFields
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: Column(
-                                  children: [
-                                    buildExTextFieldColumn(context),
-                                    SizedBox(height: 10),
-                                    buildExTextFieldColumn2(context),
-                                    SizedBox(height: 5),
-                                    kGreyDivider,
-                                    SizedBox(height: 5),
-                                    buildNewTextFieldColumn(context),
+                  child: (handleUiDataProvider.nowPageIndex !=
+                          handleUiDataProvider.stockCardList.length - 1)
+                      ? Container(
+                          decoration: kMainContainerBorderRadius,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                /////////////////////////TitleTextField
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(50, 5, 50, 5),
+                                  child: TitleTextField(
+                                    context: context,
+                                    titleTextController: _titleTEC,
+                                    onChangedCB: (newData) {
+                                      handleUiDataProvider
+                                          .changeTitleData(newData);
+                                    },
+                                    onPressedCB: () {
+                                      //해당 pageIndex의 stock_card데이터의 title데이터 수정해야함.
+                                      // handleUiDataProvider.setData();
+                                    },
+                                  ),
+                                ),
+                                /////////////////////////TextFields
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 20),
+                                      child: Column(
+                                        children: [
+                                          buildExTextFieldColumn(context),
+                                          SizedBox(height: 10),
+                                          buildExTextFieldColumn2(context),
+                                          SizedBox(height: 5),
+                                          kGreyDivider,
+                                          SizedBox(height: 5),
+                                          buildNewTextFieldColumn(context),
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ),
-                              ),
-                            ],
-                          ),
-                          /////////////////////////resultBox, banner
-                          Padding(
-                            padding: EdgeInsets.only(top: 14.0),
-                            child: Column(
-                              children: [
-                                //resultBox
+                                /////////////////////////resultBox, banner
+                                Padding(
+                                  padding: EdgeInsets.only(top: 14.0),
+                                  child: Column(
+                                    children: [
+                                      //resultBox
 
-                                // buildResultBox(
-                                //     context, calculateButtonCB, clearButtonCB),
-                                buildButton(
-                                    calcCB: calculateButtonCB,
-                                    clearCB: clearButtonCB,
-                                    context: context),
-                                SizedBox(height: 10),
-                                //배너
-                                ShowBannerAd(),
+                                      // buildResultBox(
+                                      //     context, calculateButtonCB, clearButtonCB),
+                                      buildButton(
+                                          calcCB: calculateButtonCB,
+                                          clearCB: clearButtonCB,
+                                          context: context),
+                                      SizedBox(height: 10),
+                                      //배너
+                                      ShowBannerAd(),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
+                        )
+                      : Container(
+                          //TODO: 이거 잘해봐
+                          child: ShowBannerAd(),
+                        ),
                 ),
               ],
             ),
