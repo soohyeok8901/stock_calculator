@@ -62,7 +62,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   // 앱 상태 변경시 호출
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    //https://api.flutter.dev/flutter/dart-ui/AppLifecycleState-class.html
     switch (state) {
       case AppLifecycleState.resumed:
         print("resumed");
