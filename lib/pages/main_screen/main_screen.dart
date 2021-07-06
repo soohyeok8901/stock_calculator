@@ -228,9 +228,17 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                               ),
                             )
                           : Container(
-                              //TODO: 이거 잘해봐
                               child: Container(
-                                color: Colors.white,
+                                // color: Colors.white,
+                                decoration: kMainContainerBorderRadius,
+                                width: INF,
+                                child: Center(
+                                  child: Text(
+                                    '\"사고 팔고 쉬어라,\n쉬는 것도 투자다.\" \n같은 명언들이 랜덤으로 \n보이게 할 예정입니다 ^^',
+                                    style: TextStyle(fontSize: 30),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
                               ),
                             ),
                     ),
