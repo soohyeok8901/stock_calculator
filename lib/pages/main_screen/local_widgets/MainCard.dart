@@ -12,7 +12,7 @@ class MainCard extends StatelessWidget {
     @required this.cardData,
     this.index,
   }) : super(key: key);
-  final index;
+  final int index;
   final StockCard cardData;
 
   @override

@@ -1,5 +1,6 @@
 import 'package:averge_price_calc/models/calculator.dart';
 import 'package:averge_price_calc/models/stock_card.dart';
+import 'package:averge_price_calc/utils/main_screen_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -102,7 +103,7 @@ class UiDataProvider extends ChangeNotifier {
   String averagePurchaseDiffText;
 
   int nowPageIndex = 0;
-  int lastIndex = 1;
+  bool _isLastPage = false;
 
   bool isFirst;
   bool isEnd;
@@ -148,7 +149,6 @@ class UiDataProvider extends ChangeNotifier {
     if (encodedListData != null) {
       stockCardList = StockCard.decode(encodedListData);
     }
-    lastIndex = prefs.getInt('lastIndex') ?? 1;
 
     nowPageIndex = prefs.getInt('nowPageIndex');
 
@@ -357,13 +357,6 @@ class UiDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //통화단위(원) 붙이기
-  String currencyFormat(int price) {
-    final formatCurrency = new NumberFormat.simpleCurrency(
-        locale: "ko_KR", name: "", decimalDigits: 0);
-    return formatCurrency.format(price);
-  }
-
   //                     필드각각 대응되는 changeString 메서드
   void changeTitleData(String newData) {
     title = newData;
@@ -439,19 +432,6 @@ class UiDataProvider extends ChangeNotifier {
     }
   }
 
-  //원, 괄호 붙이기
-  String addSuffixWonWithBrackets(String value) {
-    return '($value 원)';
-  }
-
-  String addSuffixPercent(double value) {
-    return '${value.toStringAsFixed(2)} %';
-  }
-
-  String addSuffixWon(String value) {
-    return '$value 원';
-  }
-
   ///                     title Widget 관련
   ///
   ///
@@ -471,7 +451,6 @@ class UiDataProvider extends ChangeNotifier {
   ///
   void setData() {
     print('$nowPageIndex 에 저장');
-    print('현재 lastIndex $lastIndex');
     if (nowPageIndex != stockCardList.length - 1) {
       stockCardList[nowPageIndex].primaryColor = primaryColor;
       stockCardList[nowPageIndex].emoji = emoji;
@@ -572,23 +551,20 @@ class UiDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // 마지막인덱스 (추가 카드) 관리
-  // void increaseLastIndex() {
-  //   lastIndex++;
-  //   print('현재 lastIndex = $lastIndex');
-  //   notifyListeners();
-  // }
-
-  // void decreaseLastIndex() {
-  //   lastIndex--;
-  //   print('현재 lastIndex = $lastIndex');
-  //   notifyListeners();
-  // }
-
   //테스트용 stockCardList 초기화
   void clearList() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('stockCardList');
     prefs.remove('lastIndex');
+  }
+
+  //                   마지막 캐러셀카드 index인지 판단용
+  void setIsLastPage(bool result) {
+    _isLastPage = result;
+    notifyListeners();
+  }
+
+  bool get isLastPage {
+    return _isLastPage;
   }
 }

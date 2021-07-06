@@ -53,6 +53,7 @@ class _CardCarouselState extends State<CardCarousel> {
                   uiProvider.loadUiByChangedPage(
                       index: index); //ui_data_provider.dart data 갱신
                   cb(); // main_screen.dart textField 갱신
+                  _checkPageIndex(uiProvider); // Main Container 조건부 렌더링용
                 },
               ),
               itemBuilder: (context, index, _) {
@@ -60,7 +61,7 @@ class _CardCarouselState extends State<CardCarousel> {
                 if (uiProvider.stockCardList[index].isEnd) {
                   return AddCard(
                     mainScreenUiCb: cb,
-                    initPageNumber: initPageNumber,
+                    lastIndex: uiProvider.stockCardList.length - 1,
                     carouselController: carouselController,
                   );
                 } else {
@@ -72,6 +73,11 @@ class _CardCarouselState extends State<CardCarousel> {
         ),
       ],
     );
+  }
+
+  void _checkPageIndex(UiDataProvider uiProvider) {
+    uiProvider.setIsLastPage(
+        uiProvider.nowPageIndex != uiProvider.stockCardList.length - 1);
   }
 
   void _initStartCard() {

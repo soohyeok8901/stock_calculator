@@ -80,7 +80,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Consumer2<UiDataProvider, CalcBrain>(
-      builder: (context, handleUiDataProvider, calcBrain, widget) {
+      builder: (_, handleUiDataProvider, calcBrain, __) {
         /////////////////////////button callbacks
         Function calculateButtonCB = () {
           handleUiDataProvider.tabCalculateButton(context);
@@ -130,109 +130,125 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         return Scaffold(
           backgroundColor: handleUiDataProvider.primaryColor,
           body: SafeArea(
-            child: Column(
+            child: Stack(
               children: <Widget>[
-                //////////////////////Top Container
-                Padding(
-                  padding: EdgeInsets.only(top: 10),
-                  child: Container(
-                    // transform: Transform(transform: ,),
-                    child: Text(
-                      handleUiDataProvider.emoji,
-                      style: kEmojiTextStyle,
-                      textAlign: kTextAlignCenter,
+                Column(
+                  children: <Widget>[
+                    //////////////////////Top Container
+                    Padding(
+                      padding: EdgeInsets.only(top: 10),
+                      child: Container(
+                        // transform: Transform(transform: ,),
+                        child: Text(
+                          handleUiDataProvider.emoji,
+                          style: kEmojiTextStyle,
+                          textAlign: kTextAlignCenter,
+                        ),
+                        // decoration: kEmojiContainerBoxDecoration,
+                        // padding: EdgeInsets.all(2),
+                      ),
                     ),
-                    // decoration: kEmojiContainerBoxDecoration,
-                    // padding: EdgeInsets.all(2),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 20, top: 5),
-                  child: CardCarousel(
-                    mainScreenUiCb: carouselOnPageChangedCb,
-                    initPageNumber: handleUiDataProvider.nowPageIndex,
-                  ),
-                ),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 20, top: 5),
+                      child: CardCarousel(
+                        mainScreenUiCb: carouselOnPageChangedCb,
+                        initPageNumber: handleUiDataProvider.nowPageIndex,
+                      ),
+                    ),
 
-                //////////////////////Main Container
-                Expanded(
-                  child: (handleUiDataProvider.nowPageIndex !=
-                          handleUiDataProvider.stockCardList.length - 1)
-                      ? Container(
-                          decoration: kMainContainerBorderRadius,
-                          child: SingleChildScrollView(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                /////////////////////////TitleTextField
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(50, 5, 50, 5),
-                                  child: TitleTextField(
-                                    context: context,
-                                    titleTextController: _titleTEC,
-                                    onChangedCB: (newData) {
-                                      handleUiDataProvider
-                                          .changeTitleData(newData);
-                                    },
-                                    onPressedCB: () {
-                                      //해당 pageIndex의 stock_card데이터의 title데이터 수정해야함.
-                                      // handleUiDataProvider.setData();
-                                    },
-                                  ),
-                                ),
-                                /////////////////////////TextFields
-                                Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                    //////////////////////Main Container
+                    Expanded(
+                      child: (handleUiDataProvider.isLastPage)
+                          ? Container(
+                              decoration: kMainContainerBorderRadius,
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
+                                    /////////////////////////TitleTextField
                                     Padding(
                                       padding:
-                                          EdgeInsets.symmetric(horizontal: 20),
+                                          EdgeInsets.fromLTRB(50, 5, 50, 5),
+                                      child: TitleTextField(
+                                        context: context,
+                                        titleTextController: _titleTEC,
+                                        onChangedCB: (newData) {
+                                          handleUiDataProvider
+                                              .changeTitleData(newData);
+                                        },
+                                        onPressedCB: () {
+                                          //해당 pageIndex의 stock_card데이터의 title데이터 수정해야함.
+                                          // handleUiDataProvider.setData();
+                                        },
+                                      ),
+                                    ),
+                                    /////////////////////////TextFields
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 20),
+                                          child: Column(
+                                            children: [
+                                              buildExTextFieldColumn(context),
+                                              SizedBox(height: 10),
+                                              buildExTextFieldColumn2(context),
+                                              SizedBox(height: 5),
+                                              kGreyDivider,
+                                              SizedBox(height: 5),
+                                              buildNewTextFieldColumn(context),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    /////////////////////////resultBox, banner
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 14.0),
                                       child: Column(
                                         children: [
-                                          buildExTextFieldColumn(context),
+                                          //resultBox
+
+                                          // buildResultBox(
+                                          //     context, calculateButtonCB, clearButtonCB),
+                                          buildButton(
+                                              calcCB: calculateButtonCB,
+                                              clearCB: clearButtonCB,
+                                              context: context),
                                           SizedBox(height: 10),
-                                          buildExTextFieldColumn2(context),
-                                          SizedBox(height: 5),
-                                          kGreyDivider,
-                                          SizedBox(height: 5),
-                                          buildNewTextFieldColumn(context),
+                                          //배너
+                                          // ShowBannerAd(),
                                         ],
                                       ),
                                     ),
                                   ],
                                 ),
-                                /////////////////////////resultBox, banner
-                                Padding(
-                                  padding: EdgeInsets.only(top: 14.0),
-                                  child: Column(
-                                    children: [
-                                      //resultBox
-
-                                      // buildResultBox(
-                                      //     context, calculateButtonCB, clearButtonCB),
-                                      buildButton(
-                                          calcCB: calculateButtonCB,
-                                          clearCB: clearButtonCB,
-                                          context: context),
-                                      SizedBox(height: 10),
-                                      //배너
-                                      // ShowBannerAd(),
-                                    ],
-                                  ),
-                                ),
-                              ],
+                              ),
+                            )
+                          : Container(
+                              //TODO: 이거 잘해봐
+                              child: Container(
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
-                        )
-                      : Container(
-                          //TODO: 이거 잘해봐
-                          child: Container(
-                            color: Colors.white,
-                          ),
-                        ),
+                    ),
+                    ShowBannerAd(),
+                  ],
                 ),
-                ShowBannerAd(),
+                Positioned(
+                  left: 7,
+                  top: 7,
+                  child: IconButton(
+                    iconSize: 30,
+                    color: Colors.white,
+                    icon: Icon(Icons.menu),
+                    onPressed: () {
+                      //TODO:list_screen.dart 네비게이팅
+                    },
+                  ),
+                )
               ],
             ),
           ),
