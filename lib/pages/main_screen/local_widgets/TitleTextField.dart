@@ -1,7 +1,5 @@
 import 'package:averge_price_calc/constant.dart';
-import 'package:averge_price_calc/widgets/ui_data_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 bool modifyMode = false;
 

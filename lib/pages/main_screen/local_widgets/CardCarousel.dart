@@ -1,6 +1,6 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:averge_price_calc/models/stock_card.dart';
-import 'package:averge_price_calc/widgets/ui_data_provider.dart';
+import 'package:averge_price_calc/provider/ui_data_provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,11 +11,25 @@ import 'MainCard.dart';
 final CarouselController carouselController = CarouselController();
 bool isLoaded = false;
 
-class CardCarousel extends StatelessWidget {
+class CardCarousel extends StatefulWidget {
   CardCarousel({this.mainScreenUiCb, this.initPageNumber});
 
   final Function mainScreenUiCb;
   final int initPageNumber;
+
+  @override
+  _CardCarouselState createState() => _CardCarouselState();
+}
+
+class _CardCarouselState extends State<CardCarousel> {
+  Function cb;
+  int initPageNumber;
+  @override
+  void initState() {
+    super.initState();
+    cb = widget.mainScreenUiCb;
+    initPageNumber = widget.initPageNumber;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,19 +47,19 @@ class CardCarousel extends StatelessWidget {
                 enableInfiniteScroll: false,
                 enlargeCenterPage: true,
                 viewportFraction: 0.8,
-                initialPage: initPageNumber,
+                // initialPage: widget.initPageNumber,
                 onPageChanged: (index, reason) {
                   uiProvider.nowPageIndex = index;
                   uiProvider.loadUiByChangedPage(
                       index: index); //ui_data_provider.dart data 갱신
-                  mainScreenUiCb(); // main_screen.dart textField 갱신
+                  cb(); // main_screen.dart textField 갱신
                 },
               ),
               itemBuilder: (context, index, _) {
                 StockCard cardData = uiProvider.stockCardList[index];
                 if (uiProvider.stockCardList[index].isEnd) {
                   return AddCard(
-                    mainScreenUiCb: mainScreenUiCb,
+                    mainScreenUiCb: cb,
                     initPageNumber: initPageNumber,
                     carouselController: carouselController,
                   );
@@ -63,7 +77,7 @@ class CardCarousel extends StatelessWidget {
   void _initStartCard() {
     if (carouselController.ready && !isLoaded) {
       isLoaded = true;
-      carouselController.animateToPage(initPageNumber);
+      carouselController.animateToPage(widget.initPageNumber);
     }
   }
 }

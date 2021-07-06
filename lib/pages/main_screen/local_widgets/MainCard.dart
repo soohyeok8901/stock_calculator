@@ -1,10 +1,10 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
+import 'package:averge_price_calc/constant.dart';
 import 'package:averge_price_calc/models/stock_card.dart';
-import 'package:averge_price_calc/widgets/ui_data_provider.dart';
+import 'package:averge_price_calc/provider/ui_data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../constant.dart';
+import 'main_screen_widgets.dart';
 
 class MainCard extends StatelessWidget {
   const MainCard({
@@ -168,7 +168,9 @@ class MainCard extends StatelessWidget {
                   onPressed: () {
                     Provider.of<UiDataProvider>(context, listen: false)
                         .deleteCard(index: index);
-                    // carouselController.animateToPage(index - 2);
+                    if (carouselController.ready) {
+                      carouselController.jumpToPage(index - 1);
+                    }
                   },
                 ),
               ),

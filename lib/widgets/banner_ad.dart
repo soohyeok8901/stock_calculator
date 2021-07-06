@@ -1,3 +1,4 @@
+import 'package:averge_price_calc/constant.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter/material.dart';
 
@@ -25,9 +26,10 @@ class _ShowBannerAdState extends State<ShowBannerAd> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.white,
       alignment: Alignment.center,
       child: AdWidget(ad: myBanner),
-      width: myBanner.size.width.toDouble(),
+      width: INF,
       height: myBanner.size.height.toDouble(),
     );
   }

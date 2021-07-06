@@ -1,9 +1,8 @@
+import 'package:averge_price_calc/constant.dart';
 import 'package:averge_price_calc/models/calculator.dart';
-import 'package:averge_price_calc/widgets/CardCarousel.dart';
-import 'package:averge_price_calc/widgets/InputTextField.dart';
-import 'package:averge_price_calc/widgets/TitleTextField.dart';
+
+import 'package:averge_price_calc/provider/ui_data_provider.dart';
 import 'package:averge_price_calc/widgets/banner_ad.dart';
-import 'package:averge_price_calc/widgets/ui_data_provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +10,7 @@ import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../constant.dart';
+import 'local_widgets/main_screen_widgets.dart';
 
 // TODO: 리팩토링
 
@@ -109,6 +108,9 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
           //shared_preferences 내부 데이터들(중간계산, 결과값 등) 저장
           _setInnerDataForClear(context);
+
+          //stockCardList[nowPageIndex]에 데이터들 set
+          handleUiDataProvider.setData();
         };
 
         Function carouselOnPageChangedCb = () {
@@ -215,7 +217,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                           context: context),
                                       SizedBox(height: 10),
                                       //배너
-                                      ShowBannerAd(),
+                                      // ShowBannerAd(),
                                     ],
                                   ),
                                 ),
@@ -225,9 +227,12 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                         )
                       : Container(
                           //TODO: 이거 잘해봐
-                          child: ShowBannerAd(),
+                          child: Container(
+                            color: Colors.white,
+                          ),
                         ),
                 ),
+                ShowBannerAd(),
               ],
             ),
           ),
@@ -275,13 +280,11 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   }
 
   //클리어버튼 눌렀을 때 데이터 초기화된 채로 저장
-  void _setInnerDataForClear(BuildContext context) {
-    Provider.of<UiDataProvider>(context, listen: false).saveDataForClear();
-  }
+  void _setInnerDataForClear(BuildContext context) =>
+      Provider.of<UiDataProvider>(context, listen: false).saveDataForClear();
 
-  void _setInnerData(BuildContext context) {
-    Provider.of<UiDataProvider>(context, listen: false).saveData();
-  }
+  void _setInnerData(BuildContext context) =>
+      Provider.of<UiDataProvider>(context, listen: false).saveData();
 
   ///
   ///
@@ -511,14 +514,12 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   }
 
   //계산 버튼 활성화 조건
-  bool _checkValidation() {
-    return ((_totalValuationPriceTEC.text.length > 0) &&
-        (_holdingQuantityTEC.text.length > 0) &&
-        (_purchasePriceTEC.text.length > 0) &&
-        (_currentStockPriceTEC.text.length > 0) &&
-        (_buyPriceTEC.text.length > 0) &&
-        (_buyQuantityTEC.text.length > 0));
-  }
+  bool _checkValidation() => ((_totalValuationPriceTEC.text.length > 0) &&
+      (_holdingQuantityTEC.text.length > 0) &&
+      (_purchasePriceTEC.text.length > 0) &&
+      (_currentStockPriceTEC.text.length > 0) &&
+      (_buyPriceTEC.text.length > 0) &&
+      (_buyQuantityTEC.text.length > 0));
 
   ///////////////////////////////TextFields
   ///현재 평가금액, 현재 보유수량[주]

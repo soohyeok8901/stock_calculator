@@ -344,9 +344,9 @@ class UiDataProvider extends ChangeNotifier {
     FocusScope.of(_).unfocus();
 
     totalValuationResultText = '0 원';
-    valuationResultText = '';
-    yieldResultText = '0 %';
+    yieldResultText = '0.00 %';
     purchasePriceResultText = '0 원';
+    valuationResultText = '0 원';
 
     yieldDiffText = '';
     averagePurchaseDiffText = '';

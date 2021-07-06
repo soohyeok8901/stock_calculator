@@ -1,5 +1,5 @@
-import 'package:averge_price_calc/pages/main_screen.dart';
-import 'package:averge_price_calc/widgets/ui_data_provider.dart';
+import 'package:averge_price_calc/pages/main_screen/main_screen.dart';
+import 'package:averge_price_calc/provider/ui_data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';

@@ -1,7 +1,6 @@
+import 'package:averge_price_calc/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import '../constant.dart';
 
 class InputTextField extends StatelessWidget {
   InputTextField({
