@@ -360,7 +360,7 @@ class UiDataProvider extends ChangeNotifier {
   //                     필드각각 대응되는 changeString 메서드
   void changeTitleData(String newData) {
     title = newData;
-    setData();
+    // setData();
     notifyListeners();
   }
 
@@ -454,7 +454,7 @@ class UiDataProvider extends ChangeNotifier {
     if (nowPageIndex != stockCardList.length - 1) {
       stockCardList[nowPageIndex].primaryColor = primaryColor;
       stockCardList[nowPageIndex].emoji = emoji;
-      stockCardList[nowPageIndex].title = title;
+
       stockCardList[nowPageIndex].totalValuationPrice = totalValuationPrice;
       stockCardList[nowPageIndex].holdingQuantity = holdingQuantity;
       stockCardList[nowPageIndex].purchasePrice = purchasePrice;
@@ -475,6 +475,15 @@ class UiDataProvider extends ChangeNotifier {
       notifyListeners();
     } else {
       print('추가 카드입니다. 저장 불가능');
+    }
+  }
+
+  void setTitle() {
+    if (stockCardList[nowPageIndex].title.length > 0) {
+      stockCardList[nowPageIndex].title = title;
+      notifyListeners();
+    } else {
+      return;
     }
   }
 

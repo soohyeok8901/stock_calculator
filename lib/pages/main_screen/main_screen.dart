@@ -178,7 +178,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                         },
                                         onPressedCB: () {
                                           //해당 pageIndex의 stock_card데이터의 title데이터 수정해야함.
-                                          handleUiDataProvider.setData();
+                                          handleUiDataProvider.setTitle();
                                         },
                                       ),
                                     ),

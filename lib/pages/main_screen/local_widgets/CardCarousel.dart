@@ -1,4 +1,3 @@
-import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:averge_price_calc/models/stock_card.dart';
 import 'package:averge_price_calc/provider/providers.dart';
 import 'package:averge_price_calc/provider/ui_data_provider.dart';

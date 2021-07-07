@@ -73,7 +73,7 @@ class _TitleTextFieldState extends State<TitleTextField> {
           child: TextField(
             controller: widget.titleTextController,
             decoration: InputDecoration(
-              hintText: '타이틀',
+              hintText: '계산기 별명',
             ),
             textAlignVertical: TextAlignVertical.bottom,
             textAlign: TextAlign.center,
@@ -101,6 +101,7 @@ class _TitleTextFieldState extends State<TitleTextField> {
                 child: IconButton(
                   icon: Icon(Icons.done_outline),
                   color: green,
+                  onPressed: null,
                 ),
               )
       ],
