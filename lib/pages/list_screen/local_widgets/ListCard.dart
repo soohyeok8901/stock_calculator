@@ -41,128 +41,135 @@ class ListCard extends StatelessWidget {
             ),
             Container(
               decoration: kCarouselCardDecoration,
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Expanded(
-                        child: Container(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Expanded(
+                          child: Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.only(bottom: 4.h),
+                                  child: Text(
+                                    '평가금액',
+                                    style:
+                                        TextStyle(color: grey, fontSize: 12.sp),
+                                  ),
+                                ),
+                                AutoSizeText(
+                                  '${uiProvider.stockCardList[index].totalValuationResultText}',
+                                  style: TextStyle(
+                                    fontSize: 15.sp,
+                                  ),
+                                ),
+                                AutoSizeText(''),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               Padding(
                                 padding: EdgeInsets.only(bottom: 4.h),
                                 child: Text(
-                                  '평가금액',
+                                  '평가손익',
                                   style:
                                       TextStyle(color: grey, fontSize: 12.sp),
                                 ),
                               ),
                               AutoSizeText(
-                                '${uiProvider.stockCardList[index].totalValuationResultText}',
+                                '${uiProvider.stockCardList[index].valuationResultText}',
                                 style: TextStyle(
+                                  color: uiProvider
+                                      .stockCardList[index].primaryColor,
                                   fontSize: 15.sp,
                                 ),
                               ),
-                              AutoSizeText(''),
+                              AutoSizeText(
+                                '${uiProvider.stockCardList[index].valuationLossDiffText}',
+                                style: TextStyle(
+                                  fontSize: 9.sp,
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 4.h),
-                              child: Text(
-                                '평가손익',
-                                style: TextStyle(color: grey, fontSize: 12.sp),
+                      ],
+                    ),
+                    SizedBox(height: 9),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 4.h),
+                                child: Text(
+                                  '수익률',
+                                  style:
+                                      TextStyle(color: grey, fontSize: 12.sp),
+                                ),
                               ),
-                            ),
-                            AutoSizeText(
-                              '${uiProvider.stockCardList[index].valuationResultText}',
-                              style: TextStyle(
-                                color: uiProvider
-                                    .stockCardList[index].primaryColor,
-                                fontSize: 15.sp,
+                              AutoSizeText(
+                                '${uiProvider.stockCardList[index].yieldResultText}',
+                                style: TextStyle(
+                                  color: uiProvider
+                                      .stockCardList[index].primaryColor,
+                                  fontSize: 15.sp,
+                                ),
                               ),
-                            ),
-                            AutoSizeText(
-                              '${uiProvider.stockCardList[index].valuationLossDiffText}',
-                              style: TextStyle(
-                                fontSize: 9.sp,
+                              AutoSizeText(
+                                '${uiProvider.stockCardList[index].yieldDiffText}',
+                                style: TextStyle(
+                                  fontSize: 9.sp,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 4.h),
-                              child: Text(
-                                '수익률',
-                                style: TextStyle(color: grey, fontSize: 12.sp),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 4.h),
+                                child: Text(
+                                  '평단가',
+                                  style:
+                                      TextStyle(color: grey, fontSize: 12.sp),
+                                ),
                               ),
-                            ),
-                            AutoSizeText(
-                              '${uiProvider.stockCardList[index].yieldResultText}',
-                              style: TextStyle(
-                                color: uiProvider
-                                    .stockCardList[index].primaryColor,
-                                fontSize: 15.sp,
+                              AutoSizeText(
+                                '${uiProvider.stockCardList[index].purchasePriceResultText}',
+                                style: TextStyle(
+                                  color: uiProvider
+                                      .stockCardList[index].primaryColor,
+                                  fontSize: 15.sp,
+                                ),
                               ),
-                            ),
-                            AutoSizeText(
-                              '${uiProvider.stockCardList[index].yieldDiffText}',
-                              style: TextStyle(
-                                fontSize: 9.sp,
+                              AutoSizeText(
+                                '${uiProvider.stockCardList[index].averagePurchaseDiffText}',
+                                style: TextStyle(
+                                  fontSize: 9.sp,
+                                ),
+                                maxLines: 1,
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 4.h),
-                              child: Text(
-                                '평단가',
-                                style: TextStyle(color: grey, fontSize: 12.sp),
-                              ),
-                            ),
-                            AutoSizeText(
-                              '${uiProvider.stockCardList[index].purchasePriceResultText}',
-                              style: TextStyle(
-                                color: uiProvider
-                                    .stockCardList[index].primaryColor,
-                                fontSize: 15.sp,
-                              ),
-                            ),
-                            AutoSizeText(
-                              '${uiProvider.stockCardList[index].averagePurchaseDiffText}',
-                              style: TextStyle(
-                                fontSize: 9.sp,
-                              ),
-                              maxLines: 1,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
