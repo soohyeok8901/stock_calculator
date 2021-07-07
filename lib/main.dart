@@ -34,7 +34,7 @@ class AverageCalculator extends StatelessWidget {
         ),
       ],
       child: ScreenUtilInit(
-        designSize: Size(1080, 2220),
+        designSize: Size(392.72727272727275, 759.2727272727273),
         builder: () => MaterialApp(
             debugShowCheckedModeBanner: false,
             home: MainScreen(),

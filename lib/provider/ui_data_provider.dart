@@ -521,7 +521,7 @@ class UiDataProvider extends ChangeNotifier {
     var newStockCard = StockCard(
       primaryColor: grey,
       emoji: '🙂',
-      title: '계산기 ${stockCardList.length - 1}',
+      title: '계산기 ${stockCardList.length}',
       totalValuationPrice: 0,
       holdingQuantity: 0,
       purchasePrice: 0,

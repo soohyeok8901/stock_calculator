@@ -3,6 +3,7 @@ import 'package:averge_price_calc/constant.dart';
 import 'package:averge_price_calc/models/stock_card.dart';
 import 'package:averge_price_calc/provider/ui_data_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'main_screen_widgets.dart';
 
@@ -20,23 +21,23 @@ class MainCard extends StatelessWidget {
     return Stack(
       children: <Widget>[
         Container(
-          width: 500,
-          margin: EdgeInsets.symmetric(horizontal: 5.0),
+          width: 500.w,
+          margin: EdgeInsets.symmetric(horizontal: 5.w),
           decoration: kCarouselCardDecoration,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 7.h),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               //              카드 생성 파트
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(bottom: 7),
+                  padding: EdgeInsets.only(bottom: 7.w),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       AutoSizeText(
                         '${cardData.title} ${cardData.emoji}',
-                        style: TextStyle(fontSize: 23.0),
+                        style: TextStyle(fontSize: 23.sp),
                       ),
                     ],
                   ),
@@ -49,16 +50,16 @@ class MainCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Padding(
-                            padding: EdgeInsets.only(bottom: 4),
+                            padding: EdgeInsets.only(bottom: 4.h),
                             child: Text(
                               '평가금액',
-                              style: TextStyle(color: grey, fontSize: 12),
+                              style: TextStyle(color: grey, fontSize: 12.sp),
                             ),
                           ),
                           AutoSizeText(
                             '${cardData.totalValuationResultText}',
                             style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 15.sp,
                             ),
                           ),
                           AutoSizeText(''),
@@ -70,23 +71,23 @@ class MainCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Padding(
-                            padding: EdgeInsets.only(bottom: 4),
+                            padding: EdgeInsets.only(bottom: 4.h),
                             child: Text(
                               '평가손익',
-                              style: TextStyle(color: grey, fontSize: 12),
+                              style: TextStyle(color: grey, fontSize: 12.sp),
                             ),
                           ),
                           AutoSizeText(
                             '${cardData.valuationResultText}',
                             style: TextStyle(
                               color: cardData.primaryColor,
-                              fontSize: 15,
+                              fontSize: 15.sp,
                             ),
                           ),
                           AutoSizeText(
                             '${cardData.valuationLossDiffText}',
                             style: TextStyle(
-                              fontSize: 9,
+                              fontSize: 9.sp,
                             ),
                           ),
                         ],
@@ -102,23 +103,23 @@ class MainCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Padding(
-                            padding: EdgeInsets.only(bottom: 4),
+                            padding: EdgeInsets.only(bottom: 4.h),
                             child: Text(
                               '수익률',
-                              style: TextStyle(color: grey, fontSize: 12),
+                              style: TextStyle(color: grey, fontSize: 12.sp),
                             ),
                           ),
                           AutoSizeText(
                             '${cardData.yieldResultText}',
                             style: TextStyle(
                               color: cardData.primaryColor,
-                              fontSize: 15,
+                              fontSize: 15.sp,
                             ),
                           ),
                           AutoSizeText(
                             '${cardData.yieldDiffText}',
                             style: TextStyle(
-                              fontSize: 9,
+                              fontSize: 9.sp,
                             ),
                           ),
                         ],
@@ -129,23 +130,23 @@ class MainCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Padding(
-                            padding: EdgeInsets.only(bottom: 4),
+                            padding: EdgeInsets.only(bottom: 4.h),
                             child: Text(
                               '평단가',
-                              style: TextStyle(color: grey, fontSize: 12),
+                              style: TextStyle(color: grey, fontSize: 12.sp),
                             ),
                           ),
                           AutoSizeText(
                             '${cardData.purchasePriceResultText}',
                             style: TextStyle(
                               color: cardData.primaryColor,
-                              fontSize: 15,
+                              fontSize: 15.sp,
                             ),
                           ),
                           AutoSizeText(
                             '${cardData.averagePurchaseDiffText}',
                             style: TextStyle(
-                              fontSize: 9,
+                              fontSize: 9.sp,
                             ),
                             maxLines: 1,
                           ),
@@ -161,7 +162,7 @@ class MainCard extends StatelessWidget {
         (index == 0)
             ? SizedBox()
             : Positioned(
-                left: 262,
+                left: 262.w,
                 child: IconButton(
                   icon: Icon(Icons.close),
                   color: Colors.black,

@@ -2,6 +2,7 @@ import 'package:averge_price_calc/constant.dart';
 import 'package:averge_price_calc/provider/ui_data_provider.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class AddCard extends StatelessWidget {
@@ -18,21 +19,21 @@ class AddCard extends StatelessWidget {
     return Consumer<UiDataProvider>(
       builder: (context, uiDataProvider, __) {
         return Container(
-          width: 500,
-          margin: EdgeInsets.symmetric(horizontal: 5.0),
+          width: 500.w,
+          margin: EdgeInsets.symmetric(horizontal: 5.0.w),
           decoration: kCarouselCardDecoration,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               MaterialButton(
                 color: Colors.grey[400],
-                height: 50,
+                height: 50.h,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100),
+                  borderRadius: BorderRadius.circular(100.r),
                 ),
                 child: Icon(
                   Icons.add,
-                  size: 40,
+                  size: 40.sp,
                   color: Colors.white,
                 ),
                 onPressed: () {

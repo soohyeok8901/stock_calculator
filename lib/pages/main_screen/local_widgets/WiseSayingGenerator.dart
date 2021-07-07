@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:averge_price_calc/constant.dart';
 import 'package:averge_price_calc/provider/wise_saying_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class WiseSayingGenerator extends StatefulWidget {
@@ -20,8 +21,6 @@ class _WiseSayingGeneratorState extends State<WiseSayingGenerator> {
     List wiseSayingList =
         Provider.of<WiseSayingProvider>(context).wiseSayingList;
 
-    print(_index);
-    print(wiseSayingList.length);
     return Container(
       decoration: kMainContainerBorderRadius,
       width: INF,
@@ -31,7 +30,7 @@ class _WiseSayingGeneratorState extends State<WiseSayingGenerator> {
           Center(
             child: Text(
               wiseSayingList[_index].sentence,
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 20.sp),
               textAlign: TextAlign.center,
             ),
           ),
@@ -41,7 +40,7 @@ class _WiseSayingGeneratorState extends State<WiseSayingGenerator> {
               IconButton(
                   icon: Icon(
                     Icons.arrow_left,
-                    size: 30,
+                    size: 30.sp,
                   ),
                   onPressed: () {
                     if (_index < 1) {
@@ -53,12 +52,12 @@ class _WiseSayingGeneratorState extends State<WiseSayingGenerator> {
                   }),
               Text(
                 '${_index + 1} / ${wiseSayingList.length}',
-                style: TextStyle(fontSize: 12),
+                style: TextStyle(fontSize: 12.sp),
               ),
               IconButton(
                   icon: Icon(
                     Icons.arrow_right,
-                    size: 30,
+                    size: 30.sp,
                   ),
                   onPressed: () {
                     if (_index > wiseSayingList.length - 2) {

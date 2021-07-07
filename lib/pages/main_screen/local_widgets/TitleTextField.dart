@@ -1,6 +1,7 @@
 import 'package:averge_price_calc/constant.dart';
 import 'package:averge_price_calc/provider/providers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 bool modifyMode = false;
@@ -34,21 +35,16 @@ class _TitleTextFieldState extends State<TitleTextField> {
     return titleProvider.modifyMode ? showTextField() : showText();
   }
 
-  // bool toggleModifyMode() {
-  //   print('모드변경 =>  $modifyMode');
-  //   return modifyMode = !modifyMode;
-  // }
-
   Widget showText() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(left: 10),
+          padding: EdgeInsets.only(left: 10.w),
           child: Text(
             widget.titleTextController.text,
             // 'asda',
-            style: TextStyle(fontSize: 23),
+            style: TextStyle(fontSize: 23.sp),
           ),
         ),
         IconButton(
@@ -68,8 +64,8 @@ class _TitleTextFieldState extends State<TitleTextField> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         Container(
-          height: 70,
-          width: 230,
+          height: 70.h,
+          width: 230.w,
           child: TextField(
             controller: widget.titleTextController,
             decoration: InputDecoration(
@@ -77,14 +73,14 @@ class _TitleTextFieldState extends State<TitleTextField> {
             ),
             textAlignVertical: TextAlignVertical.bottom,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 23),
+            style: TextStyle(fontSize: 23.sp),
             maxLength: 10,
             onChanged: widget.onChangedCB,
           ),
         ),
         (widget.titleTextController.text.length > 0)
             ? Padding(
-                padding: EdgeInsets.only(bottom: 15),
+                padding: EdgeInsets.only(bottom: 15.h),
                 child: IconButton(
                   icon: Icon(Icons.done_outline),
                   color: green,
@@ -97,7 +93,7 @@ class _TitleTextFieldState extends State<TitleTextField> {
                 ),
               )
             : Padding(
-                padding: EdgeInsets.only(bottom: 15),
+                padding: EdgeInsets.only(bottom: 15.h),
                 child: IconButton(
                   icon: Icon(Icons.done_outline),
                   color: green,

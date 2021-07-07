@@ -1,6 +1,7 @@
 import 'package:averge_price_calc/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class InputTextField extends StatelessWidget {
   InputTextField({
@@ -23,10 +24,10 @@ class InputTextField extends StatelessWidget {
           titleText,
           style: kInputTextFieldTitleTextStyle,
         ),
-        SizedBox(height: 8),
+        SizedBox(height: 8.h),
         Container(
-          height: 43,
-          width: 200,
+          height: 33.h,
+          width: 200.w,
           child: TextField(
             controller: textController,
             inputFormatters: [
