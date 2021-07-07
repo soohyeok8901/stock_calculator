@@ -121,3 +121,8 @@ const kCarouselCardDecoration = BoxDecoration(
   color: Colors.white,
   borderRadius: BorderRadius.all(Radius.circular(15)),
 );
+
+/////////////////list_screen card
+const kListCardDecoration = BoxDecoration(
+  borderRadius: BorderRadius.all(Radius.circular(15)),
+);

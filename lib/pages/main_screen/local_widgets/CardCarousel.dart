@@ -1,4 +1,5 @@
 import 'package:averge_price_calc/models/stock_card.dart';
+import 'package:averge_price_calc/provider/cardCarousel_provider.dart';
 import 'package:averge_price_calc/provider/providers.dart';
 import 'package:averge_price_calc/provider/ui_data_provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -34,15 +35,17 @@ class _CardCarouselState extends State<CardCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    _initStartCard();
+    _initStartCard(
+        Provider.of<CardCarouselProvider>(context).carouselController);
 
     return Column(
       children: [
-        Consumer2<UiDataProvider, TitleWidgetProvider>(
-          builder: (context, uiProvider, titleProvider, widget) {
+        Consumer3<UiDataProvider, TitleWidgetProvider, CardCarouselProvider>(
+          builder: (context, uiProvider, titleProvider, cardCarouselProvider,
+              widget) {
             return CarouselSlider.builder(
               itemCount: uiProvider.stockCardList.length,
-              carouselController: carouselController,
+              carouselController: cardCarouselProvider.carouselController,
               options: CarouselOptions(
                 height: 190.h,
                 enableInfiniteScroll: false,
@@ -64,10 +67,14 @@ class _CardCarouselState extends State<CardCarousel> {
                   return AddCard(
                     mainScreenUiCb: cb,
                     lastIndex: uiProvider.stockCardList.length - 1,
-                    carouselController: carouselController,
+                    carouselController: cardCarouselProvider.carouselController,
                   );
                 } else {
-                  return MainCard(cardData: cardData, index: index);
+                  return MainCard(
+                    cardData: cardData,
+                    index: index,
+                    carouselController: cardCarouselProvider.carouselController,
+                  );
                 }
               },
             );
@@ -82,7 +89,7 @@ class _CardCarouselState extends State<CardCarousel> {
         uiProvider.nowPageIndex == uiProvider.stockCardList.length - 1);
   }
 
-  void _initStartCard() {
+  void _initStartCard(CarouselController carouselController) {
     if (carouselController.ready && !isLoaded) {
       isLoaded = true;
       carouselController.animateToPage(widget.initPageNumber);

@@ -1,7 +1,9 @@
 import 'package:averge_price_calc/pages/main_screen/main_screen.dart';
+import 'package:averge_price_calc/provider/cardCarousel_provider.dart';
 import 'package:averge_price_calc/provider/title_widget_provider.dart';
 import 'package:averge_price_calc/provider/ui_data_provider.dart';
 import 'package:averge_price_calc/provider/wise_saying_provider.dart';
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -32,6 +34,9 @@ class AverageCalculator extends StatelessWidget {
         ),
         ChangeNotifierProvider<TitleWidgetProvider>(
           create: (_) => TitleWidgetProvider(),
+        ),
+        ChangeNotifierProvider<CardCarouselProvider>(
+          create: (_) => CardCarouselProvider(),
         ),
       ],
       child: ScreenUtilInit(

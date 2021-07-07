@@ -1,7 +1,9 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:averge_price_calc/constant.dart';
 import 'package:averge_price_calc/models/stock_card.dart';
+import 'package:averge_price_calc/provider/cardCarousel_provider.dart';
 import 'package:averge_price_calc/provider/ui_data_provider.dart';
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -12,9 +14,11 @@ class MainCard extends StatelessWidget {
     Key key,
     @required this.cardData,
     this.index,
+    this.carouselController,
   }) : super(key: key);
   final int index;
   final StockCard cardData;
+  final CarouselController carouselController;
 
   @override
   Widget build(BuildContext context) {
