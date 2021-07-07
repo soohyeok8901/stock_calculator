@@ -38,7 +38,7 @@ class AddCard extends StatelessWidget {
                 onPressed: () {
                   Provider.of<UiDataProvider>(context, listen: false).addCard();
                   if (carouselController.ready) {
-                    uiDataProvider.setIsLastPage(uiDataProvider.nowPageIndex !=
+                    uiDataProvider.setIsLastPage(uiDataProvider.nowPageIndex ==
                         uiDataProvider.stockCardList.length - 1);
                     carouselController.jumpToPage(lastIndex);
                   }

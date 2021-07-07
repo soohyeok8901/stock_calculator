@@ -12,8 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'local_widgets/main_screen_widgets.dart';
 
-// TODO: 리팩토링
-
+//TODO: 실기기 테스트
 CarouselController carouselController = CarouselController();
 
 class MainScreen extends StatefulWidget {
@@ -51,8 +50,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
     //shared_preferences init
     _initData();
-    //TODO: 디자인 반응형으로 만들기
-    //TODO: 이건 실기기 테스트도 같이해야하는데
 
     super.initState();
   }
@@ -158,7 +155,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
                     //////////////////////Main Container
                     Expanded(
-                      child: (handleUiDataProvider.isLastPage)
+                      child: (!handleUiDataProvider.isLastPage)
                           ? Container(
                               decoration: kMainContainerBorderRadius,
                               child: SingleChildScrollView(

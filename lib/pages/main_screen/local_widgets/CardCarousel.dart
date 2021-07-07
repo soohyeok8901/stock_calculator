@@ -78,7 +78,7 @@ class _CardCarouselState extends State<CardCarousel> {
 
   void _checkPageIndex(UiDataProvider uiProvider) {
     uiProvider.setIsLastPage(
-        uiProvider.nowPageIndex != uiProvider.stockCardList.length - 1);
+        uiProvider.nowPageIndex == uiProvider.stockCardList.length - 1);
   }
 
   void _initStartCard() {

@@ -103,7 +103,7 @@ class UiDataProvider extends ChangeNotifier {
   String averagePurchaseDiffText;
 
   int nowPageIndex = 0;
-  bool _isLastPage = false;
+  bool _isLastPage = false; // main_screen 에서 main Container 조건부 렌더링하는데에 사용됩니다.
 
   bool isFirst;
   bool isEnd;
