@@ -41,7 +41,7 @@ class ListScreen extends StatelessWidget {
             },
             itemCount: uiProvider.stockCardList.length,
             separatorBuilder: (context, index) => Divider(
-              color: Colors.black,
+              color: Colors.grey,
             ),
           ),
         );

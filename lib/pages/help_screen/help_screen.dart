@@ -14,11 +14,14 @@ class HelpScreen extends StatelessWidget {
         title: Text('사용법'),
       ),
       body: Container(
-        child: IconButton(
-            icon: Icon(Icons.backspace),
-            onPressed: () {
-              Navigator.pop(context);
-            }),
+        child: Center(
+          child: Text(
+            '여기에 사용법 이미지가 들어갈 예정입니다~',
+            style: TextStyle(
+              fontSize: 30,
+            ),
+          ),
+        ),
       ),
     );
   }

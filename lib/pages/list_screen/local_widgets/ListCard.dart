@@ -42,7 +42,7 @@ class ListCard extends StatelessWidget {
             Container(
               decoration: kCarouselCardDecoration,
               child: Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(10),
                 child: Column(
                   children: <Widget>[
                     Row(
@@ -103,7 +103,7 @@ class ListCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 9),
+                    SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
