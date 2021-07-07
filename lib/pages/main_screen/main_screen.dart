@@ -1,5 +1,5 @@
 import 'package:averge_price_calc/constant.dart';
-import 'package:averge_price_calc/models/calculator.dart';
+import 'package:averge_price_calc/utils/calculator.dart';
 
 import 'package:averge_price_calc/provider/ui_data_provider.dart';
 import 'package:averge_price_calc/widgets/banner_ad.dart';
@@ -11,11 +11,13 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'local_widgets/main_screen_widgets.dart';
+import './../screens.dart';
 
 //TODO: 실기기 테스트
 CarouselController carouselController = CarouselController();
 
 class MainScreen extends StatefulWidget {
+  static String id = 'main_screen';
   @override
   _MainScreenState createState() => _MainScreenState();
 }
@@ -240,6 +242,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                     icon: Icon(Icons.menu),
                     onPressed: () {
                       //TODO:list_screen.dart 네비게이팅
+                      Navigator.pushNamed(context, ListScreen.id);
                     },
                   ),
                 ),
@@ -252,6 +255,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                     icon: Icon(Icons.help_outline_rounded),
                     onPressed: () {
                       //TODO:도움말.dart 네비게이팅
+                      Navigator.pushNamed(context, HelpScreen.id);
                     },
                   ),
                 ),

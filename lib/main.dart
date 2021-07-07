@@ -7,7 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
-import 'models/calculator.dart';
+import 'utils/calculator.dart';
+import 'pages/screens.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +38,12 @@ class AverageCalculator extends StatelessWidget {
         designSize: Size(392.72727272727275, 759.2727272727273),
         builder: () => MaterialApp(
             debugShowCheckedModeBanner: false,
-            home: MainScreen(),
+            initialRoute: MainScreen.id,
+            routes: {
+              MainScreen.id: (context) => MainScreen(),
+              ListScreen.id: (context) => ListScreen(),
+              HelpScreen.id: (context) => HelpScreen(),
+            },
             theme: ThemeData(fontFamily: 'GmarketSansMedium')),
       ),
     );

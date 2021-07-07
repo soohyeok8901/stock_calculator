@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 class CalcBrain extends ChangeNotifier {
   Color setColor({double yieldResult}) {
     if ((yieldResult < 0)) {
-      return Colors.blue[800];
+      return blue;
     } else if ((yieldResult > 0)) {
-      return Colors.red[400];
+      return red;
     } else {
       return grey;
     }

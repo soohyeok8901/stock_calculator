@@ -1,8 +1,7 @@
-import 'package:averge_price_calc/models/calculator.dart';
+import 'package:averge_price_calc/utils/calculator.dart';
 import 'package:averge_price_calc/models/stock_card.dart';
 import 'package:averge_price_calc/utils/string_func.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constant.dart';
