@@ -1,5 +1,7 @@
 import 'package:averge_price_calc/constant.dart';
+import 'package:averge_price_calc/provider/providers.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 bool modifyMode = false;
 
@@ -21,19 +23,21 @@ class TitleTextField extends StatefulWidget {
 }
 
 class _TitleTextFieldState extends State<TitleTextField> {
+  TitleWidgetProvider titleProvider;
   @override
   Widget build(BuildContext context) {
+    titleProvider = Provider.of<TitleWidgetProvider>(context);
     return showTitle(modifyMode);
   }
 
   Widget showTitle(modifyMode) {
-    return modifyMode ? showTextField() : showText();
+    return titleProvider.modifyMode ? showTextField() : showText();
   }
 
-  bool toggleModifyMode() {
-    print('모드변경 =>  $modifyMode');
-    return modifyMode = !modifyMode;
-  }
+  // bool toggleModifyMode() {
+  //   print('모드변경 =>  $modifyMode');
+  //   return modifyMode = !modifyMode;
+  // }
 
   Widget showText() {
     return Row(
@@ -51,7 +55,7 @@ class _TitleTextFieldState extends State<TitleTextField> {
           icon: Icon(Icons.edit),
           onPressed: () {
             setState(() {
-              toggleModifyMode();
+              titleProvider.toggleModifyMode();
             });
           },
         ),
@@ -86,7 +90,7 @@ class _TitleTextFieldState extends State<TitleTextField> {
                   color: green,
                   onPressed: () {
                     setState(() {
-                      toggleModifyMode();
+                      titleProvider.toggleModifyMode();
                       widget.onPressedCB();
                     });
                   },

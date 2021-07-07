@@ -1,4 +1,5 @@
 import 'package:averge_price_calc/pages/main_screen/main_screen.dart';
+import 'package:averge_price_calc/provider/title_widget_provider.dart';
 import 'package:averge_price_calc/provider/ui_data_provider.dart';
 import 'package:averge_price_calc/provider/wise_saying_provider.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,9 @@ class AverageCalculator extends StatelessWidget {
         ),
         ChangeNotifierProvider<WiseSayingProvider>(
           create: (_) => WiseSayingProvider(),
+        ),
+        ChangeNotifierProvider<TitleWidgetProvider>(
+          create: (_) => TitleWidgetProvider(),
         ),
       ],
       child: ScreenUtilInit(

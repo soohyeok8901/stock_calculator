@@ -1,5 +1,6 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:averge_price_calc/models/stock_card.dart';
+import 'package:averge_price_calc/provider/providers.dart';
 import 'package:averge_price_calc/provider/ui_data_provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -37,8 +38,8 @@ class _CardCarouselState extends State<CardCarousel> {
 
     return Column(
       children: [
-        Consumer<UiDataProvider>(
-          builder: (context, uiProvider, widget) {
+        Consumer2<UiDataProvider, TitleWidgetProvider>(
+          builder: (context, uiProvider, titleProvider, widget) {
             return CarouselSlider.builder(
               itemCount: uiProvider.stockCardList.length,
               carouselController: carouselController,
@@ -54,6 +55,7 @@ class _CardCarouselState extends State<CardCarousel> {
                       index: index); //ui_data_provider.dart data 갱신
                   cb(); // main_screen.dart textField 갱신
                   _checkPageIndex(uiProvider); // Main Container 조건부 렌더링용
+                  titleProvider.setFalse();
                 },
               ),
               itemBuilder: (context, index, _) {

@@ -39,7 +39,10 @@ class _WiseSayingGeneratorState extends State<WiseSayingGenerator> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               IconButton(
-                  icon: Icon(Icons.arrow_left),
+                  icon: Icon(
+                    Icons.arrow_left,
+                    size: 30,
+                  ),
                   onPressed: () {
                     if (_index < 1) {
                       _index = wiseSayingList.length - 1;
@@ -53,7 +56,10 @@ class _WiseSayingGeneratorState extends State<WiseSayingGenerator> {
                 style: TextStyle(fontSize: 12),
               ),
               IconButton(
-                  icon: Icon(Icons.arrow_right),
+                  icon: Icon(
+                    Icons.arrow_right,
+                    size: 30,
+                  ),
                   onPressed: () {
                     if (_index > wiseSayingList.length - 2) {
                       _index = 0;
