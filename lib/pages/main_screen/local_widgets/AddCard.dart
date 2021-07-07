@@ -26,11 +26,13 @@ class AddCard extends StatelessWidget {
             children: <Widget>[
               MaterialButton(
                 color: Colors.grey[400],
+                height: 50,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100),
                 ),
                 child: Icon(
                   Icons.add,
+                  size: 40,
                   color: Colors.white,
                 ),
                 onPressed: () {

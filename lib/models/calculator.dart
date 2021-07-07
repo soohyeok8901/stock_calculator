@@ -120,6 +120,7 @@ class CalcBrain extends ChangeNotifier {
   }
 
   //컴마, 온점 거르기 함수
+  //TODO: TextField 에서 input 조건 달아서 필요없어짐 나중에 리팩토링
   int sanitizeComma(String input) {
     List splitedInput;
     if (input.length == 0) {

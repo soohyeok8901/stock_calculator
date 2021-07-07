@@ -40,19 +40,6 @@ class StockCard {
   int buyPrice;
   int buyQuantity;
 
-  // //중간계산용 - 기존 매입총액, 기존 평가 손익, 기존 수익률, 기존 평단가
-  // int exTotalPurchase;
-  // int exValuationLoss;
-  // double exYield;
-  // int exAveragePurchase;
-
-  // //구매 이후 계산 결과들 - (계산된) 매입총액, 평단가, 수익률, (이전수익률+계산수익률) 평가금액, 평가손익
-  // int calculatedTotalPurchase;
-  // int calculatedAveragePurchase;
-  // double calculatedYield;
-  // int calculatedTotalValuation;
-  // int calculatedValuationLoss;
-
   //                          계산 결과 텍스트들
   //계산된 평가총액, 계산된 평가손익
   String totalValuationResultText;
@@ -64,19 +51,13 @@ class StockCard {
   //계산된수익률, 수익률 차이
   String yieldResultText;
   String yieldDiffText;
-  // double yieldDiff;
 
   //계산된 평단가, 평단가 차이
   String purchasePriceResultText;
   String averagePurchaseDiffText;
-  // int averagePurchaseDiff;
 
   bool isEnd;
 
-  ///
-  ///
-  ///
-  ///
   factory StockCard.fromJson(Map<String, dynamic> jsonData) {
     //Color 객체가 json에서 지원하지 않아서 하드코딩
     //TODO: 리팩토링 해봅시다 나중에

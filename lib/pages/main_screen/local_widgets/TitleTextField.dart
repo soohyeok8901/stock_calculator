@@ -50,7 +50,9 @@ class _TitleTextFieldState extends State<TitleTextField> {
         IconButton(
           icon: Icon(Icons.edit),
           onPressed: () {
-            toggleModifyMode();
+            setState(() {
+              toggleModifyMode();
+            });
           },
         ),
       ],
@@ -58,25 +60,46 @@ class _TitleTextFieldState extends State<TitleTextField> {
   }
 
   Widget showTextField() {
-    return TextField(
-      controller: widget.titleTextController,
-      decoration: InputDecoration(
-          hintText: '타이틀',
-          suffixIcon: (widget.titleTextController.text.length > 0)
-              ? IconButton(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        Container(
+          height: 70,
+          width: 230,
+          child: TextField(
+            controller: widget.titleTextController,
+            decoration: InputDecoration(
+              hintText: '타이틀',
+            ),
+            textAlignVertical: TextAlignVertical.bottom,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 23),
+            maxLength: 10,
+            onChanged: widget.onChangedCB,
+          ),
+        ),
+        (widget.titleTextController.text.length > 0)
+            ? Padding(
+                padding: EdgeInsets.only(bottom: 15),
+                child: IconButton(
                   icon: Icon(Icons.done_outline),
                   color: green,
                   onPressed: () {
-                    toggleModifyMode();
-                    widget.onPressedCB();
+                    setState(() {
+                      toggleModifyMode();
+                      widget.onPressedCB();
+                    });
                   },
-                )
-              : null),
-      textAlignVertical: TextAlignVertical.bottom,
-      textAlign: TextAlign.center,
-      style: TextStyle(fontSize: 21.5),
-      maxLength: 12,
-      onChanged: widget.onChangedCB,
+                ),
+              )
+            : Padding(
+                padding: EdgeInsets.only(bottom: 15),
+                child: IconButton(
+                  icon: Icon(Icons.done_outline),
+                  color: green,
+                ),
+              )
+      ],
     );
   }
 }

@@ -178,7 +178,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                         },
                                         onPressedCB: () {
                                           //해당 pageIndex의 stock_card데이터의 title데이터 수정해야함.
-                                          // handleUiDataProvider.setData();
+                                          handleUiDataProvider.setData();
                                         },
                                       ),
                                     ),
@@ -228,18 +228,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                               ),
                             )
                           : Container(
-                              child: Container(
-                                // color: Colors.white,
-                                decoration: kMainContainerBorderRadius,
-                                width: INF,
-                                child: Center(
-                                  child: Text(
-                                    '\"사고 팔고 쉬어라,\n쉬는 것도 투자다.\" \n같은 명언들이 랜덤으로 \n보이게 할 예정입니다 ^^',
-                                    style: TextStyle(fontSize: 30),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ),
+                              child: WiseSayingGenerator(),
                             ),
                     ),
                     ShowBannerAd(),
@@ -256,7 +245,19 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                       //TODO:list_screen.dart 네비게이팅
                     },
                   ),
-                )
+                ),
+                Positioned(
+                  right: 7,
+                  top: 7,
+                  child: IconButton(
+                    iconSize: 30,
+                    color: Colors.white,
+                    icon: Icon(Icons.help_outline_rounded),
+                    onPressed: () {
+                      //TODO:도움말.dart 네비게이팅
+                    },
+                  ),
+                ),
               ],
             ),
           ),

@@ -35,7 +35,7 @@ class MainCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       AutoSizeText(
-                        '씹씹이 가즈아 ${cardData.emoji}',
+                        '${cardData.title} ${cardData.emoji}',
                         style: TextStyle(fontSize: 23.0),
                       ),
                     ],

@@ -1,6 +1,6 @@
 import 'package:averge_price_calc/models/calculator.dart';
 import 'package:averge_price_calc/models/stock_card.dart';
-import 'package:averge_price_calc/utils/main_screen_functions.dart';
+import 'package:averge_price_calc/utils/string_func.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -360,7 +360,7 @@ class UiDataProvider extends ChangeNotifier {
   //                     필드각각 대응되는 changeString 메서드
   void changeTitleData(String newData) {
     title = newData;
-
+    setData();
     notifyListeners();
   }
 
