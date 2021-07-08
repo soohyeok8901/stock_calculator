@@ -1,4 +1,4 @@
-import 'package:averge_price_calc/models/wise_saying.dart';
+import 'package:stock_calculator/models/wise_saying.dart';
 import 'package:flutter/material.dart';
 
 class WiseSayingProvider extends ChangeNotifier {
@@ -25,5 +25,7 @@ class WiseSayingProvider extends ChangeNotifier {
     WiseSaying("산이 높으면 계곡도 깊다."),
     WiseSaying("천재지변으로 인한 폭락은 사라."),
     WiseSaying("시장을 감히 예측하지 마라."),
+    WiseSaying("99번 성공해도 1번의 실패로 인해 \n나락으로 갈 수 있다."),
+    WiseSaying("인간의 욕심은 끝이 없고 \n같은 실수를 반복한다."),
   ];
 }

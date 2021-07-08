@@ -1,8 +1,8 @@
-import 'package:averge_price_calc/constant.dart';
-import 'package:averge_price_calc/provider/providers.dart';
+import 'package:stock_calculator/provider/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+//TODO: 대충 틀만 잡아봅시다~
 class HelpScreen extends StatelessWidget {
   static String id = 'help_screen';
 

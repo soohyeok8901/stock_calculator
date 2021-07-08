@@ -1,9 +1,8 @@
-import 'package:averge_price_calc/pages/main_screen/main_screen.dart';
-import 'package:averge_price_calc/provider/cardCarousel_provider.dart';
-import 'package:averge_price_calc/provider/title_widget_provider.dart';
-import 'package:averge_price_calc/provider/ui_data_provider.dart';
-import 'package:averge_price_calc/provider/wise_saying_provider.dart';
-import 'package:carousel_slider/carousel_controller.dart';
+import 'package:stock_calculator/pages/main_screen/main_screen.dart';
+import 'package:stock_calculator/provider/cardCarousel_provider.dart';
+import 'package:stock_calculator/provider/title_widget_provider.dart';
+import 'package:stock_calculator/provider/ui_data_provider.dart';
+import 'package:stock_calculator/provider/wise_saying_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -49,7 +48,7 @@ class AverageCalculator extends StatelessWidget {
               ListScreen.id: (context) => ListScreen(),
               HelpScreen.id: (context) => HelpScreen(),
             },
-            theme: ThemeData(fontFamily: 'GmarketSansMedium')),
+            theme: ThemeData(fontFamily: 'Jeju')),
       ),
     );
   }

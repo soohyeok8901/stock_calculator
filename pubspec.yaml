@@ -1,5 +1,5 @@
-name: averge_price_calc
-description: A new Flutter application.
+name: stock_calculator
+description: 간단하고 좋은 주식 계산기입니다.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
@@ -37,18 +37,20 @@ flutter:
 
 
   fonts:
-    - family: GmarketSansLight
-      fonts:
-        - asset: lib/assets/fonts/GmarketSansTTFLight.ttf
 
     - family: GmarketSansMedium
       fonts:
         - asset: lib/assets/fonts/GmarketSansTTFMedium.ttf
 
-    - family: JejuMyeongjo
+    - family: Cafe24
       fonts:
-        - asset: lib/assets/fonts/JejuMyeongjo.ttf
+        - asset: lib/assets/fonts/Cafe24Oneprettynight.ttf
 
+    - family: Jeju
+      fonts:
+        - asset: lib/assets/fonts/JejuGothic.ttf
+
+    
     - family: Cafe24Simplehae
       fonts:
         - asset: lib/assets/fonts/Cafe24Simplehae.ttf

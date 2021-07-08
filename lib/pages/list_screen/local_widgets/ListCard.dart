@@ -1,6 +1,6 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
-import 'package:averge_price_calc/constant.dart';
-import 'package:averge_price_calc/provider/ui_data_provider.dart';
+import 'package:stock_calculator/constant.dart';
+import 'package:stock_calculator/provider/ui_data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -42,7 +42,7 @@ class ListCard extends StatelessWidget {
             Container(
               decoration: kCarouselCardDecoration,
               child: Padding(
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.all(10.w),
                 child: Column(
                   children: <Widget>[
                     Row(
@@ -103,7 +103,7 @@ class ListCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 16),
+                    SizedBox(height: 16.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[

@@ -1,4 +1,4 @@
-import 'package:averge_price_calc/constant.dart';
+import 'package:stock_calculator/constant.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter/material.dart';
 

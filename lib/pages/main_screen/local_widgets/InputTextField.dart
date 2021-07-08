@@ -1,4 +1,4 @@
-import 'package:averge_price_calc/constant.dart';
+import 'package:stock_calculator/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

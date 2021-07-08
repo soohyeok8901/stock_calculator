@@ -1,7 +1,7 @@
-import 'package:averge_price_calc/models/stock_card.dart';
-import 'package:averge_price_calc/provider/cardCarousel_provider.dart';
-import 'package:averge_price_calc/provider/providers.dart';
-import 'package:averge_price_calc/provider/ui_data_provider.dart';
+import 'package:stock_calculator/models/stock_card.dart';
+import 'package:stock_calculator/provider/cardCarousel_provider.dart';
+import 'package:stock_calculator/provider/providers.dart';
+import 'package:stock_calculator/provider/ui_data_provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -47,7 +47,7 @@ class _CardCarouselState extends State<CardCarousel> {
               itemCount: uiProvider.stockCardList.length,
               carouselController: cardCarouselProvider.carouselController,
               options: CarouselOptions(
-                height: 190.h,
+                height: 210.h,
                 enableInfiniteScroll: false,
                 enlargeCenterPage: true,
                 viewportFraction: 0.8,

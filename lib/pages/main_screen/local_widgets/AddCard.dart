@@ -1,5 +1,5 @@
-import 'package:averge_price_calc/constant.dart';
-import 'package:averge_price_calc/provider/ui_data_provider.dart';
+import 'package:stock_calculator/constant.dart';
+import 'package:stock_calculator/provider/ui_data_provider.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

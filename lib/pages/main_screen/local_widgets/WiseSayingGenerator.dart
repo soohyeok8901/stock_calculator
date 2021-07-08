@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:averge_price_calc/constant.dart';
-import 'package:averge_price_calc/provider/wise_saying_provider.dart';
+import 'package:stock_calculator/constant.dart';
+import 'package:stock_calculator/provider/wise_saying_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';

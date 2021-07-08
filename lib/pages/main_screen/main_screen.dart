@@ -1,8 +1,8 @@
-import 'package:averge_price_calc/constant.dart';
-import 'package:averge_price_calc/utils/calculator.dart';
+import 'package:stock_calculator/constant.dart';
+import 'package:stock_calculator/utils/calculator.dart';
 
-import 'package:averge_price_calc/provider/ui_data_provider.dart';
-import 'package:averge_price_calc/widgets/banner_ad.dart';
+import 'package:stock_calculator/provider/ui_data_provider.dart';
+import 'package:stock_calculator/widgets/banner_ad.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -241,7 +241,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                     color: Colors.white,
                     icon: Icon(Icons.menu),
                     onPressed: () {
-                      //TODO:list_screen.dart 네비게이팅
                       Navigator.pushNamed(context, ListScreen.id);
                     },
                   ),
@@ -254,7 +253,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                     color: Colors.white,
                     icon: Icon(Icons.help_outline_rounded),
                     onPressed: () {
-                      //TODO:도움말.dart 네비게이팅
                       Navigator.pushNamed(context, HelpScreen.id);
                     },
                   ),

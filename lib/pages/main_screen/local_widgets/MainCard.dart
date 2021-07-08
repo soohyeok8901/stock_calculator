@@ -1,14 +1,13 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
-import 'package:averge_price_calc/constant.dart';
-import 'package:averge_price_calc/models/stock_card.dart';
-import 'package:averge_price_calc/provider/cardCarousel_provider.dart';
-import 'package:averge_price_calc/provider/ui_data_provider.dart';
+import 'package:stock_calculator/constant.dart';
+import 'package:stock_calculator/models/stock_card.dart';
+import 'package:stock_calculator/provider/ui_data_provider.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'main_screen_widgets.dart';
 
+//TODO: 균형이 안맞습니다.
 class MainCard extends StatelessWidget {
   const MainCard({
     Key key,
@@ -50,51 +49,57 @@ class MainCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 4.h),
-                            child: Text(
-                              '평가금액',
-                              style: TextStyle(color: grey, fontSize: 12.sp),
+                      child: SizedBox(
+                        height: 60,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 2.h),
+                              child: Text(
+                                '평가금액',
+                                style: TextStyle(color: grey, fontSize: 12.sp),
+                              ),
                             ),
-                          ),
-                          AutoSizeText(
-                            '${cardData.totalValuationResultText}',
-                            style: TextStyle(
-                              fontSize: 15.sp,
+                            AutoSizeText(
+                              '${cardData.totalValuationResultText}',
+                              style: TextStyle(
+                                fontSize: 15.sp,
+                              ),
                             ),
-                          ),
-                          AutoSizeText(''),
-                        ],
+                            AutoSizeText(''),
+                          ],
+                        ),
                       ),
                     ),
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 4.h),
-                            child: Text(
-                              '평가손익',
-                              style: TextStyle(color: grey, fontSize: 12.sp),
+                      child: SizedBox(
+                        height: 60,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 2.h),
+                              child: Text(
+                                '평가손익',
+                                style: TextStyle(color: grey, fontSize: 12.sp),
+                              ),
                             ),
-                          ),
-                          AutoSizeText(
-                            '${cardData.valuationResultText}',
-                            style: TextStyle(
-                              color: cardData.primaryColor,
-                              fontSize: 15.sp,
+                            AutoSizeText(
+                              '${cardData.valuationResultText}',
+                              style: TextStyle(
+                                color: cardData.primaryColor,
+                                fontSize: 15.sp,
+                              ),
                             ),
-                          ),
-                          AutoSizeText(
-                            '${cardData.valuationLossDiffText}',
-                            style: TextStyle(
-                              fontSize: 9.sp,
+                            AutoSizeText(
+                              '${cardData.valuationLossDiffText}',
+                              style: TextStyle(
+                                fontSize: 9.sp,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -103,58 +108,65 @@ class MainCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 4.h),
-                            child: Text(
-                              '수익률',
-                              style: TextStyle(color: grey, fontSize: 12.sp),
+                      child: SizedBox(
+                        height: 60,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 2.h),
+                              child: Text(
+                                '수익률',
+                                style: TextStyle(color: grey, fontSize: 12.sp),
+                              ),
                             ),
-                          ),
-                          AutoSizeText(
-                            '${cardData.yieldResultText}',
-                            style: TextStyle(
-                              color: cardData.primaryColor,
-                              fontSize: 15.sp,
+                            SizedBox(height: 2.h),
+                            AutoSizeText(
+                              '${cardData.yieldResultText}',
+                              style: TextStyle(
+                                color: cardData.primaryColor,
+                                fontSize: 15.sp,
+                              ),
                             ),
-                          ),
-                          AutoSizeText(
-                            '${cardData.yieldDiffText}',
-                            style: TextStyle(
-                              fontSize: 9.sp,
+                            SizedBox(height: 4.h),
+                            AutoSizeText(
+                              '${cardData.yieldDiffText}',
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 4.h),
-                            child: Text(
-                              '평단가',
-                              style: TextStyle(color: grey, fontSize: 12.sp),
+                      child: SizedBox(
+                        height: 60,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 2.h),
+                              child: Text(
+                                '평단가',
+                                style: TextStyle(color: grey, fontSize: 12.sp),
+                              ),
                             ),
-                          ),
-                          AutoSizeText(
-                            '${cardData.purchasePriceResultText}',
-                            style: TextStyle(
-                              color: cardData.primaryColor,
-                              fontSize: 15.sp,
+                            AutoSizeText(
+                              '${cardData.purchasePriceResultText}',
+                              style: TextStyle(
+                                color: cardData.primaryColor,
+                                fontSize: 15.sp,
+                              ),
                             ),
-                          ),
-                          AutoSizeText(
-                            '${cardData.averagePurchaseDiffText}',
-                            style: TextStyle(
-                              fontSize: 9.sp,
+                            AutoSizeText(
+                              '${cardData.averagePurchaseDiffText}',
+                              style: TextStyle(
+                                fontSize: 9.sp,
+                              ),
                             ),
-                            maxLines: 1,
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ],

@@ -1,10 +1,7 @@
-import 'package:auto_size_text_pk/auto_size_text_pk.dart';
-import 'package:averge_price_calc/constant.dart';
-import 'package:averge_price_calc/pages/list_screen/local_widgets/ListCard.dart';
-import 'package:averge_price_calc/provider/cardCarousel_provider.dart';
-import 'package:averge_price_calc/provider/providers.dart';
+import 'package:stock_calculator/pages/list_screen/local_widgets/ListCard.dart';
+import 'package:stock_calculator/provider/cardCarousel_provider.dart';
+import 'package:stock_calculator/provider/providers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class ListScreen extends StatelessWidget {
