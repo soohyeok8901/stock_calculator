@@ -161,8 +161,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                             style: kEmojiTextStyle,
                             textAlign: kTextAlignCenter,
                           ),
-                          // decoration: kEmojiContainerBoxDecoration,
-                          // padding: EdgeInsets.all(2),
+                          decoration: kEmojiContainerBoxDecoration,
+                          padding: EdgeInsets.all(2),
                         ),
                       ),
                       Padding(
@@ -634,7 +634,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                 Expanded(
                   child: InputTextField(
                     textController: _currentStockPriceTEC,
-                    hintText: '개수 입력',
+                    hintText: '가격 입력',
                     titleText: '현재 주가',
                     onChangedCB: (newData) {
                       Provider.of<UiDataProvider>(context, listen: false)

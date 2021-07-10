@@ -20,8 +20,8 @@ const kTextAlignCenter = TextAlign.center;
 
 var kEmojiContainerBoxDecoration = BoxDecoration(
   color: Colors.white,
-  border: Border.all(width: 0.1),
-  borderRadius: BorderRadius.circular(0),
+  border: Border.all(width: 0.05),
+  borderRadius: BorderRadius.circular(100),
 );
 
 //////////////////////////// main Conatiner

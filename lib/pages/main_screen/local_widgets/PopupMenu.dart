@@ -169,15 +169,17 @@ class PopupMenu extends StatelessWidget {
               style: TextStyle(fontSize: 13.sp),
             ),
           ),
-          PopupMenuDivider(height: 23.h),
-          PopupMenuItem(
-            value: "삭제",
-            height: 23.h,
-            child: Text(
-              '삭제',
-              style: TextStyle(fontSize: 13.sp),
-            ),
-          ),
+          (index != 0) ? PopupMenuDivider(height: 23.h) : null,
+          (index != 0)
+              ? PopupMenuItem(
+                  value: "삭제",
+                  height: 23.h,
+                  child: Text(
+                    '삭제',
+                    style: TextStyle(fontSize: 13.sp),
+                  ),
+                )
+              : null,
         ];
       },
     );

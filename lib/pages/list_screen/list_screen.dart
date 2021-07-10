@@ -18,9 +18,11 @@ class ListScreen extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             backgroundColor:
-                (Provider.of<UiDataProvider>(context).primaryColor == red)
-                    ? buttonRed
-                    : buttonBlue,
+                (Provider.of<UiDataProvider>(context).primaryColor == grey)
+                    ? grey
+                    : (Provider.of<UiDataProvider>(context).primaryColor == red)
+                        ? buttonRed
+                        : buttonBlue,
             title: Padding(
               padding: EdgeInsets.only(left: 67.w),
               child: Text(

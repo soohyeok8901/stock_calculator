@@ -179,16 +179,14 @@ class MainCard extends StatelessWidget {
             ),
           ),
         ),
-        (index == 0)
-            ? SizedBox()
-            : Positioned(
-                left: 262.w,
-                child: PopupMenu(
-                  titleTextController: _titleTextController,
-                  index: index,
-                  carouselController: carouselController,
-                ),
-              ),
+        Positioned(
+          left: 262.w,
+          child: PopupMenu(
+            titleTextController: _titleTextController,
+            index: index,
+            carouselController: carouselController,
+          ),
+        ),
       ],
     );
   }
