@@ -4,6 +4,8 @@ import 'package:stock_calculator/provider/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../constant.dart';
+
 class ListScreen extends StatelessWidget {
   static String id = 'list_screen';
 
@@ -13,8 +15,13 @@ class ListScreen extends StatelessWidget {
       builder: (context, uiProvider, cardCarouselProvider, widget) {
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: Provider.of<UiDataProvider>(context).primaryColor,
-            title: Text('계산기 목록'),
+            backgroundColor:
+                (Provider.of<UiDataProvider>(context).primaryColor == red)
+                    ? buttonRed
+                    : buttonBlue,
+            title: Text(
+              '계산기 목록 🔎',
+            ),
           ),
           body: ListView.separated(
             itemBuilder: (context, index) {
@@ -38,6 +45,7 @@ class ListScreen extends StatelessWidget {
             },
             itemCount: uiProvider.stockCardList.length,
             separatorBuilder: (context, index) => Divider(
+              height: 4,
               color: Colors.grey,
             ),
           ),

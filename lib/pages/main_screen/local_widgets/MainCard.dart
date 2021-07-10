@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-//TODO: 균형이 안맞습니다.
 class MainCard extends StatelessWidget {
   const MainCard({
     Key key,
@@ -92,6 +91,7 @@ class MainCard extends StatelessWidget {
                                 fontSize: 15.sp,
                               ),
                             ),
+                            SizedBox(height: 2.h),
                             AutoSizeText(
                               '${cardData.valuationLossDiffText}',
                               style: TextStyle(
@@ -128,7 +128,7 @@ class MainCard extends StatelessWidget {
                                 fontSize: 15.sp,
                               ),
                             ),
-                            SizedBox(height: 4.h),
+                            SizedBox(height: 2.h),
                             AutoSizeText(
                               '${cardData.yieldDiffText}',
                               style: TextStyle(
@@ -159,6 +159,7 @@ class MainCard extends StatelessWidget {
                                 fontSize: 15.sp,
                               ),
                             ),
+                            SizedBox(height: 2.h),
                             AutoSizeText(
                               '${cardData.averagePurchaseDiffText}',
                               style: TextStyle(

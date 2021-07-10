@@ -20,8 +20,20 @@ dependencies:
   intl: ^0.16.1
   carousel_slider: ^4.0.0
   auto_size_text_pk: ^3.0.0
+  # intro_slider: ^3.0.2
+  # dots_indicator: ^2.0.0
+  flutter_image_slideshow: ^0.1.0
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.9.0
+
+flutter_icons:
+  android: "ic_launcher"
+  ios: true
+  image_path: "assets/icon/icon3.png"
+  # adaptive_icon_background: #43c89f
+  # adaptive_icon_foreground: #43c89f
+
   flutter_test:
     sdk: flutter
 
@@ -30,27 +42,25 @@ flutter:
 
   uses-material-design: true
 
-  # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/images/
 
 
   fonts:
 
     - family: GmarketSansMedium
       fonts:
-        - asset: lib/assets/fonts/GmarketSansTTFMedium.ttf
+        - asset: assets/fonts/GmarketSansTTFMedium.ttf
 
     - family: Cafe24
       fonts:
-        - asset: lib/assets/fonts/Cafe24Oneprettynight.ttf
+        - asset: assets/fonts/Cafe24Oneprettynight.ttf
 
     - family: Jeju
       fonts:
-        - asset: lib/assets/fonts/JejuGothic.ttf
+        - asset: assets/fonts/JejuHallasan.ttf
 
     
     - family: Cafe24Simplehae
       fonts:
-        - asset: lib/assets/fonts/Cafe24Simplehae.ttf
+        - asset: assets/fonts/Cafe24Simplehae.ttf
