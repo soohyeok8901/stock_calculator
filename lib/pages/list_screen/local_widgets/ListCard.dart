@@ -1,4 +1,5 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:stock_calculator/constant.dart';
 import 'package:stock_calculator/provider/ui_data_provider.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +10,13 @@ class ListCard extends StatelessWidget {
   const ListCard({
     this.uiProvider,
     this.index,
+    this.lastPageIndex,
+    this.carouselController,
   });
-
+  final CarouselController carouselController;
   final UiDataProvider uiProvider;
   final int index;
+  final int lastPageIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +86,13 @@ class ListCard extends StatelessWidget {
           caption: '삭제',
           color: Colors.red,
           icon: Icons.delete,
-          onTap: () => uiProvider.deleteCard(index: index),
+          onTap: () {
+            uiProvider.deleteCard(index: index);
+            if (carouselController.ready) {
+              carouselController
+                  .jumpToPage(uiProvider.stockCardList.length - 2);
+            }
+          },
         ),
       ],
     );

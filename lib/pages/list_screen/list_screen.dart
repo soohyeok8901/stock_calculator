@@ -44,10 +44,15 @@ class ListScreen extends StatelessWidget {
                   child: ListCard(
                     uiProvider: uiProvider,
                     index: index,
+                    lastPageIndex: uiProvider.nowPageIndex,
+                    carouselController: cardCarouselProvider.carouselController,
                   ),
                 );
               } else {
-                return ListAddCard(uiProvider: uiProvider);
+                return ListAddCard(
+                  uiProvider: uiProvider,
+                  carouselController: cardCarouselProvider.carouselController,
+                );
               }
             },
             itemCount: uiProvider.stockCardList.length,
