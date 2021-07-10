@@ -1,14 +1,15 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:stock_calculator/constant.dart';
 import 'package:stock_calculator/models/stock_card.dart';
-import 'package:stock_calculator/provider/ui_data_provider.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
+
+import 'PopupMenu.dart';
 
 class MainCard extends StatelessWidget {
-  const MainCard({
+  MainCard({
     Key key,
     @required this.cardData,
     this.index,
@@ -17,9 +18,11 @@ class MainCard extends StatelessWidget {
   final int index;
   final StockCard cardData;
   final CarouselController carouselController;
+  final TextEditingController _titleTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    _titleTextController.text = cardData.title;
     return Stack(
       children: <Widget>[
         Container(
@@ -38,7 +41,7 @@ class MainCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       AutoSizeText(
-                        '${cardData.title} ${cardData.emoji}',
+                        '${cardData.title}',
                         style: TextStyle(fontSize: 23.sp),
                       ),
                     ],
@@ -180,16 +183,10 @@ class MainCard extends StatelessWidget {
             ? SizedBox()
             : Positioned(
                 left: 262.w,
-                child: IconButton(
-                  icon: Icon(Icons.close),
-                  color: Colors.black,
-                  onPressed: () {
-                    Provider.of<UiDataProvider>(context, listen: false)
-                        .deleteCard(index: index);
-                    if (carouselController.ready) {
-                      carouselController.jumpToPage(index - 1);
-                    }
-                  },
+                child: PopupMenu(
+                  titleTextController: _titleTextController,
+                  index: index,
+                  carouselController: carouselController,
                 ),
               ),
       ],

@@ -1,8 +1,10 @@
-import 'package:stock_calculator/pages/list_screen/local_widgets/ListCard.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:stock_calculator/provider/cardCarousel_provider.dart';
 import 'package:stock_calculator/provider/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'local_widgets/list_screen_widgets.dart';
 
 import '../../constant.dart';
 
@@ -19,8 +21,11 @@ class ListScreen extends StatelessWidget {
                 (Provider.of<UiDataProvider>(context).primaryColor == red)
                     ? buttonRed
                     : buttonBlue,
-            title: Text(
-              '계산기 목록 🔎',
+            title: Padding(
+              padding: EdgeInsets.only(left: 67.w),
+              child: Text(
+                '계산기 목록 🔎',
+              ),
             ),
           ),
           body: ListView.separated(
@@ -40,14 +45,11 @@ class ListScreen extends StatelessWidget {
                   ),
                 );
               } else {
-                return null;
+                return ListAddCard(uiProvider: uiProvider);
               }
             },
             itemCount: uiProvider.stockCardList.length,
-            separatorBuilder: (context, index) => Divider(
-              height: 4,
-              color: Colors.grey,
-            ),
+            separatorBuilder: (context, index) => SizedBox(height: 0.h),
           ),
         );
       },

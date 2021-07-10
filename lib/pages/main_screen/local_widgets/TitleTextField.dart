@@ -48,7 +48,10 @@ class _TitleTextFieldState extends State<TitleTextField> {
           ),
         ),
         IconButton(
-          icon: Icon(Icons.edit),
+          icon: Icon(
+            Icons.edit,
+            color: Colors.grey[400],
+          ),
           onPressed: () {
             setState(() {
               titleProvider.toggleModifyMode();

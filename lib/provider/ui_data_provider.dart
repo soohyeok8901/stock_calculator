@@ -480,6 +480,7 @@ class UiDataProvider extends ChangeNotifier {
   void setTitle() {
     if (stockCardList[nowPageIndex].title.length > 0) {
       stockCardList[nowPageIndex].title = title;
+      saveData();
       notifyListeners();
     } else {
       return;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_calculator/provider/providers.dart';
 
@@ -20,7 +21,10 @@ class HelpScreenState extends State<HelpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('설명서'),
+        title: Padding(
+          padding: EdgeInsets.only(left: 97.w),
+          child: Text('설명서 💡'),
+        ),
         backgroundColor: Provider.of<UiDataProvider>(context).primaryColor,
       ),
       body: ImageSlideshow(

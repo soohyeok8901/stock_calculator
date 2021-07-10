@@ -134,17 +134,16 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  handleUiDataProvider.primaryColor,
-                  // Color(0xFFfe5196),
                   (handleUiDataProvider.primaryColor == grey)
                       ? grey
+                      : handleUiDataProvider.primaryColor,
+                  (handleUiDataProvider.primaryColor == grey)
+                      ? Colors.white
                       : (handleUiDataProvider.primaryColor == red)
                           ? Color(0xFFFFA99F)
                           : Color(0xFFe8198b),
                 ],
-
-                //  #FFE29F 0%, #FFA99F 48%, #FF719A 100%);
-                // stops: [0.3, 1],
+                //  #FFE29F , #FFA99F , #FF719A
               ),
             ),
             child: SafeArea(
@@ -186,19 +185,20 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                       /////////////////////////TitleTextField
                                       Padding(
                                         padding: EdgeInsets.fromLTRB(
-                                            50.w, 5.h, 50.w, 5.h),
-                                        child: TitleTextField(
-                                          context: context,
-                                          titleTextController: _titleTEC,
-                                          onChangedCB: (newData) {
-                                            handleUiDataProvider
-                                                .changeTitleData(newData);
-                                          },
-                                          onPressedCB: () {
-                                            //해당 pageIndex의 stock_card데이터의 title데이터 수정해야함.
-                                            handleUiDataProvider.setTitle();
-                                          },
-                                        ),
+                                            50.w, 25.h, 50.w, 5.h),
+                                        child: Container(),
+                                        // child: TitleTextField(
+                                        //   context: context,
+                                        //   titleTextController: _titleTEC,
+                                        //   onChangedCB: (newData) {
+                                        //     handleUiDataProvider
+                                        //         .changeTitleData(newData);
+                                        //   },
+                                        //   onPressedCB: () {
+                                        //     //해당 pageIndex의 stock_card데이터의 title데이터 수정해야함.
+                                        //     handleUiDataProvider.setTitle();
+                                        //   },
+                                        // ),
                                       ),
                                       /////////////////////////TextFields
                                       Column(
@@ -211,12 +211,12 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                             child: Column(
                                               children: [
                                                 buildExTextFieldColumn(context),
-                                                SizedBox(height: 10.h),
+                                                SizedBox(height: 18.h),
                                                 buildExTextFieldColumn2(
                                                     context),
-                                                SizedBox(height: 5.h),
+                                                SizedBox(height: 9.h),
                                                 kGreyDivider,
-                                                SizedBox(height: 5.h),
+                                                SizedBox(height: 9.h),
                                                 buildNewTextFieldColumn(
                                                     context),
                                               ],
@@ -522,9 +522,11 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                 child: MaterialButton(
                   minWidth: 30.w,
                   height: 30.h,
-                  color: (handleUiDataProvider.primaryColor == red)
-                      ? buttonRed
-                      : buttonBlue,
+                  color: (handleUiDataProvider.primaryColor == grey)
+                      ? grey
+                      : (handleUiDataProvider.primaryColor == red)
+                          ? buttonRed
+                          : buttonBlue,
                   child: kClearButtonText,
                   onPressed: clearCB,
                   elevation: 8,
@@ -538,9 +540,11 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                 child: MaterialButton(
                   minWidth: 30.w,
                   height: 30.h,
-                  color: (handleUiDataProvider.primaryColor == red)
-                      ? buttonRed
-                      : buttonBlue,
+                  color: (handleUiDataProvider.primaryColor == grey)
+                      ? grey
+                      : (handleUiDataProvider.primaryColor == red)
+                          ? buttonRed
+                          : buttonBlue,
                   child: kCalculateButtonText,
                   onPressed: _checkValidation() ? calcCB : null,
                   disabledColor: Colors.grey[800],
