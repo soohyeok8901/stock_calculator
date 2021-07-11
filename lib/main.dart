@@ -48,7 +48,9 @@ class AverageCalculator extends StatelessWidget {
               ListScreen.id: (context) => ListScreen(),
               HelpScreen.id: (context) => HelpScreen(),
             },
-            theme: ThemeData(fontFamily: 'GmarketSansMedium')),
+            theme: ThemeData(
+              fontFamily: 'S-Core_Dream',
+            )),
       ),
     );
   }

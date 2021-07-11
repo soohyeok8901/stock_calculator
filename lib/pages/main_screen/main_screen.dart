@@ -15,6 +15,7 @@ import './../screens.dart';
 
 //TODO: 실기기 테스트
 CarouselController carouselController = CarouselController();
+// bool isSettedTEC = false;
 
 class MainScreen extends StatefulWidget {
   static String id = 'main_screen';
@@ -140,7 +141,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                   (handleUiDataProvider.primaryColor == grey)
                       ? Colors.white
                       : (handleUiDataProvider.primaryColor == red)
-                          ? Color(0xFFFFA99F)
+                          ? Color(0xFFFEFFB0)
                           : Color(0xFFe8198b),
                 ],
                 //  #FFE29F , #FFA99F , #FF719A
@@ -152,21 +153,25 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                   Column(
                     children: <Widget>[
                       //////////////////////Top Container
+                      // Padding(
+                      //   padding: EdgeInsets.only(top: 10.h),
+                      //   child: Container(
+                      //     child: Text(
+                      //       handleUiDataProvider.emoji,
+                      //       style: kEmojiTextStyle,
+                      //       textAlign: kTextAlignCenter,
+                      //     ),
+                      //     // child: Text(
+                      //     //   '\n😟 😭 🤨 🙂\n😊 🥰 🥳\n',
+                      //     //   style: kEmojiTextStyle,
+                      //     //   textAlign: kTextAlignCenter,
+                      //     // ),
+                      //     decoration: kEmojiContainerBoxDecoration,
+                      //     padding: EdgeInsets.all(2),
+                      //   ),
+                      // ),
                       Padding(
-                        padding: EdgeInsets.only(top: 10.h),
-                        child: Container(
-                          // transform: Transform(transform: ,),
-                          child: Text(
-                            handleUiDataProvider.emoji,
-                            style: kEmojiTextStyle,
-                            textAlign: kTextAlignCenter,
-                          ),
-                          decoration: kEmojiContainerBoxDecoration,
-                          padding: EdgeInsets.all(2),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 20.h, top: 5.h),
+                        padding: EdgeInsets.only(bottom: 20.h, top: 50.h),
                         child: CardCarousel(
                           mainScreenUiCb: carouselOnPageChangedCb,
                           initPageNumber: handleUiDataProvider.nowPageIndex,
@@ -207,16 +212,16 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                         children: <Widget>[
                                           Padding(
                                             padding: EdgeInsets.symmetric(
-                                                horizontal: 20.w),
+                                                horizontal: 30.w),
                                             child: Column(
                                               children: [
                                                 buildExTextFieldColumn(context),
                                                 SizedBox(height: 18.h),
                                                 buildExTextFieldColumn2(
                                                     context),
-                                                SizedBox(height: 9.h),
+                                                SizedBox(height: 14.h),
                                                 kGreyDivider,
-                                                SizedBox(height: 9.h),
+                                                SizedBox(height: 8.h),
                                                 buildNewTextFieldColumn(
                                                     context),
                                               ],
@@ -226,7 +231,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                       ),
                                       /////////////////////////resultBox, banner
                                       Padding(
-                                        padding: EdgeInsets.only(top: 14.h),
+                                        padding: EdgeInsets.only(top: 22.h),
                                         child: Column(
                                           children: [
                                             //resultBox
@@ -237,9 +242,9 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                 calcCB: calculateButtonCB,
                                                 clearCB: clearButtonCB,
                                                 context: context),
-                                            SizedBox(height: 10.h),
+                                            SizedBox(height: 30.h),
                                             //배너
-                                            // ShowBannerAd(),
+                                            ShowBannerAd(),
                                           ],
                                         ),
                                       ),
@@ -251,7 +256,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                 child: WiseSayingGenerator(),
                               ),
                       ),
-                      ShowBannerAd(),
+                      // ShowBannerAd(),
                     ],
                   ),
                   Positioned(
@@ -586,12 +591,12 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                     hintText: '가격 입력',
                     titleText: '현재 평가금액',
                     onChangedCB: (newData) {
-                      Provider.of<UiDataProvider>(context, listen: false)
+                      handleUiDataProvider
                           .changeTotalValuationPriceData(newData);
                     },
                   ),
                 ),
-                SizedBox(width: 10.w),
+                SizedBox(width: 23.w),
                 Expanded(
                   child: InputTextField(
                     textController: _holdingQuantityTEC,
@@ -625,20 +630,18 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                     hintText: '가격 입력',
                     titleText: '현재 매입단가 (평단가)',
                     onChangedCB: (newData) {
-                      Provider.of<UiDataProvider>(context, listen: false)
-                          .changePurchasePriceData(newData);
+                      handleUiDataProvider.changePurchasePriceData(newData);
                     },
                   ),
                 ),
-                SizedBox(width: 10.w),
+                SizedBox(width: 23.w),
                 Expanded(
                   child: InputTextField(
                     textController: _currentStockPriceTEC,
                     hintText: '가격 입력',
                     titleText: '현재 주가',
                     onChangedCB: (newData) {
-                      Provider.of<UiDataProvider>(context, listen: false)
-                          .changeCurrentStockPriceData(newData);
+                      handleUiDataProvider.changeCurrentStockPriceData(newData);
                     },
                   ),
                 ),
@@ -664,20 +667,18 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                     hintText: '가격 입력',
                     titleText: '미래의 예상 주가',
                     onChangedCB: (newData) {
-                      Provider.of<UiDataProvider>(context, listen: false)
-                          .changeBuyPriceData(newData);
+                      handleUiDataProvider.changeBuyPriceData(newData);
                     },
                   ),
                 ),
-                SizedBox(width: 10.w),
+                SizedBox(width: 23.w),
                 Expanded(
                   child: InputTextField(
                     textController: _buyQuantityTEC,
                     hintText: '개수 입력',
                     titleText: '구매수량[주] (0주 가능)',
                     onChangedCB: (newData) {
-                      Provider.of<UiDataProvider>(context, listen: false)
-                          .changeBuyQuantityData(newData);
+                      handleUiDataProvider.changeBuyQuantityData(newData);
                     },
                   ),
                 ),

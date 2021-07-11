@@ -79,11 +79,11 @@ class UiDataProvider extends ChangeNotifier {
   int exAveragePurchase;
 
   //구매 이후 계산 결과들 - (계산된) 매입총액, 평단가, 수익률, (이전수익률+계산수익률) 평가금액, 평가손익
-  int calculatedTotalPurchase;
-  int calculatedAveragePurchase;
-  double calculatedYield;
-  int calculatedTotalValuation;
-  int calculatedValuationLoss;
+  int calculatedTotalPurchase = 0;
+  int calculatedAveragePurchase = 0;
+  double calculatedYield = 0;
+  int calculatedTotalValuation = 0;
+  int calculatedValuationLoss = 0;
 
   //                          계산 결과 텍스트들
   //계산된 평가총액, 계산된 평가손익
@@ -130,15 +130,17 @@ class UiDataProvider extends ChangeNotifier {
 
     //결과값 파트
     //근데 결과값도 만약 없으면 0원으로 표기되게 해뒀으니까 저장할 필요없음
-    totalValuationResultText = prefs.getString('totalValuationResultText');
-    valuationResultText = prefs.getString('valuationResultText');
-    yieldResultText = prefs.getString('yieldResultText');
-    purchasePriceResultText = prefs.getString('purchasePriceResultText');
-    valuationLossDiffText = prefs.getString('valuationLossDiffText');
-    averagePurchaseDiffText = prefs.getString('averagePurchaseDiffText');
-    yieldDiffText = prefs.getString('yieldDiffText');
-    emoji = prefs.getString('emoji');
-    calculatedYield = prefs.getDouble('calculatedYield');
+    totalValuationResultText =
+        prefs.getString('totalValuationResultText') ?? '0 원';
+    valuationResultText = prefs.getString('valuationResultText') ?? '0 원';
+    yieldResultText = prefs.getString('yieldResultText') ?? '0.00 %';
+    purchasePriceResultText =
+        prefs.getString('purchasePriceResultText') ?? '0 원';
+    valuationLossDiffText = prefs.getString('valuationLossDiffText') ?? '';
+    averagePurchaseDiffText = prefs.getString('averagePurchaseDiffText') ?? '';
+    yieldDiffText = prefs.getString('yieldDiffText') ?? '';
+    emoji = prefs.getString('emoji') ?? '🙂';
+    calculatedYield = prefs.getDouble('calculatedYield') ?? 0;
 
     //색깔 결정
     primaryColor = calcBrain.setColor(yieldResult: calculatedYield);
@@ -575,5 +577,16 @@ class UiDataProvider extends ChangeNotifier {
 
   bool get isLastPage {
     return _isLastPage;
+  }
+
+  int calculateTotalValuationSum() {
+    int totalSum = 0;
+    for (int i = 0; i < stockCardList.length - 1; i++) {
+      totalSum += calcBrain.calculateNewTotalValuation(
+          buyPrice: stockCardList[i].buyPrice,
+          holdingQuantity: stockCardList[i].holdingQuantity,
+          buyQuantity: stockCardList[i].buyQuantity);
+    }
+    return totalSum;
   }
 }

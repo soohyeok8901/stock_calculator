@@ -1,5 +1,6 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 const INF = double.infinity;
 Color green = Color(0xFF44D375);
@@ -13,7 +14,7 @@ Color grey = Color(0xFF8D8D8D);
 
 //////////////////////////// Emoji Container
 const kEmojiTextStyle = TextStyle(
-  fontSize: 90,
+  fontSize: 60,
 );
 
 const kTextAlignCenter = TextAlign.center;
@@ -98,8 +99,9 @@ const kAveragePurchaseDiffTextStyle = TextStyle(
 );
 
 //////////////////////////////InputTextField
-const kInputTextFieldTitleTextStyle = TextStyle(
-  fontWeight: FontWeight.bold,
+var kInputTextFieldTitleTextStyle = TextStyle(
+  // fontWeight: FontWeight.bold,
+  fontSize: 13.sp,
 );
 
 var kInputTextFieldEnableBorder = OutlineInputBorder(

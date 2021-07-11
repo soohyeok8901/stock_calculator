@@ -25,7 +25,10 @@ class HelpScreenState extends State<HelpScreen> {
       appBar: AppBar(
         title: Padding(
           padding: EdgeInsets.only(left: 97.w),
-          child: Text('설명서 💡'),
+          child: Text(
+            '설명서 💡',
+            // style: TextStyle(fontWeight: FontWeight.bold),
+          ),
         ),
         backgroundColor:
             (Provider.of<UiDataProvider>(context).primaryColor == grey)
@@ -35,7 +38,7 @@ class HelpScreenState extends State<HelpScreen> {
                     : buttonBlue,
       ),
       body: Padding(
-        padding: EdgeInsets.all(13.w),
+        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 17.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

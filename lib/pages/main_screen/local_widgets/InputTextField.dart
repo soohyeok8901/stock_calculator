@@ -26,8 +26,8 @@ class InputTextField extends StatelessWidget {
         ),
         SizedBox(height: 8.h),
         Container(
-          height: 33.h,
-          width: 200.w,
+          height: 28.h,
+          width: 170.w,
           child: TextField(
             controller: textController,
             inputFormatters: [

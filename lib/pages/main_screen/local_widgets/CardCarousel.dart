@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../main_screen.dart';
 import 'AddCard.dart';
 import 'MainCard.dart';
 
@@ -47,7 +48,7 @@ class _CardCarouselState extends State<CardCarousel> {
               itemCount: uiProvider.stockCardList.length,
               carouselController: cardCarouselProvider.carouselController,
               options: CarouselOptions(
-                height: 210.h,
+                height: 220.h,
                 enableInfiniteScroll: false,
                 enlargeCenterPage: true,
                 viewportFraction: 0.8,
@@ -59,6 +60,8 @@ class _CardCarouselState extends State<CardCarousel> {
                   cb(); // main_screen.dart textField 갱신
                   _checkPageIndex(uiProvider); // Main Container 조건부 렌더링용
                   titleProvider.setFalse();
+                  FocusScope.of(context)
+                      .requestFocus(FocusNode()); //스와이프 시, FN unfocus
                 },
               ),
               itemBuilder: (context, index, _) {

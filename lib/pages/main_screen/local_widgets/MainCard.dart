@@ -42,7 +42,8 @@ class MainCard extends StatelessWidget {
                     children: <Widget>[
                       AutoSizeText(
                         '${cardData.title}',
-                        style: TextStyle(fontSize: 23.sp),
+                        style: TextStyle(
+                            fontSize: 23.sp, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -52,7 +53,7 @@ class MainCard extends StatelessWidget {
                   children: <Widget>[
                     Expanded(
                       child: SizedBox(
-                        height: 60,
+                        height: 64.h,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
@@ -67,6 +68,7 @@ class MainCard extends StatelessWidget {
                               '${cardData.totalValuationResultText}',
                               style: TextStyle(
                                 fontSize: 15.sp,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                             AutoSizeText(''),
@@ -76,7 +78,7 @@ class MainCard extends StatelessWidget {
                     ),
                     Expanded(
                       child: SizedBox(
-                        height: 60,
+                        height: 64.h,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
@@ -92,6 +94,7 @@ class MainCard extends StatelessWidget {
                               style: TextStyle(
                                 color: cardData.primaryColor,
                                 fontSize: 15.sp,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                             SizedBox(height: 2.h),
@@ -99,6 +102,7 @@ class MainCard extends StatelessWidget {
                               '${cardData.valuationLossDiffText}',
                               style: TextStyle(
                                 fontSize: 9.sp,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ],
@@ -112,7 +116,7 @@ class MainCard extends StatelessWidget {
                   children: <Widget>[
                     Expanded(
                       child: SizedBox(
-                        height: 60,
+                        height: 64.h,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
@@ -129,6 +133,7 @@ class MainCard extends StatelessWidget {
                               style: TextStyle(
                                 color: cardData.primaryColor,
                                 fontSize: 15.sp,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                             SizedBox(height: 2.h),
@@ -136,6 +141,7 @@ class MainCard extends StatelessWidget {
                               '${cardData.yieldDiffText}',
                               style: TextStyle(
                                 fontSize: 12.sp,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ],
@@ -144,7 +150,7 @@ class MainCard extends StatelessWidget {
                     ),
                     Expanded(
                       child: SizedBox(
-                        height: 60,
+                        height: 64.h,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
@@ -160,6 +166,7 @@ class MainCard extends StatelessWidget {
                               style: TextStyle(
                                 color: cardData.primaryColor,
                                 fontSize: 15.sp,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                             SizedBox(height: 2.h),
@@ -167,6 +174,7 @@ class MainCard extends StatelessWidget {
                               '${cardData.averagePurchaseDiffText}',
                               style: TextStyle(
                                 fontSize: 9.sp,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ],

@@ -65,3 +65,19 @@ flutter:
     - family: Cafe24Simplehae
       fonts:
         - asset: assets/fonts/Cafe24Simplehae.ttf
+
+    - family: NotoSansKR
+      fonts:
+        - asset: assets/fonts/Noto_Sans_KR/NotoSansKR-Regular.otf
+          weight: 100
+        - asset: assets/fonts/Noto_Sans_KR/NotoSansKR-Thin.otf
+          weight: 300
+        - asset: assets/fonts/Noto_Sans_KR/NotoSansKR-Light.otf
+
+    - family: S-Core_Dream
+      fonts:
+        - asset: assets/fonts/S-Core_Dream_OTF/SCDream3.otf
+          weight: 200
+        - asset: assets/fonts/S-Core_Dream_OTF/SCDream2.otf
+          weight: 100
+        - asset: assets/fonts/S-Core_Dream_OTF/SCDream1.otf

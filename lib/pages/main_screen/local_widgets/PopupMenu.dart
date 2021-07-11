@@ -40,9 +40,12 @@ class PopupMenu extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                     ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
                     content: SizedBox(
                       width: 500.w,
-                      height: 140.h,
+                      height: 150.h,
                       child: Column(
                         children: <Widget>[
                           SizedBox(height: 10.h),
@@ -74,6 +77,7 @@ class PopupMenu extends StatelessWidget {
                                 height: 30.h,
                                 shape: RoundedRectangleBorder(
                                   side: BorderSide(color: Colors.grey[400]),
+                                  borderRadius: BorderRadius.circular(30),
                                 ),
                                 color: Colors.white,
                                 focusColor: Colors.black,
@@ -116,6 +120,9 @@ class PopupMenu extends StatelessWidget {
                   '삭제하시겠습니까?  ⚠️',
                   textAlign: TextAlign.center,
                 ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
@@ -125,6 +132,7 @@ class PopupMenu extends StatelessWidget {
                       // color: Colors.grey[100],
                       shape: RoundedRectangleBorder(
                         side: BorderSide(color: Colors.grey[500]),
+                        borderRadius: BorderRadius.circular(30),
                       ),
                       onPressed: () {
                         Navigator.pop(context);
@@ -138,6 +146,7 @@ class PopupMenu extends StatelessWidget {
                       // color: Colors.grey[100],
                       shape: RoundedRectangleBorder(
                         side: BorderSide(color: Colors.grey[500]),
+                        borderRadius: BorderRadius.circular(30),
                       ),
                       onPressed: () {
                         Provider.of<UiDataProvider>(context, listen: false)
