@@ -1,31 +1,43 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:stock_calculator/provider/ui_data_provider.dart';
 
 const INF = double.infinity;
 Color green = Color(0xFF44D375);
-Color weakGreen = Color(0xFFf3ffed);
 Color red = Colors.red[700];
-Color buttonRed = Colors.red[500];
+Color buttonRed = Color(0xFFf15c5c);
 Color blue = Colors.blue[800];
-Color buttonBlue = Colors.blue[700];
-Color weakRed = Color(0xFFF5E1DD);
+Color buttonBlue = Color(0xFF4F86C6);
 Color grey = Color(0xFF8D8D8D);
+Color buttonGrey = Color(0xFF566270);
 
-//////////////////////////// Emoji Container
-const kEmojiTextStyle = TextStyle(
-  fontSize: 60,
+//* main Conatiner
+var kMainConatinerPadding = Padding(
+  padding: EdgeInsets.fromLTRB(50.w, 10.h, 50.w, 5.h),
+  child: Container(),
 );
 
-const kTextAlignCenter = TextAlign.center;
+BoxDecoration kMainContainerBoxDecoration(UiDataProvider handleUiDataProvider) {
+  return BoxDecoration(
+    gradient: LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        (handleUiDataProvider.primaryColor == grey)
+            ? grey
+            : handleUiDataProvider.primaryColor,
+        (handleUiDataProvider.primaryColor == grey)
+            ? Colors.white
+            : (handleUiDataProvider.primaryColor == red)
+                ? Color(0xFFFEFFB0)
+                : Color(0xFFe8198b),
+      ],
+      //  #FFE29F , #FFA99F , #FF719A
+    ),
+  );
+}
 
-var kEmojiContainerBoxDecoration = BoxDecoration(
-  color: Colors.white,
-  border: Border.all(width: 0.05),
-  borderRadius: BorderRadius.circular(100),
-);
-
-//////////////////////////// main Conatiner
 const kMainContainerBorderRadius = BoxDecoration(
   color: Colors.white,
   borderRadius: BorderRadius.only(
@@ -40,65 +52,7 @@ const kGreyDivider = Divider(
   color: Colors.grey,
 );
 
-///////////////////////////// buttonBuilder
-const kClearButtonText = Text(
-  '초기화',
-  style: TextStyle(
-    color: Colors.white,
-    fontSize: 17,
-  ),
-);
-
-const kCalculateButtonText = Text(
-  '계산',
-  style: TextStyle(
-    color: Colors.white,
-    fontSize: 17,
-  ),
-);
-
-/////////////////////////////ResultBox
-const kTotalValuationTitle = AutoSizeText(
-  '평가총액',
-  style: TextStyle(
-    fontSize: 25,
-    fontWeight: FontWeight.bold,
-  ),
-  maxLines: 1,
-);
-
-const kTotalValuationTextStyle = TextStyle(
-  fontSize: 25,
-  fontWeight: FontWeight.bold,
-);
-
-const kYieldTitle = AutoSizeText(
-  '수익률',
-  style: TextStyle(
-    fontSize: 25,
-    fontWeight: FontWeight.bold,
-  ),
-  maxLines: 1,
-);
-
-const kPurchasePriceTitle = AutoSizeText(
-  '평단가  ',
-  style: TextStyle(
-    fontSize: 25,
-    fontWeight: FontWeight.bold,
-  ),
-  maxLines: 1,
-);
-
-const kAveragePurchaseDiffTextStyle = TextStyle(
-  fontSize: 23,
-  textBaseline: TextBaseline.alphabetic,
-  fontWeight: FontWeight.bold,
-  color: Colors.black,
-  fontFamily: 'Cafe24Simplehae',
-);
-
-//////////////////////////////InputTextField
+//*InputTextField
 var kInputTextFieldTitleTextStyle = TextStyle(
   // fontWeight: FontWeight.bold,
   fontSize: 13.sp,
@@ -120,13 +74,72 @@ var kInputTextFieldFocusedBorder = OutlineInputBorder(
   ),
 );
 
-/////////////////Carousel Card
+//*Carousel Card
 const kCarouselCardDecoration = BoxDecoration(
   color: Colors.white,
   borderRadius: BorderRadius.all(Radius.circular(15)),
 );
 
-/////////////////list_screen card
+//* list_screen card
 const kListCardDecoration = BoxDecoration(
   borderRadius: BorderRadius.all(Radius.circular(15)),
+);
+
+//* CustomButton Widget
+var kRoundedRectangleBorder = RoundedRectangleBorder(
+  borderRadius: BorderRadius.circular(10.r),
+);
+
+const kClearButtonText = Text(
+  '초기화',
+  style: TextStyle(
+    color: Colors.white,
+    fontSize: 17,
+    fontWeight: FontWeight.bold,
+    // fontFamily: 'S-Core_Dream',
+  ),
+);
+
+const kCalculateButtonText = Text(
+  '주가변동에의한 \n수익/손익',
+  style: TextStyle(
+    color: Colors.white,
+    fontSize: 17,
+    fontWeight: FontWeight.bold,
+    // fontFamily: 'S-Core_Dream',
+  ),
+  textAlign: TextAlign.center,
+);
+
+const kYieldButtonText = Text(
+  '타겟 수익률의\n목표주가',
+  style: TextStyle(
+    color: Colors.white,
+    fontSize: 17,
+    fontWeight: FontWeight.bold,
+    // fontFamily: 'S-Core_Dream',
+  ),
+  textAlign: TextAlign.center,
+);
+
+const kAccumulateButtonText = Text(
+  '현재잔고기점 \n분할매수',
+  style: TextStyle(
+    color: Colors.white,
+    fontSize: 17,
+    fontWeight: FontWeight.bold,
+    // fontFamily: 'S-Core_Dream',
+  ),
+  textAlign: TextAlign.center,
+);
+
+const kDistributeButtonText = Text(
+  '현재잔고기점 \n분할매도',
+  style: TextStyle(
+    color: Colors.white,
+    fontSize: 17,
+    fontWeight: FontWeight.bold,
+    // fontFamily: 'S-Core_Dream',
+  ),
+  textAlign: TextAlign.center,
 );

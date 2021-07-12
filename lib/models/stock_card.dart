@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 class StockCard {
   StockCard(
       {this.primaryColor,
-      this.emoji,
       this.title,
       this.totalValuationPrice,
       this.holdingQuantity,
@@ -21,24 +20,35 @@ class StockCard {
       this.purchasePriceResultText,
       this.averagePurchaseDiffText,
       this.valuationLossDiffText,
+      this.tax,
+      this.tradingFee,
+      this.currency,
+      this.exchangeRate,
       this.isEnd = false});
 
   // 색, 이모지
   Color primaryColor;
-  String emoji;
 
   //타이틀
   String title;
 
   // Row1 - 평가금액, 총 보유수량[주]
-  int totalValuationPrice;
-  int holdingQuantity;
+  var totalValuationPrice;
+  var holdingQuantity;
   // Row 2 - 매입 단가(현재 평단가), 현재 주가
-  int purchasePrice;
-  int currentStockPrice;
+  var purchasePrice;
+  var currentStockPrice;
   //Row3 - 구매할 주식의 예상가격, 구매할 예상수량[주]
-  int buyPrice;
-  int buyQuantity;
+  var buyPrice;
+  var buyQuantity;
+
+  //세금, 매매수수료
+  var tax; //0.015 %
+  var tradingFee; // 0.25 %
+
+  //현재 통화, 환율
+  String currency;
+  double exchangeRate = 1130;
 
   //                          계산 결과 텍스트들
   //계산된 평가총액, 계산된 평가손익
@@ -80,7 +90,6 @@ class StockCard {
 
       return StockCard(
         primaryColor: newColor,
-        emoji: jsonData['emoji'],
         title: jsonData['title'],
         totalValuationPrice: jsonData['totalValuationPrice'],
         holdingQuantity: jsonData['holdingQuantity'],
@@ -95,6 +104,10 @@ class StockCard {
         purchasePriceResultText: jsonData['purchasePriceResultText'],
         averagePurchaseDiffText: jsonData['averagePurchaseDiffText'],
         valuationLossDiffText: jsonData['valuationLossDiffText'],
+        tax: jsonData['tax'],
+        tradingFee: jsonData['tradingFee'],
+        currency: jsonData['currency'],
+        exchangeRate: jsonData['exchangeRate'],
         isEnd: false,
       );
     } else {
@@ -104,7 +117,6 @@ class StockCard {
 
   static Map<String, dynamic> toMap(StockCard stockCard) => {
         'primaryColor': stockCard.primaryColor.toString(),
-        'emoji': stockCard.emoji,
         'title': stockCard.title,
         'totalValuationPrice': stockCard.totalValuationPrice,
         'holdingQuantity': stockCard.holdingQuantity,
@@ -119,6 +131,10 @@ class StockCard {
         'purchasePriceResultText': stockCard.purchasePriceResultText,
         'averagePurchaseDiffText': stockCard.averagePurchaseDiffText,
         'valuationLossDiffText': stockCard.valuationLossDiffText,
+        'tax': stockCard.tax,
+        'tradingFee': stockCard.tradingFee,
+        'currency': stockCard.currency,
+        'exchangeRate': stockCard.exchangeRate,
         'isEnd': stockCard.isEnd,
       };
 

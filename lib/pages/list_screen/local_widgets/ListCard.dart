@@ -32,45 +32,54 @@ class ListCard extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                // Expanded(
-                //   flex: 1,
-                //   child: Text(
-                //     '${uiProvider.stockCardList[index].emoji}',
-                //     style: TextStyle(fontSize: 23.sp),
-                //   ),
-                // ),
+                Expanded(
+                  flex: 1,
+                  child: Text(
+                    (uiProvider.stockCardList[index].currency == '원')
+                        ? '🇰🇷'
+                        : (uiProvider.stockCardList[index].currency == '달러')
+                            ? '🇺🇸'
+                            : '🪙',
+                    style: TextStyle(fontSize: 23.sp),
+                  ),
+                ),
                 SizedBox(width: 10.w),
-                SizedBox(
-                  width: 150.w,
-                  child: AutoSizeText(
-                    '${uiProvider.stockCardList[index].title}',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                Expanded(
+                  flex: 5,
+                  child: SizedBox(
+                    width: 10.w,
+                    child: AutoSizeText(
+                      '${uiProvider.stockCardList[index].title}',
+                      style: TextStyle(),
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: 200.w,
-                  height: 111.h,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      AutoSizeText(
-                        '${uiProvider.stockCardList[index].totalValuationResultText}',
-                        style: TextStyle(
-                          fontSize: 21.sp,
+                Expanded(
+                  flex: 6,
+                  child: SizedBox(
+                    // width: 390.w,
+                    // height: 111.h,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        AutoSizeText(
+                          '${uiProvider.stockCardList[index].totalValuationResultText}',
+                          style: TextStyle(
+                            fontSize: 21.sp,
+                            // fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      AutoSizeText(
-                        '${uiProvider.stockCardList[index].valuationResultText} (${uiProvider.stockCardList[index].yieldResultText})',
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.bold,
-                          color: uiProvider.stockCardList[index].primaryColor,
+                        AutoSizeText(
+                          '${uiProvider.stockCardList[index].valuationResultText} (${uiProvider.stockCardList[index].yieldResultText})',
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.bold,
+                            color: uiProvider.stockCardList[index].primaryColor,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ],

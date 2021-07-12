@@ -48,7 +48,7 @@ class _CardCarouselState extends State<CardCarousel> {
               itemCount: uiProvider.stockCardList.length,
               carouselController: cardCarouselProvider.carouselController,
               options: CarouselOptions(
-                height: 220.h,
+                height: 218.h,
                 enableInfiniteScroll: false,
                 enlargeCenterPage: true,
                 viewportFraction: 0.8,

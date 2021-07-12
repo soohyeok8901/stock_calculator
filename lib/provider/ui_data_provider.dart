@@ -11,7 +11,7 @@ class UiDataProvider extends ChangeNotifier {
   List<StockCard> stockCardList = [
     StockCard(
       primaryColor: grey,
-      emoji: '🙂',
+      // emoji: '🙂',
       title: '계산기 1',
       totalValuationPrice: 0,
       holdingQuantity: 0,
@@ -26,10 +26,14 @@ class UiDataProvider extends ChangeNotifier {
       yieldDiffText: '',
       purchasePriceResultText: '0 원',
       averagePurchaseDiffText: '',
+      tax: 0.015,
+      tradingFee: 0.25,
+      currency: '원',
+      exchangeRate: 1130,
     ),
     StockCard(
       primaryColor: null,
-      emoji: null,
+      // emoji: null,
       title: null,
       totalValuationPrice: null,
       holdingQuantity: null,
@@ -43,13 +47,17 @@ class UiDataProvider extends ChangeNotifier {
       yieldDiffText: null,
       purchasePriceResultText: null,
       averagePurchaseDiffText: null,
+      tax: null,
+      tradingFee: null,
+      currency: null,
+      exchangeRate: null,
       isEnd: true,
     ),
   ];
 
   //color, emoji
   Color primaryColor = grey;
-  String emoji = '🙂';
+  // String emoji = '🙂';
 
   //타이틀
   String title;
@@ -60,23 +68,23 @@ class UiDataProvider extends ChangeNotifier {
   ///
   ///
   //Row1 - 현재 평가금액, 현재 보유수량
-  int totalValuationPrice;
-  int holdingQuantity;
+  var totalValuationPrice;
+  var holdingQuantity;
 
   //Row2 - 매입 단가(현재 평단가), 현재 주가
-  int purchasePrice;
-  int currentStockPrice;
+  var purchasePrice;
+  var currentStockPrice;
 
   //Row3 - 구매할 주식의 예상가격, 구매할 예상수량[주]
-  int buyPrice;
-  int buyQuantity;
+  var buyPrice;
+  var buyQuantity;
 
   //중간계산용 - 기존 매입총액, 기존 평가 손익, 기존 수익률, 기존 평단가
   //            구매 이전 보유 주식의 계산 결과들 (평단가 차이, 수익률 차이를 위한 변수들)
-  int exTotalPurchase;
-  int exValuationLoss;
+  var exTotalPurchase;
+  var exValuationLoss;
   double exYield;
-  int exAveragePurchase;
+  var exAveragePurchase;
 
   //구매 이후 계산 결과들 - (계산된) 매입총액, 평단가, 수익률, (이전수익률+계산수익률) 평가금액, 평가손익
   int calculatedTotalPurchase = 0;
@@ -104,8 +112,13 @@ class UiDataProvider extends ChangeNotifier {
   int nowPageIndex = 0;
   bool _isLastPage = false; // main_screen 에서 main Container 조건부 렌더링하는데에 사용됩니다.
 
-  bool isFirst;
   bool isEnd;
+
+  ///세금, 매매수수료, 통화, 환율
+  double tax;
+  double tradingFee;
+  String currency;
+  var exchangeRate;
 
   CalcBrain calcBrain = CalcBrain();
 
@@ -139,7 +152,7 @@ class UiDataProvider extends ChangeNotifier {
     valuationLossDiffText = prefs.getString('valuationLossDiffText') ?? '';
     averagePurchaseDiffText = prefs.getString('averagePurchaseDiffText') ?? '';
     yieldDiffText = prefs.getString('yieldDiffText') ?? '';
-    emoji = prefs.getString('emoji') ?? '🙂';
+    // emoji = prefs.getString('emoji') ?? '🙂';
     calculatedYield = prefs.getDouble('calculatedYield') ?? 0;
 
     //색깔 결정
@@ -180,7 +193,7 @@ class UiDataProvider extends ChangeNotifier {
     prefs.setString('valuationLossDiffText', valuationLossDiffText);
     prefs.setString('averagePurchaseDiffText', averagePurchaseDiffText);
     prefs.setString('yieldDiffText', yieldDiffText);
-    prefs.setString('emoji', emoji);
+    // prefs.setString('emoji', emoji);
     prefs.setDouble('calculatedYield', calculatedYield);
 
     //stockCardList 파트
@@ -217,7 +230,7 @@ class UiDataProvider extends ChangeNotifier {
     prefs.setString('valuationLossDiffText', valuationLossDiffText);
     prefs.setString('averagePurchaseDiffText', averagePurchaseDiffText);
     prefs.setString('yieldDiffText', yieldDiffText);
-    prefs.setString('emoji', emoji);
+    // prefs.setString('emoji', emoji);
     prefs.setDouble('calculatedYield', 0);
   }
 
@@ -331,7 +344,7 @@ class UiDataProvider extends ChangeNotifier {
 
     //ui용 색, 이모지
     primaryColor = calcBrain.setColor(yieldResult: calculatedYield);
-    emoji = calcBrain.setEmoji(yieldResult: calculatedYield);
+    // emoji = calcBrain.setEmoji(yieldResult: calculatedYield);
 
     notifyListeners();
     //키보드 끄기
@@ -353,7 +366,7 @@ class UiDataProvider extends ChangeNotifier {
     averagePurchaseDiffText = '';
 
     primaryColor = grey;
-    emoji = '🙂';
+    // emoji = '🙂';
 
     notifyListeners();
   }
@@ -454,7 +467,7 @@ class UiDataProvider extends ChangeNotifier {
     print('$nowPageIndex 에 저장');
     if (nowPageIndex != stockCardList.length - 1) {
       stockCardList[nowPageIndex].primaryColor = primaryColor;
-      stockCardList[nowPageIndex].emoji = emoji;
+      // stockCardList[nowPageIndex].emoji = emoji;
 
       stockCardList[nowPageIndex].totalValuationPrice = totalValuationPrice;
       stockCardList[nowPageIndex].holdingQuantity = holdingQuantity;
@@ -497,7 +510,7 @@ class UiDataProvider extends ChangeNotifier {
     //인덱스에 따른 데이터들을 필드들에 저장하면 되겠죠??
     if (index != stockCardList.length - 1) {
       primaryColor = stockCardList[index].primaryColor;
-      emoji = stockCardList[index].emoji;
+      // emoji = stockCardList[index].emoji;
       title = stockCardList[index].title;
       totalValuationPrice = stockCardList[index].totalValuationPrice;
       holdingQuantity = stockCardList[index].holdingQuantity;
@@ -522,7 +535,7 @@ class UiDataProvider extends ChangeNotifier {
     print('addCard() 실행');
     var newStockCard = StockCard(
       primaryColor: grey,
-      emoji: '🙂',
+      // emoji: '🙂',
       title: '계산기 ${stockCardList.length}',
       totalValuationPrice: 0,
       holdingQuantity: 0,
@@ -537,6 +550,10 @@ class UiDataProvider extends ChangeNotifier {
       purchasePriceResultText: '0 원',
       averagePurchaseDiffText: '',
       valuationLossDiffText: '',
+      tax: 0.25,
+      tradingFee: 0.015,
+      currency: '원',
+      exchangeRate: 1130,
     );
 
     if (stockCardList.length == 2) {
@@ -589,4 +606,41 @@ class UiDataProvider extends ChangeNotifier {
     }
     return totalSum;
   }
+
+  void setTaxTradingFee({double tax, double tradingFee}) {
+    stockCardList[nowPageIndex].tax = tax;
+    stockCardList[nowPageIndex].tradingFee = tradingFee;
+    notifyListeners();
+  }
+
+  void setCurrency({String currency}) {
+    stockCardList[nowPageIndex].currency = currency;
+    notifyListeners();
+  }
+
+  void setExRate({double exRate}) {
+    stockCardList[nowPageIndex].exchangeRate = exRate;
+    notifyListeners();
+  }
+
+  String getFlag() {
+    if (stockCardList[nowPageIndex].currency == '원') {
+      return '🇰🇷';
+    } else if (stockCardList[nowPageIndex].currency == '달러') {
+      return '🇺🇸';
+    } else {
+      return '🪙';
+    }
+  }
+
+  //TODO: 원, 달러 (화폐단위)를 관리하는 메서드
+  String getCurrency() {
+    if (stockCardList[nowPageIndex].currency == '원') {
+      return '[원]';
+    } else {
+      return '[달러]';
+    }
+  }
+
+  //TODO: 음
 }

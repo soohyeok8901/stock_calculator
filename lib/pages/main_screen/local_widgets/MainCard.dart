@@ -1,10 +1,12 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:stock_calculator/constant.dart';
 import 'package:stock_calculator/models/stock_card.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:stock_calculator/provider/providers.dart';
 
 import 'PopupMenu.dart';
 
@@ -19,10 +21,17 @@ class MainCard extends StatelessWidget {
   final StockCard cardData;
   final CarouselController carouselController;
   final TextEditingController _titleTextController = TextEditingController();
+  final TextEditingController _taxTextController = TextEditingController();
+  final TextEditingController _tradingFeeTextController =
+      TextEditingController();
+  final TextEditingController _exRateTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     _titleTextController.text = cardData.title;
+    _taxTextController.text = cardData.tax.toString();
+    _tradingFeeTextController.text = cardData.tradingFee.toString();
+    // _exRateTextController.text = cardData.exchangeRateDoller.toString();
     return Stack(
       children: <Widget>[
         Container(
@@ -32,7 +41,7 @@ class MainCard extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 7.h),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               //              카드 생성 파트
               children: <Widget>[
                 Padding(
@@ -41,13 +50,14 @@ class MainCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       AutoSizeText(
-                        '${cardData.title}',
+                        '${cardData.title} ${Provider.of<UiDataProvider>(context).getFlag()}',
                         style: TextStyle(
                             fontSize: 23.sp, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
                 ),
+                // SizedBox(height: 5.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
@@ -68,7 +78,7 @@ class MainCard extends StatelessWidget {
                               '${cardData.totalValuationResultText}',
                               style: TextStyle(
                                 fontSize: 15.sp,
-                                fontWeight: FontWeight.bold,
+                                // fontWeight: FontWeight.bold,
                               ),
                             ),
                             AutoSizeText(''),
@@ -94,15 +104,15 @@ class MainCard extends StatelessWidget {
                               style: TextStyle(
                                 color: cardData.primaryColor,
                                 fontSize: 15.sp,
-                                fontWeight: FontWeight.bold,
+                                // fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(height: 2.h),
+                            // SizedBox(height: 2.h),
                             AutoSizeText(
                               '${cardData.valuationLossDiffText}',
                               style: TextStyle(
                                 fontSize: 9.sp,
-                                fontWeight: FontWeight.bold,
+                                // fontWeight: FontWeight.bold,
                               ),
                             ),
                           ],
@@ -111,6 +121,7 @@ class MainCard extends StatelessWidget {
                     ),
                   ],
                 ),
+                // SizedBox(height: 3.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
@@ -133,15 +144,15 @@ class MainCard extends StatelessWidget {
                               style: TextStyle(
                                 color: cardData.primaryColor,
                                 fontSize: 15.sp,
-                                fontWeight: FontWeight.bold,
+                                // fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(height: 2.h),
+                            // SizedBox(height: 2.h),
                             AutoSizeText(
                               '${cardData.yieldDiffText}',
                               style: TextStyle(
                                 fontSize: 12.sp,
-                                fontWeight: FontWeight.bold,
+                                // fontWeight: FontWeight.bold,
                               ),
                             ),
                           ],
@@ -166,15 +177,15 @@ class MainCard extends StatelessWidget {
                               style: TextStyle(
                                 color: cardData.primaryColor,
                                 fontSize: 15.sp,
-                                fontWeight: FontWeight.bold,
+                                // fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(height: 2.h),
+                            // SizedBox(height: 2.h),
                             AutoSizeText(
                               '${cardData.averagePurchaseDiffText}',
                               style: TextStyle(
                                 fontSize: 9.sp,
-                                fontWeight: FontWeight.bold,
+                                // fontWeight: FontWeight.bold,
                               ),
                             ),
                           ],
@@ -183,17 +194,27 @@ class MainCard extends StatelessWidget {
                     ),
                   ],
                 ),
+                // SizedBox(height: 3.h),
               ],
             ),
           ),
         ),
         Positioned(
-          left: 262.w,
-          child: PopupMenu(
-            titleTextController: _titleTextController,
-            index: index,
-            carouselController: carouselController,
+          right: 23.w,
+          top: 18.h,
+          //TODO: Dialog 띄우도록 수정합시다.
+          child: Icon(
+            Icons.more_horiz,
           ),
+          // child: PopupMenu(
+          //   titleTextController: _titleTextController,
+          //   taxTextController: _taxTextController,
+          //   tradingFeeTextController: _tradingFeeTextController,
+          //   exRateTextController: _exRateTextController,
+          //   index: index,
+          //   carouselController: carouselController,
+          //   cardData: cardData,
+          // ),
         ),
       ],
     );

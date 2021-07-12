@@ -30,9 +30,6 @@ class InputTextField extends StatelessWidget {
           width: 170.w,
           child: TextField(
             controller: textController,
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp('[0-9]')), //0~9만 입력가능
-            ],
             textAlignVertical: TextAlignVertical.bottom,
             decoration: InputDecoration(
               hintText: hintText,

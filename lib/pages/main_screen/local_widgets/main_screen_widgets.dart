@@ -4,3 +4,4 @@ export 'CardCarousel.dart';
 export 'InputTextField.dart';
 export 'TitletextField.dart';
 export 'WiseSayingGenerator.dart';
+export 'CustomButton.dart';

@@ -13,24 +13,6 @@ class CalcBrain extends ChangeNotifier {
     }
   }
 
-  String setEmoji({double yieldResult}) {
-    if ((yieldResult < -30)) {
-      return '😭';
-    } else if ((yieldResult >= -30 && yieldResult < -10)) {
-      return '😟';
-    } else if ((yieldResult >= -10 && yieldResult < 0)) {
-      return '🤨';
-    } else if ((yieldResult >= 0 && yieldResult < 4)) {
-      return '🙂';
-    } else if ((yieldResult >= 4 && yieldResult < 14)) {
-      return '😊';
-    } else if ((yieldResult >= 14 && yieldResult < 23)) {
-      return '🥰';
-    } else {
-      return '🥳';
-    }
-  }
-
   //////////////////////물타기 계산기 파트
   //기존 매입총액 계산 = 평가총액 - 매입총액
   int calculateExTotalPurchase({int purchasePrice, int holdingQuantity}) {
@@ -143,4 +125,27 @@ class CalcBrain extends ChangeNotifier {
       return int.parse(input);
     }
   }
+
+  // double sanitizeCommaForTax(String input) {
+  //   List splitedInput;
+  //   if (input.length == 0) {
+  //     return null;
+  //   }
+
+  //   if (input.contains(',')) {
+  //     splitedInput = input.split(',');
+  //     String joinedInput = splitedInput.join("");
+  //     return double.parse(joinedInput);
+  //   } else if (input.contains('.')) {
+  //     splitedInput = input.split('.');
+  //     String joinedInput = splitedInput.join("");
+  //     return double.parse(joinedInput);
+  //   } else if (input.contains('-')) {
+  //     splitedInput = input.split('-');
+  //     String joinedInput = splitedInput.join("");
+  //     return double.parse(joinedInput);
+  //   } else {
+  //     return double.parse(input);
+  //   }
+  // }
 }

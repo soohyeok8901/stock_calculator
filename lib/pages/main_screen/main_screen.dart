@@ -1,21 +1,16 @@
 import 'package:stock_calculator/constant.dart';
-import 'package:stock_calculator/utils/calculator.dart';
 
 import 'package:stock_calculator/provider/ui_data_provider.dart';
-import 'package:stock_calculator/widgets/banner_ad.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'local_widgets/main_screen_widgets.dart';
-import './../screens.dart';
+import './../../utils/utils.dart';
 
-//TODO: 실기기 테스트
 CarouselController carouselController = CarouselController();
-// bool isSettedTEC = false;
 
 class MainScreen extends StatefulWidget {
   static String id = 'main_screen';
@@ -52,7 +47,15 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
 
     //shared_preferences init
-    _initData();
+    initData(
+      context: context,
+      totalValuationPriceTEC: _totalValuationPriceTEC,
+      holdingQuantityTEC: _holdingQuantityTEC,
+      purchasePriceTEC: _purchasePriceTEC,
+      currentStockPriceTEC: _currentStockPriceTEC,
+      buyPriceTEC: _buyPriceTEC,
+      buyQuantityTEC: _buyQuantityTEC,
+    );
 
     super.initState();
   }
@@ -80,132 +83,46 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Consumer2<UiDataProvider, CalcBrain>(
-      builder: (_, handleUiDataProvider, calcBrain, __) {
-        /////////////////////////button callbacks
-        Function calculateButtonCB = () {
-          handleUiDataProvider.tabCalculateButton(context);
-
-          //shared_preferences textfield 데이터 저장
-          _setTextFieldData();
-
-          //shared_preferences 내부 데이터들(중간계산, 결과값 등) 저장
-          _setInnerData(context);
-
-          //컴마 살균
-          _sanitizingComma(calcBrain);
-
-          //stockCardList[nowPageIndex]에 데이터들 set
-          handleUiDataProvider.setData();
-        };
-
-        Function clearButtonCB = () {
-          handleUiDataProvider.tabClearButton(context);
-          //텍스트필드 clear
-          _clearTextField();
-
-          //shared_preferences textfield 데이터 저장
-          _setTextFieldData();
-
-          //shared_preferences 내부 데이터들(중간계산, 결과값 등) 저장
-          _setInnerDataForClear(context);
-
-          //stockCardList[nowPageIndex]에 데이터들 set
-          handleUiDataProvider.setData();
-        };
-
-        Function carouselOnPageChangedCb = () {
-          _titleTEC.text = handleUiDataProvider.title;
-          _totalValuationPriceTEC.text =
-              handleUiDataProvider.totalValuationPrice.toString();
-          _holdingQuantityTEC.text =
-              handleUiDataProvider.holdingQuantity.toString();
-          _purchasePriceTEC.text =
-              handleUiDataProvider.purchasePrice.toString();
-          _currentStockPriceTEC.text =
-              handleUiDataProvider.currentStockPrice.toString();
-          _buyPriceTEC.text = handleUiDataProvider.buyPrice.toString();
-          _buyQuantityTEC.text = handleUiDataProvider.buyQuantity.toString();
-        };
-
+      builder: (_, uiDataProvider, calcBrain, __) {
         return Scaffold(
-          // backgroundColor: handleUiDataProvider.primaryColor,
           body: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  (handleUiDataProvider.primaryColor == grey)
-                      ? grey
-                      : handleUiDataProvider.primaryColor,
-                  (handleUiDataProvider.primaryColor == grey)
-                      ? Colors.white
-                      : (handleUiDataProvider.primaryColor == red)
-                          ? Color(0xFFFEFFB0)
-                          : Color(0xFFe8198b),
-                ],
-                //  #FFE29F , #FFA99F , #FF719A
-              ),
-            ),
+            decoration: kMainContainerBoxDecoration(uiDataProvider),
             child: SafeArea(
               child: Stack(
                 children: <Widget>[
                   Column(
                     children: <Widget>[
-                      //////////////////////Top Container
-                      // Padding(
-                      //   padding: EdgeInsets.only(top: 10.h),
-                      //   child: Container(
-                      //     child: Text(
-                      //       handleUiDataProvider.emoji,
-                      //       style: kEmojiTextStyle,
-                      //       textAlign: kTextAlignCenter,
-                      //     ),
-                      //     // child: Text(
-                      //     //   '\n😟 😭 🤨 🙂\n😊 🥰 🥳\n',
-                      //     //   style: kEmojiTextStyle,
-                      //     //   textAlign: kTextAlignCenter,
-                      //     // ),
-                      //     decoration: kEmojiContainerBoxDecoration,
-                      //     padding: EdgeInsets.all(2),
-                      //   ),
-                      // ),
+                      //*Top Container
                       Padding(
-                        padding: EdgeInsets.only(bottom: 20.h, top: 50.h),
+                        padding: EdgeInsets.only(bottom: 20.h, top: 60.h),
                         child: CardCarousel(
-                          mainScreenUiCb: carouselOnPageChangedCb,
-                          initPageNumber: handleUiDataProvider.nowPageIndex,
+                          mainScreenUiCb: () {
+                            carouselOnPageChangedCb(
+                              uiDataProvider: uiDataProvider,
+                              titleTEC: _titleTEC,
+                              totalValuationPriceTEC: _totalValuationPriceTEC,
+                              holdingQuantityTEC: _holdingQuantityTEC,
+                              purchasePriceTEC: _purchasePriceTEC,
+                              currentStockPriceTEC: _currentStockPriceTEC,
+                              buyPriceTEC: _buyPriceTEC,
+                              buyQuantityTEC: _buyQuantityTEC,
+                            );
+                          },
+                          initPageNumber: uiDataProvider.nowPageIndex,
                         ),
                       ),
 
-                      //////////////////////Main Container
+                      //*Main Container
                       Expanded(
-                        child: (!handleUiDataProvider.isLastPage)
+                        child: (!uiDataProvider.isLastPage)
                             ? Container(
                                 decoration: kMainContainerBorderRadius,
                                 child: SingleChildScrollView(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                      /////////////////////////TitleTextField
-                                      Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                            50.w, 25.h, 50.w, 5.h),
-                                        child: Container(),
-                                        // child: TitleTextField(
-                                        //   context: context,
-                                        //   titleTextController: _titleTEC,
-                                        //   onChangedCB: (newData) {
-                                        //     handleUiDataProvider
-                                        //         .changeTitleData(newData);
-                                        //   },
-                                        //   onPressedCB: () {
-                                        //     //해당 pageIndex의 stock_card데이터의 title데이터 수정해야함.
-                                        //     handleUiDataProvider.setTitle();
-                                        //   },
-                                        // ),
-                                      ),
-                                      /////////////////////////TextFields
+                                      kMainConatinerPadding, // 메인컨테이너의 전체 패딩
+                                      //*TextFields
                                       Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -215,36 +132,62 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                 horizontal: 30.w),
                                             child: Column(
                                               children: [
+                                                Stack(
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                        top: 9.h,
+                                                      ),
+                                                      child: kGreyDivider,
+                                                    ),
+                                                    Center(
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                        width: 180.w,
+                                                        child: Text(
+                                                          '현재 잔고 정보 입력',
+                                                          style: TextStyle(
+                                                            color: Colors
+                                                                .grey[500],
+                                                            fontSize: 18.sp,
+                                                          ),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(height: 6.h),
                                                 buildExTextFieldColumn(context),
-                                                SizedBox(height: 18.h),
+                                                SizedBox(height: 10.h),
                                                 buildExTextFieldColumn2(
                                                     context),
-                                                SizedBox(height: 14.h),
-                                                kGreyDivider,
-                                                SizedBox(height: 8.h),
+                                                SizedBox(height: 10.h),
                                                 buildNewTextFieldColumn(
                                                     context),
+                                                SizedBox(height: 10.h),
+                                                kGreyDivider,
                                               ],
                                             ),
                                           ),
                                         ],
                                       ),
-                                      /////////////////////////resultBox, banner
+                                      //TODO: 이제 4개의 계산기 기능을 선택 할 수 있는 2x2 행렬의
+                                      //TODO  버튼이 있을 예정입니다.
                                       Padding(
                                         padding: EdgeInsets.only(top: 22.h),
                                         child: Column(
                                           children: [
-                                            //resultBox
-
-                                            // buildResultBox(
-                                            //     context, calculateButtonCB, clearButtonCB),
                                             buildButton(
                                                 calcCB: calculateButtonCB,
                                                 clearCB: clearButtonCB,
                                                 context: context),
                                             SizedBox(height: 30.h),
-                                            //배너
-                                            ShowBannerAd(),
+
+                                            //TODO: 배너는 메인스크린에서 제거
+                                            //TODO  계산기 페이지들, 리스트 페이지에서 보여질 예정입니다.
+                                            // ShowBannerAd(),
                                           ],
                                         ),
                                       ),
@@ -256,30 +199,51 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                 child: WiseSayingGenerator(),
                               ),
                       ),
-                      // ShowBannerAd(),
                     ],
                   ),
                   Positioned(
-                    left: 7.w,
+                    left: 4.w,
                     top: 7.h,
                     child: IconButton(
                       iconSize: 30.w,
                       color: Colors.white,
                       icon: Icon(Icons.menu),
                       onPressed: () {
-                        Navigator.pushNamed(context, ListScreen.id);
+                        //TODO: 슬라이더 메뉴가 왼쪽에서 튀어나도록 수정합시다.
+                        //TODO  메뉴에는 '도움말', '카드 목록', '피드백'이 있을 예정입니다.
+                        //! 삭제
+                        // Navigator.pushNamed(context, ListScreen.id);
                       },
                     ),
                   ),
                   Positioned(
-                    right: 7.w,
+                    right: 4.w,
                     top: 7.h,
-                    child: IconButton(
-                      iconSize: 30.w,
-                      color: Colors.white,
-                      icon: Icon(Icons.help_outline_rounded),
+                    // child: IconButton(
+                    //   iconSize: 30.w,
+                    //   color: Colors.white,
+                    //   icon: Icon(Icons.help_outline_rounded),
+                    //   onPressed: () {
+                    //     //TODO: 카드 ui의 통화를 변경할 수 있는 InkWell 버튼이 있을 예정입니다.
+                    //     //TODO   ₩, $
+                    //     //! 삭제
+                    //     // Navigator.pushNamed(context, HelpScreen.id);
+                    //   },
+                    // ),
+                    child: MaterialButton(
+                      minWidth: 3.w,
+                      height: 10.h,
+                      child: Text(
+                        '\$',
+                        style: TextStyle(
+                          fontSize: 30.sp,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ), //TODO UiProvider에서 가지고 옵시다.
                       onPressed: () {
-                        Navigator.pushNamed(context, HelpScreen.id);
+                        //TODO: uiProvider에 해당 기호 다루는 메서드 생성해야겠군요
+                        //TODO String을 리턴해서 관리하면 되겠습니다.
                       },
                     ),
                   ),
@@ -292,273 +256,58 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     );
   }
 
-  ///                             Shared_preferences
-  //앱 실행 시, 저장돼있던 Data들을 불러옵니다.
-  void _initData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    //TextField의 텍스트 로딩
-    _loadTextFieldData(prefs);
-
-    //내부 데이터들(중간계산, 결과값 등) 로딩
-    _loadInnerData();
-  }
-
-  //앱 실행 시, 저장돼있던 ui_data_provider 데이터들을 불러옵니다.
-  void _loadInnerData() {
-    Provider.of<UiDataProvider>(context, listen: false).loadData();
-  }
-
-  //앱 실행 시, 저장돼있던 TextField input값들을 불러옵니다.
-  void _loadTextFieldData(SharedPreferences prefs) {
-    _totalValuationPriceTEC.text =
-        prefs.getString('totalValuationPriceTF') ?? '';
-    _holdingQuantityTEC.text = prefs.getString('holdingQuantityTF') ?? '';
-    _purchasePriceTEC.text = prefs.getString('purchasePriceTF') ?? '';
-    _currentStockPriceTEC.text = prefs.getString('currentStockPriceTF') ?? '';
-    _buyPriceTEC.text = prefs.getString('buyPriceTF') ?? '';
-    _buyQuantityTEC.text = prefs.getString('buyQuantityTF') ?? '';
-  }
-
-  // 계산 버튼을 누르면 TextField input값들을 저장합니다.
-  void _setTextFieldData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('totalValuationPriceTF', _totalValuationPriceTEC.text);
-    prefs.setString('holdingQuantityTF', _holdingQuantityTEC.text);
-    prefs.setString('purchasePriceTF', _purchasePriceTEC.text);
-    prefs.setString('currentStockPriceTF', _currentStockPriceTEC.text);
-    prefs.setString('buyPriceTF', _buyPriceTEC.text);
-    prefs.setString('buyQuantityTF', _buyQuantityTEC.text);
-  }
-
-  //클리어버튼 눌렀을 때 데이터 초기화된 채로 저장
-  void _setInnerDataForClear(BuildContext context) =>
-      Provider.of<UiDataProvider>(context, listen: false).saveDataForClear();
-
-  void _setInnerData(BuildContext context) =>
-      Provider.of<UiDataProvider>(context, listen: false).saveData();
-
-  ///
-  ///
-  ///
-  ///
-  ///
-  ///
-  //////////////////////////////UI methods
-
-  // 텍스트 필드 clears
-  void _clearTextField() {
-    _totalValuationPriceTEC.clear();
-    _holdingQuantityTEC.clear();
-    _purchasePriceTEC.clear();
-    _currentStockPriceTEC.clear();
-    _buyPriceTEC.clear();
-    _buyQuantityTEC.clear();
-  }
-
-  //컴마, -, 온점 살균
-  //TODO: 이거 필요없어짐
-  void _sanitizingComma(CalcBrain calcBrain) {
-    _totalValuationPriceTEC.text =
-        calcBrain.sanitizeComma(_totalValuationPriceTEC.text).toString();
-    _holdingQuantityTEC.text =
-        calcBrain.sanitizeComma(_holdingQuantityTEC.text).toString();
-    _purchasePriceTEC.text =
-        calcBrain.sanitizeComma(_purchasePriceTEC.text).toString();
-    _currentStockPriceTEC.text =
-        calcBrain.sanitizeComma(_currentStockPriceTEC.text).toString();
-    _buyPriceTEC.text = calcBrain.sanitizeComma(_buyPriceTEC.text).toString();
-    _buyQuantityTEC.text =
-        calcBrain.sanitizeComma(_buyQuantityTEC.text).toString();
-  }
-
-  //계산 결과 박스 생성
-  // Widget buildResultBox(
-  //     BuildContext context, Function calcCB, Function clearCB) {
-  //   return Consumer2<UiDataProvider, CalcBrain>(
-  //     builder: (context, handleUiDataProvider, calcBrain, widget) {
-  //       return Padding(
-  //         padding: EdgeInsets.symmetric(horizontal: 20),
-  //         child: Column(
-  //           // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //           children: <Widget>[
-  //             //button
-  //             buildButton(clearCB: clearCB, calcCB: calcCB, context: context),
-  //             Column(
-  //               children: <Widget>[
-  //                 /////////////////////평가총액
-  //                 Row(
-  //                   mainAxisAlignment: MainAxisAlignment.start,
-  //                   children: <Widget>[
-  //                     /////평가총액 타이틀
-  //                     Expanded(
-  //                       flex: 3,
-  //                       child: kTotalValuationTitle,
-  //                     ),
-  //                     SizedBox(width: 15),
-  //계산된 평가총액
-  //                     Expanded(
-  //                       flex: 4,
-  //                       child: AutoSizeText(
-  //                         handleUiDataProvider.totalValuationResultText ??
-  //                             '0 원',
-  //                         style: kTotalValuationTextStyle,
-  //                         maxLines: 1,
-  //                       ),
-  //                     ),
-  //                     SizedBox(width: 15.w),
-  //                     //계산된 평가손익
-  //                     Expanded(
-  //                       flex: 4,
-  //                       child: AutoSizeText(
-  //                         handleUiDataProvider.valuationResultText ?? '',
-  //                         style: TextStyle(
-  //                           fontSize: 20,
-  //                           textBaseline: TextBaseline.alphabetic,
-  //                           fontWeight: FontWeight.bold,
-  //                           color: handleUiDataProvider.primaryColor,
-  //                           fontFamily: 'Cafe24Simplehae',
-  //                         ),
-  //                         maxLines: 1,
-  //                       ),
-  //                     ),
-  //                   ],
-  //                 ),
-  //                 /////////////////////수익률
-  //                 Row(
-  //                   mainAxisAlignment: MainAxisAlignment.start,
-  //                   children: <Widget>[
-  //                     //수익률 타이틀
-  //                     Expanded(
-  //                       flex: 3,
-  //                       child: kYieldTitle,
-  //                     ),
-  //                     SizedBox(width: 10),
-  //                     //계산된 수익률
-  //                     Expanded(
-  //                       flex: 4,
-  //                       child: AutoSizeText(
-  //                         handleUiDataProvider.yieldResultText ?? '0 %',
-  //                         style: TextStyle(
-  //                           fontSize: 23,
-  //                           textBaseline: TextBaseline.alphabetic,
-  //                           fontWeight: FontWeight.bold,
-  //                           color: handleUiDataProvider.primaryColor,
-  //                           fontFamily: 'Cafe24Simplehae',
-  //                         ),
-  //                         maxLines: 1,
-  //                       ),
-  //                     ),
-  //                     SizedBox(width: 10),
-  //                     //계산된 수익률 차이
-  //                     Expanded(
-  //                       flex: 4,
-  //                       // child: Container(),
-  //                       child: AutoSizeText(
-  //                         handleUiDataProvider.yieldDiffText ?? '',
-  //                         style: TextStyle(
-  //                           fontSize: 20,
-  //                           textBaseline: TextBaseline.alphabetic,
-  //                           fontWeight: FontWeight.bold,
-  //                           color: Colors.black,
-  //                           fontFamily: 'Cafe24Simplehae',
-  //                         ),
-  //                         maxLines: 1,
-  //                       ),
-  //                     ),
-  //                   ],
-  //                 ),
-  //                 /////////////////////평단가
-  //                 Row(
-  //                   mainAxisAlignment: MainAxisAlignment.start,
-  //                   children: <Widget>[
-  //                     //평단가 타이틀
-  //                     Expanded(
-  //                       flex: 3,
-  //                       child: kPurchasePriceTitle,
-  //                     ),
-  //                     SizedBox(width: 10),
-  //                     //계산된 평단가
-  //                     Expanded(
-  //                       flex: 4,
-  //                       child: AutoSizeText(
-  //                         handleUiDataProvider.purchasePriceResultText ?? '0 원',
-  //                         style: TextStyle(
-  //                           fontSize: 23,
-  //                           textBaseline: TextBaseline.alphabetic,
-  //                           fontWeight: FontWeight.bold,
-  //                           fontFamily: 'Cafe24Simplehae',
-  //                         ),
-  //                         maxLines: 1,
-  //                       ),
-  //                     ),
-  //                     SizedBox(width: 10),
-  //                     //계산된 평단가 차이
-  //                     Expanded(
-  //                       flex: 4,
-  //                       // child: Container(),
-  //                       child: AutoSizeText(
-  //                         handleUiDataProvider.averagePurchaseDiffText ?? '',
-  //                         style: kAveragePurchaseDiffTextStyle,
-  //                         maxLines: 1,
-  //                       ),
-  //                     ),
-  //                   ],
-  //                 ),
-  //               ],
-  //             ),
-  //           ],
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-
+  //*UI generator
   //초기화, 계산 버튼 생성
   Widget buildButton(
       {Function clearCB, Function calcCB, BuildContext context}) {
     return Consumer<UiDataProvider>(
-      builder: (_, handleUiDataProvider, __) {
+      builder: (_, uiDataProvider, __) {
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          child: Column(
             children: <Widget>[
-              Expanded(
-                child: MaterialButton(
-                  minWidth: 30.w,
-                  height: 30.h,
-                  color: (handleUiDataProvider.primaryColor == grey)
-                      ? grey
-                      : (handleUiDataProvider.primaryColor == red)
-                          ? buttonRed
-                          : buttonBlue,
-                  child: kClearButtonText,
-                  onPressed: clearCB,
-                  elevation: 8,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.r),
+              Row(
+                //TODO: 버튼에 맞는 네비게이션을 달아야합니다 (계산기 기능)
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Expanded(
+                    child: CustomButton(
+                      childTextWidget: kCalculateButtonText,
+                      onPressedCB: () {},
+                      uiDataProvider: uiDataProvider,
+                    ),
                   ),
-                ),
-              ),
-              SizedBox(width: 20.w),
-              Expanded(
-                child: MaterialButton(
-                  minWidth: 30.w,
-                  height: 30.h,
-                  color: (handleUiDataProvider.primaryColor == grey)
-                      ? grey
-                      : (handleUiDataProvider.primaryColor == red)
-                          ? buttonRed
-                          : buttonBlue,
-                  child: kCalculateButtonText,
-                  onPressed: _checkValidation() ? calcCB : null,
-                  disabledColor: Colors.grey[800],
-                  elevation: 8,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.r),
+                  SizedBox(width: 20.w),
+                  Expanded(
+                    child: CustomButton(
+                      childTextWidget: kYieldButtonText,
+                      onPressedCB: () {},
+                      uiDataProvider: uiDataProvider,
+                    ),
                   ),
-                ),
+                ],
               ),
+              SizedBox(height: 13.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Expanded(
+                    child: CustomButton(
+                      childTextWidget: kAccumulateButtonText,
+                      onPressedCB: () {},
+                      uiDataProvider: uiDataProvider,
+                    ),
+                  ),
+                  SizedBox(width: 20.w),
+                  Expanded(
+                    child: CustomButton(
+                      childTextWidget: kDistributeButtonText,
+                      onPressedCB: () {},
+                      uiDataProvider: uiDataProvider,
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         );
@@ -576,11 +325,11 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         (_buyQuantityTEC.text.length > 0));
   }
 
-  ///////////////////////////////TextFields
+  //* TextFields
   ///현재 평가금액, 현재 보유수량[주]
   Widget buildExTextFieldColumn(BuildContext context) {
     return Consumer<UiDataProvider>(
-      builder: (context, handleUiDataProvider, __) {
+      builder: (context, uiDataProvider, __) {
         return Column(
           children: <Widget>[
             Row(
@@ -589,10 +338,9 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                   child: InputTextField(
                     textController: _totalValuationPriceTEC,
                     hintText: '가격 입력',
-                    titleText: '현재 평가금액',
+                    titleText: '현재 평가금액 (원)',
                     onChangedCB: (newData) {
-                      handleUiDataProvider
-                          .changeTotalValuationPriceData(newData);
+                      uiDataProvider.changeTotalValuationPriceData(newData);
                     },
                   ),
                 ),
@@ -601,7 +349,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                   child: InputTextField(
                     textController: _holdingQuantityTEC,
                     hintText: '개수 입력',
-                    titleText: '현재 보유수량[주]',
+                    titleText: '현재 보유수량 (주)',
                     onChangedCB: (newData) {
                       Provider.of<UiDataProvider>(context, listen: false)
                           .changeHoldingQuantityData(newData);
@@ -619,7 +367,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   /// 매입단가, 현재주가
   Widget buildExTextFieldColumn2(BuildContext context) {
     return Consumer<UiDataProvider>(
-      builder: (context, handleUiDataProvider, __) {
+      builder: (context, uiDataProvider, __) {
         return Column(
           children: <Widget>[
             Row(
@@ -628,9 +376,9 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                   child: InputTextField(
                     textController: _purchasePriceTEC,
                     hintText: '가격 입력',
-                    titleText: '현재 매입단가 (평단가)',
+                    titleText: '현재 평단가 (원)',
                     onChangedCB: (newData) {
-                      handleUiDataProvider.changePurchasePriceData(newData);
+                      uiDataProvider.changePurchasePriceData(newData);
                     },
                   ),
                 ),
@@ -639,9 +387,9 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                   child: InputTextField(
                     textController: _currentStockPriceTEC,
                     hintText: '가격 입력',
-                    titleText: '현재 주가',
+                    titleText: '현재 주가 (원)',
                     onChangedCB: (newData) {
-                      handleUiDataProvider.changeCurrentStockPriceData(newData);
+                      uiDataProvider.changeCurrentStockPriceData(newData);
                     },
                   ),
                 ),
@@ -656,18 +404,19 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   // 미래의 예상주가, 예상 구매 수량
   Widget buildNewTextFieldColumn(BuildContext context) {
     return Consumer<UiDataProvider>(
-      builder: (context, handleUiDataProvider, widget) {
+      builder: (context, uiDataProvider, widget) {
         return Column(
           children: <Widget>[
             Row(
+              //TODO: 전부 수정해야합니다 매매수수료, 세금 TEC도 수정해야해요
               children: <Widget>[
                 Expanded(
                   child: InputTextField(
                     textController: _buyPriceTEC,
-                    hintText: '가격 입력',
-                    titleText: '미래의 예상 주가',
+                    hintText: '매매수수료 입력',
+                    titleText: '매매수수료 (%)',
                     onChangedCB: (newData) {
-                      handleUiDataProvider.changeBuyPriceData(newData);
+                      uiDataProvider.changeBuyPriceData(newData);
                     },
                   ),
                 ),
@@ -675,10 +424,10 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                 Expanded(
                   child: InputTextField(
                     textController: _buyQuantityTEC,
-                    hintText: '개수 입력',
-                    titleText: '구매수량[주] (0주 가능)',
+                    hintText: '세금 입력',
+                    titleText: '세금 (%)',
                     onChangedCB: (newData) {
-                      handleUiDataProvider.changeBuyQuantityData(newData);
+                      uiDataProvider.changeBuyQuantityData(newData);
                     },
                   ),
                 ),

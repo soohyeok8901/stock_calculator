@@ -77,7 +77,7 @@ flutter:
     - family: S-Core_Dream
       fonts:
         - asset: assets/fonts/S-Core_Dream_OTF/SCDream3.otf
-          weight: 200
         - asset: assets/fonts/S-Core_Dream_OTF/SCDream2.otf
           weight: 100
         - asset: assets/fonts/S-Core_Dream_OTF/SCDream1.otf
+          weight: 200
