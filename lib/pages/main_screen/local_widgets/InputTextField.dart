@@ -37,6 +37,9 @@ class InputTextField extends StatelessWidget {
               focusedBorder: kInputTextFieldFocusedBorder,
             ),
             onChanged: onChangedCB,
+            onEditingComplete: () {
+              print(textController.text);
+            },
             keyboardType: TextInputType.number,
           ),
         ),

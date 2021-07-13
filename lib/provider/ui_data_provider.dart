@@ -625,11 +625,11 @@ class UiDataProvider extends ChangeNotifier {
 
   String getFlag() {
     if (stockCardList[nowPageIndex].currency == '원') {
-      return '🇰🇷';
+      return '(한)';
     } else if (stockCardList[nowPageIndex].currency == '달러') {
-      return '🇺🇸';
+      return '(미)';
     } else {
-      return '🪙';
+      return '(코)';
     }
   }
 

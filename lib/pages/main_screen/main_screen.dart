@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'local_widgets/main_screen_widgets.dart';
 import './../../utils/utils.dart';
+import 'SidebarMenu.dart';
 
 CarouselController carouselController = CarouselController();
 
@@ -27,6 +28,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   final TextEditingController _buyPriceTEC = TextEditingController();
   final TextEditingController _buyQuantityTEC = TextEditingController();
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void dispose() {
     _titleTEC.dispose();
@@ -85,6 +87,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     return Consumer2<UiDataProvider, CalcBrain>(
       builder: (_, uiDataProvider, calcBrain, __) {
         return Scaffold(
+          key: _scaffoldKey,
+          drawer: SideBarMenu(),
           body: Container(
             decoration: kMainContainerBoxDecoration(uiDataProvider),
             child: SafeArea(
@@ -132,31 +136,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                                 horizontal: 30.w),
                                             child: Column(
                                               children: [
-                                                Stack(
-                                                  children: <Widget>[
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                        top: 9.h,
-                                                      ),
-                                                      child: kGreyDivider,
-                                                    ),
-                                                    Center(
-                                                      child: Container(
-                                                        color: Colors.white,
-                                                        width: 180.w,
-                                                        child: Text(
-                                                          '현재 잔고 정보 입력',
-                                                          style: TextStyle(
-                                                            color: Colors
-                                                                .grey[500],
-                                                            fontSize: 18.sp,
-                                                          ),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
+                                                DividerTitle(
+                                                  textString: '현재 잔고 입력',
                                                 ),
                                                 SizedBox(height: 6.h),
                                                 buildExTextFieldColumn(context),
@@ -212,7 +193,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                         //TODO: 슬라이더 메뉴가 왼쪽에서 튀어나도록 수정합시다.
                         //TODO  메뉴에는 '도움말', '카드 목록', '피드백'이 있을 예정입니다.
                         //! 삭제
-                        // Navigator.pushNamed(context, ListScreen.id);
+
+                        _scaffoldKey.currentState.openDrawer();
                       },
                     ),
                   ),

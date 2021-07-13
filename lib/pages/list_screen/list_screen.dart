@@ -36,24 +36,6 @@ class ListScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Expanded(
-                flex: 1,
-                child: Padding(
-                  padding: EdgeInsets.only(top: 20.h, left: 13.w, right: 13.w),
-                  child: AutoSizeText(
-                    '총 평가 금액: ${currencyFormat(uiProvider.calculateTotalValuationSum())} 원',
-                    style: TextStyle(
-                      fontSize: 30.sp,
-                    ),
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                  ),
-                ),
-              ),
-              Divider(
-                color: Colors.black,
-                thickness: 2,
-              ),
-              Expanded(
                 flex: 10,
                 child: SizedBox(
                   width: INF,

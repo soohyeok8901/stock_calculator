@@ -5,3 +5,5 @@ export 'InputTextField.dart';
 export 'TitletextField.dart';
 export 'WiseSayingGenerator.dart';
 export 'CustomButton.dart';
+export 'DeleteDialog.dart';
+export 'DividerTitle.dart';

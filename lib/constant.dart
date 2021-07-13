@@ -6,7 +6,7 @@ import 'package:stock_calculator/provider/ui_data_provider.dart';
 const INF = double.infinity;
 Color green = Color(0xFF44D375);
 Color red = Colors.red[700];
-Color buttonRed = Color(0xFFf15c5c);
+Color buttonRed = Color(0xFFEC4E4E);
 Color blue = Colors.blue[800];
 Color buttonBlue = Color(0xFF4F86C6);
 Color grey = Color(0xFF8D8D8D);

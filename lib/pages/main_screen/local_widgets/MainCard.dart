@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:stock_calculator/provider/providers.dart';
 
+import '../OptionBottomSheet.dart';
 import 'PopupMenu.dart';
 
 class MainCard extends StatelessWidget {
@@ -200,22 +201,28 @@ class MainCard extends StatelessWidget {
           ),
         ),
         Positioned(
-          right: 23.w,
-          top: 18.h,
-          //TODO: Dialog 띄우도록 수정합시다.
-          child: Icon(
-            Icons.more_horiz,
-          ),
-          // child: PopupMenu(
-          //   titleTextController: _titleTextController,
-          //   taxTextController: _taxTextController,
-          //   tradingFeeTextController: _tradingFeeTextController,
-          //   exRateTextController: _exRateTextController,
-          //   index: index,
-          //   carouselController: carouselController,
-          //   cardData: cardData,
-          // ),
-        ),
+            right: 5.w,
+            top: 5.h,
+            child: IconButton(
+                icon: Icon(Icons.more_vert),
+                onPressed: () {
+                  showModalBottomSheet(
+                    isScrollControlled: true,
+                    builder: (context) => OptionBottomSheet(
+                        carouselController: carouselController),
+                    context: context,
+                  );
+                })
+            // child: PopupMenu(
+            //   titleTextController: _titleTextController,
+            //   taxTextController: _taxTextController,
+            //   tradingFeeTextController: _tradingFeeTextController,
+            //   exRateTextController: _exRateTextController,
+            //   index: index,
+            //   carouselController: carouselController,
+            //   cardData: cardData,
+            // ),
+            ),
       ],
     );
   }
