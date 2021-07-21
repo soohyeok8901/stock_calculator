@@ -1,3 +1,4 @@
+import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -22,12 +23,13 @@ class SideBarMenu extends StatelessWidget {
             SizedBox(
               height: 100.h,
               child: DrawerHeader(
-                padding: EdgeInsets.only(bottom: 2.h),
+                margin: EdgeInsets.all(0.w),
+                padding: EdgeInsets.all(17.w),
                 child: Center(
-                  child: Text(
-                    '주식 계산기',
+                  child: AutoSizeText(
+                    '간단 주식코인 계산기',
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white, fontSize: 25),
+                    style: TextStyle(color: Colors.white, fontSize: 20.sp),
                   ),
                 ),
                 decoration: BoxDecoration(
@@ -40,7 +42,8 @@ class SideBarMenu extends StatelessWidget {
               title: Text(
                 '계산기 목록 🔎',
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontSize: 14.sp,
+                  // fontWeight: FontWeight.bold,
                 ),
               ),
               onTap: () => {
@@ -48,13 +51,14 @@ class SideBarMenu extends StatelessWidget {
                 Navigator.pushNamed(context, ListScreen.id),
               },
             ),
-            kGreyDivider,
+            kGreyDividerNoHeight,
             ListTile(
               // leading: Icon(Icons.shopping_cart),
               title: Text(
                 '설명서 💡',
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontSize: 14.sp,
+                  // fontWeight: FontWeight.bold,
                 ),
               ),
               onTap: () => {
@@ -62,13 +66,14 @@ class SideBarMenu extends StatelessWidget {
                 Navigator.pushNamed(context, HelpScreen.id),
               },
             ),
-            kGreyDivider,
+            kGreyDividerNoHeight,
             ListTile(
               // leading: Icon(Icons.shopping_cart),
               title: Text(
                 '피드백 주러 가기',
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontSize: 14.sp,
+                  // fontWeight: FontWeight.bold,
                 ),
               ),
               onTap: () => {

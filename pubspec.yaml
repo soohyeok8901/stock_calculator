@@ -1,5 +1,5 @@
 name: stock_calculator
-description: 간단하고 좋은 주식 계산기입니다.
+description: 간단하고 좋은 주식,코인 계산기입니다.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
@@ -29,11 +29,12 @@ dev_dependencies:
   flutter_launcher_icons: ^0.9.0
 
 flutter_icons:
-  android: "ic_launcher"
+  android: true
   ios: true
-  image_path: "assets/icon/icon3.png"
-  # adaptive_icon_background: #43c89f
-  # adaptive_icon_foreground: #43c89f
+  image_path: "assets/icon/grad.png"
+  image_path_android: "assets/icon/grad.png"
+  adaptive_icon_background: "assets/icon/grad.png"
+  adaptive_icon_foreground: "assets/icon/grad.png"
 
   flutter_test:
     sdk: flutter

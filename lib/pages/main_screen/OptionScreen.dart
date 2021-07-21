@@ -38,7 +38,7 @@ class OptionScreen extends StatelessWidget {
               SizedBox(height: 20.h),
               titleText('별명 변경'),
               Text(
-                uiDataProvider.title,
+                uiDataProvider.title ?? '계산기 1',
                 style: TextStyle(fontSize: 34.sp),
               ),
               Padding(

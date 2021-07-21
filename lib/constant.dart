@@ -52,10 +52,16 @@ const kGreyDivider = Divider(
   color: Colors.grey,
 );
 
+const kGreyDividerNoHeight = Divider(
+  height: 1,
+  thickness: 1.22,
+  color: Colors.grey,
+);
+
 //*InputTextField
 var kInputTextFieldTitleTextStyle = TextStyle(
   // fontWeight: FontWeight.bold,
-  fontSize: 13.sp,
+  fontSize: 12.sp,
 );
 
 var kInputTextFieldEnableBorder = OutlineInputBorder(
@@ -90,55 +96,55 @@ var kRoundedRectangleBorder = RoundedRectangleBorder(
   borderRadius: BorderRadius.circular(10.r),
 );
 
-const kClearButtonText = Text(
+var kClearButtonText = Text(
   '초기화',
   style: TextStyle(
     color: Colors.white,
-    fontSize: 17,
-    fontWeight: FontWeight.bold,
+    fontSize: 13.sp,
+    // fontWeight: FontWeight.bold,
     // fontFamily: 'S-Core_Dream',
   ),
 );
 
-const kCalculateButtonText = Text(
+var kCalculateButtonText = Text(
   '주가변동에의한 \n수익/손익',
   style: TextStyle(
     color: Colors.white,
-    fontSize: 17,
-    fontWeight: FontWeight.bold,
+    fontSize: 13.sp,
+    // fontWeight: FontWeight.bold,
     // fontFamily: 'S-Core_Dream',
   ),
   textAlign: TextAlign.center,
 );
 
-const kYieldButtonText = Text(
+var kYieldButtonText = Text(
   '타겟 수익률의\n목표주가',
   style: TextStyle(
     color: Colors.white,
-    fontSize: 17,
-    fontWeight: FontWeight.bold,
+    fontSize: 13.sp,
+    // fontWeight: FontWeight.bold,
     // fontFamily: 'S-Core_Dream',
   ),
   textAlign: TextAlign.center,
 );
 
-const kAccumulateButtonText = Text(
+var kAccumulateButtonText = Text(
   '현재잔고기점 \n분할매수',
   style: TextStyle(
     color: Colors.white,
-    fontSize: 17,
-    fontWeight: FontWeight.bold,
+    fontSize: 13.sp,
+    // fontWeight: FontWeight.bold,
     // fontFamily: 'S-Core_Dream',
   ),
   textAlign: TextAlign.center,
 );
 
-const kDistributeButtonText = Text(
+var kDistributeButtonText = Text(
   '현재잔고기점 \n분할매도',
   style: TextStyle(
     color: Colors.white,
-    fontSize: 17,
-    fontWeight: FontWeight.bold,
+    fontSize: 13.sp,
+    // fontWeight: FontWeight.bold,
     // fontFamily: 'S-Core_Dream',
   ),
   textAlign: TextAlign.center,

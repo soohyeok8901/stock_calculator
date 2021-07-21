@@ -13,16 +13,16 @@ void carouselOnPageChangedCb({
   TextEditingController holdingQuantityTEC,
   TextEditingController purchasePriceTEC,
   TextEditingController currentStockPriceTEC,
-  TextEditingController buyPriceTEC,
-  TextEditingController buyQuantityTEC,
+  TextEditingController taxTEC,
+  TextEditingController tradingFeeTEC,
 }) {
   titleTEC.text = uiDataProvider.title;
   totalValuationPriceTEC.text = uiDataProvider.totalValuationPrice.toString();
   holdingQuantityTEC.text = uiDataProvider.holdingQuantity.toString();
   purchasePriceTEC.text = uiDataProvider.purchasePrice.toString();
   currentStockPriceTEC.text = uiDataProvider.currentStockPrice.toString();
-  buyPriceTEC.text = uiDataProvider.buyPrice.toString();
-  buyQuantityTEC.text = uiDataProvider.buyQuantity.toString();
+  taxTEC.text = uiDataProvider.tax.toString();
+  tradingFeeTEC.text = uiDataProvider.tradingFee.toString();
 }
 
 //* 텍스트 필드 clears
@@ -31,15 +31,15 @@ void clearTextField({
   TextEditingController holdingQuantityTEC,
   TextEditingController purchasePriceTEC,
   TextEditingController currentStockPriceTEC,
-  TextEditingController buyPriceTEC,
-  TextEditingController buyQuantityTEC,
+  TextEditingController taxTEC,
+  TextEditingController tradingFeeTEC,
 }) {
   totalValuationPriceTEC.clear();
   holdingQuantityTEC.clear();
   purchasePriceTEC.clear();
   currentStockPriceTEC.clear();
-  buyPriceTEC.clear();
-  buyQuantityTEC.clear();
+  taxTEC.clear();
+  tradingFeeTEC.clear();
 }
 
 //* 계산버튼 콜백
@@ -51,8 +51,8 @@ void calculateButtonCB({
   TextEditingController holdingQuantityTEC,
   TextEditingController purchasePriceTEC,
   TextEditingController currentStockPriceTEC,
-  TextEditingController buyPriceTEC,
-  TextEditingController buyQuantityTEC,
+  TextEditingController taxTEC,
+  TextEditingController tradingFeeTEC,
 }) {
   uiDataProvider.tabCalculateButton(context);
 
@@ -62,8 +62,8 @@ void calculateButtonCB({
     holdingQuantityTEC: holdingQuantityTEC,
     purchasePriceTEC: purchasePriceTEC,
     currentStockPriceTEC: currentStockPriceTEC,
-    buyPriceTEC: buyPriceTEC,
-    buyQuantityTEC: buyQuantityTEC,
+    taxTEC: taxTEC,
+    tradingFeeTEC: tradingFeeTEC,
   );
 
   //*shared_preferences 내부 데이터들(중간계산, 결과값 등) 저장
@@ -76,8 +76,8 @@ void calculateButtonCB({
     holdingQuantityTEC: holdingQuantityTEC,
     purchasePriceTEC: purchasePriceTEC,
     currentStockPriceTEC: currentStockPriceTEC,
-    buyPriceTEC: buyPriceTEC,
-    buyQuantityTEC: buyQuantityTEC,
+    taxTEC: taxTEC,
+    tradingFeeTEC: tradingFeeTEC,
   );
 
   //stockCardList[nowPageIndex]에 데이터들 set
@@ -92,8 +92,8 @@ void clearButtonCB({
   TextEditingController holdingQuantityTEC,
   TextEditingController purchasePriceTEC,
   TextEditingController currentStockPriceTEC,
-  TextEditingController buyPriceTEC,
-  TextEditingController buyQuantityTEC,
+  TextEditingController taxTEC,
+  TextEditingController tradingFeeTEC,
 }) {
   uiDataProvider.tabClearButton(context);
   //텍스트필드 clear
@@ -105,8 +105,8 @@ void clearButtonCB({
     holdingQuantityTEC: holdingQuantityTEC,
     purchasePriceTEC: purchasePriceTEC,
     currentStockPriceTEC: currentStockPriceTEC,
-    buyPriceTEC: buyPriceTEC,
-    buyQuantityTEC: buyQuantityTEC,
+    taxTEC: taxTEC,
+    tradingFeeTEC: tradingFeeTEC,
   );
 
   //shared_preferences 내부 데이터들(중간계산, 결과값 등) 저장
@@ -134,8 +134,8 @@ void sanitizingInputComma({
   TextEditingController holdingQuantityTEC,
   TextEditingController purchasePriceTEC,
   TextEditingController currentStockPriceTEC,
-  TextEditingController buyPriceTEC,
-  TextEditingController buyQuantityTEC,
+  TextEditingController taxTEC,
+  TextEditingController tradingFeeTEC,
 }) {
   totalValuationPriceTEC.text =
       calcBrain.sanitizeComma(totalValuationPriceTEC.text).toString();
@@ -145,26 +145,26 @@ void sanitizingInputComma({
       calcBrain.sanitizeComma(purchasePriceTEC.text).toString();
   currentStockPriceTEC.text =
       calcBrain.sanitizeComma(currentStockPriceTEC.text).toString();
-  buyPriceTEC.text = calcBrain.sanitizeComma(buyPriceTEC.text).toString();
-  buyQuantityTEC.text = calcBrain.sanitizeComma(buyQuantityTEC.text).toString();
+  taxTEC.text = calcBrain.sanitizeComma(taxTEC.text).toString();
+  tradingFeeTEC.text = calcBrain.sanitizeComma(tradingFeeTEC.text).toString();
 }
 
-// 계산 버튼을 누르면 TextField input값들을 저장합니다.
+//* 계산 버튼을 누르면 TextField input값들을 저장합니다.
 void setTextFieldData({
   TextEditingController totalValuationPriceTEC,
   TextEditingController holdingQuantityTEC,
   TextEditingController purchasePriceTEC,
   TextEditingController currentStockPriceTEC,
-  TextEditingController buyPriceTEC,
-  TextEditingController buyQuantityTEC,
+  TextEditingController taxTEC,
+  TextEditingController tradingFeeTEC,
 }) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setString('totalValuationPriceTF', totalValuationPriceTEC.text);
   prefs.setString('holdingQuantityTF', holdingQuantityTEC.text);
   prefs.setString('purchasePriceTF', purchasePriceTEC.text);
   prefs.setString('currentStockPriceTF', currentStockPriceTEC.text);
-  prefs.setString('buyPriceTF', buyPriceTEC.text);
-  prefs.setString('buyQuantityTF', buyQuantityTEC.text);
+  prefs.setString('taxTF', taxTEC.text);
+  prefs.setString('tradingFeeTF', tradingFeeTEC.text);
 }
 
 //* Shared_preferences
@@ -175,8 +175,8 @@ void initData({
   TextEditingController holdingQuantityTEC,
   TextEditingController purchasePriceTEC,
   TextEditingController currentStockPriceTEC,
-  TextEditingController buyPriceTEC,
-  TextEditingController buyQuantityTEC,
+  TextEditingController taxTEC,
+  TextEditingController tradingFeeTEC,
 }) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   //TextField의 텍스트 로딩
@@ -186,8 +186,8 @@ void initData({
     holdingQuantityTEC: holdingQuantityTEC,
     purchasePriceTEC: purchasePriceTEC,
     currentStockPriceTEC: currentStockPriceTEC,
-    buyPriceTEC: buyPriceTEC,
-    buyQuantityTEC: buyQuantityTEC,
+    taxTEC: taxTEC,
+    tradingFeeTEC: tradingFeeTEC,
   );
 
   //* 내부 데이터들(중간계산, 결과값 등) 로딩
@@ -200,14 +200,14 @@ void loadTextFieldData(SharedPreferences prefs,
     TextEditingController holdingQuantityTEC,
     TextEditingController purchasePriceTEC,
     TextEditingController currentStockPriceTEC,
-    TextEditingController buyPriceTEC,
-    TextEditingController buyQuantityTEC}) {
+    TextEditingController taxTEC,
+    TextEditingController tradingFeeTEC}) {
   totalValuationPriceTEC.text = prefs.getString('totalValuationPriceTF') ?? '';
   holdingQuantityTEC.text = prefs.getString('holdingQuantityTF') ?? '';
   purchasePriceTEC.text = prefs.getString('purchasePriceTF') ?? '';
   currentStockPriceTEC.text = prefs.getString('currentStockPriceTF') ?? '';
-  buyPriceTEC.text = prefs.getString('buyPriceTF') ?? '';
-  buyQuantityTEC.text = prefs.getString('buyQuantityTF') ?? '';
+  taxTEC.text = prefs.getString('taxTF') ?? '0.25';
+  tradingFeeTEC.text = prefs.getString('tradingFeeTF') ?? '0.015';
 }
 
 //* 앱 실행 시, 저장돼있던 ui_data_provider 데이터들을 불러옵니다.

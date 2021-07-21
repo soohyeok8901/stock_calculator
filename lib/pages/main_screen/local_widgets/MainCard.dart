@@ -51,7 +51,7 @@ class MainCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       AutoSizeText(
-                        '${cardData.title} ${Provider.of<UiDataProvider>(context).getFlag()}',
+                        '${cardData.title ?? "계산기 1"} ${Provider.of<UiDataProvider>(context).getFlag() ?? "한"}',
                         style: TextStyle(
                             fontSize: 23.sp, fontWeight: FontWeight.bold),
                       ),
@@ -76,7 +76,7 @@ class MainCard extends StatelessWidget {
                               ),
                             ),
                             AutoSizeText(
-                              '${cardData.totalValuationResultText}',
+                              '${cardData.totalValuationResultText ?? '0 원'}',
                               style: TextStyle(
                                 fontSize: 15.sp,
                                 // fontWeight: FontWeight.bold,
@@ -101,7 +101,7 @@ class MainCard extends StatelessWidget {
                               ),
                             ),
                             AutoSizeText(
-                              '${cardData.valuationResultText}',
+                              '${cardData.valuationResultText ?? '0 원'}',
                               style: TextStyle(
                                 color: cardData.primaryColor,
                                 fontSize: 15.sp,
@@ -110,7 +110,7 @@ class MainCard extends StatelessWidget {
                             ),
                             // SizedBox(height: 2.h),
                             AutoSizeText(
-                              '${cardData.valuationLossDiffText}',
+                              '${cardData.valuationLossDiffText ?? ''}',
                               style: TextStyle(
                                 fontSize: 9.sp,
                                 // fontWeight: FontWeight.bold,
@@ -141,7 +141,7 @@ class MainCard extends StatelessWidget {
                             ),
                             SizedBox(height: 2.h),
                             AutoSizeText(
-                              '${cardData.yieldResultText}',
+                              '${cardData.yieldResultText ?? '0.00 %'}',
                               style: TextStyle(
                                 color: cardData.primaryColor,
                                 fontSize: 15.sp,
@@ -150,7 +150,7 @@ class MainCard extends StatelessWidget {
                             ),
                             // SizedBox(height: 2.h),
                             AutoSizeText(
-                              '${cardData.yieldDiffText}',
+                              '${cardData.yieldDiffText ?? ''}',
                               style: TextStyle(
                                 fontSize: 12.sp,
                                 // fontWeight: FontWeight.bold,
@@ -174,7 +174,7 @@ class MainCard extends StatelessWidget {
                               ),
                             ),
                             AutoSizeText(
-                              '${cardData.purchasePriceResultText}',
+                              '${cardData.purchasePriceResultText ?? '0 원'}',
                               style: TextStyle(
                                 color: cardData.primaryColor,
                                 fontSize: 15.sp,
@@ -183,7 +183,7 @@ class MainCard extends StatelessWidget {
                             ),
                             // SizedBox(height: 2.h),
                             AutoSizeText(
-                              '${cardData.averagePurchaseDiffText}',
+                              '${cardData.averagePurchaseDiffText ?? ''}',
                               style: TextStyle(
                                 fontSize: 9.sp,
                                 // fontWeight: FontWeight.bold,

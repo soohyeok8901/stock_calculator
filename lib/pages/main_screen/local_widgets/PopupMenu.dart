@@ -380,11 +380,9 @@ class PopupMenu extends StatelessWidget {
                                         Provider.of<UiDataProvider>(context,
                                                 listen: false)
                                             .setTaxTradingFee(
-                                                tax: double.parse(
-                                                    _taxTextController.text),
-                                                tradingFee: double.parse(
-                                                    _tradingFeeTextController
-                                                        .text));
+                                          tax: double.parse(
+                                              _taxTextController.text),
+                                        );
                                         Navigator.pop(context);
                                       } catch (e) {
                                         print(e);

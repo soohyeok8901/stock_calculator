@@ -30,6 +30,9 @@ class InputTextField extends StatelessWidget {
           width: 170.w,
           child: TextField(
             controller: textController,
+            style: TextStyle(
+              fontSize: 13.sp,
+            ),
             textAlignVertical: TextAlignVertical.bottom,
             decoration: InputDecoration(
               hintText: hintText,
@@ -37,9 +40,6 @@ class InputTextField extends StatelessWidget {
               focusedBorder: kInputTextFieldFocusedBorder,
             ),
             onChanged: onChangedCB,
-            onEditingComplete: () {
-              print(textController.text);
-            },
             keyboardType: TextInputType.number,
           ),
         ),

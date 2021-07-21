@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:stock_calculator/utils/calculator.dart';
 import 'package:stock_calculator/models/stock_card.dart';
 import 'package:stock_calculator/utils/string_func.dart';
@@ -13,19 +15,19 @@ class UiDataProvider extends ChangeNotifier {
       primaryColor: grey,
       // emoji: '🙂',
       title: '계산기 1',
-      totalValuationPrice: 0,
-      holdingQuantity: 0,
-      purchasePrice: 0,
-      currentStockPrice: 0,
-      buyPrice: 0,
-      buyQuantity: 0,
-      totalValuationResultText: '0 원',
-      valuationResultText: '0 원',
-      valuationLossDiffText: '',
-      yieldResultText: '0.00 %',
-      yieldDiffText: '',
-      purchasePriceResultText: '0 원',
-      averagePurchaseDiffText: '',
+      totalValuationPrice: 0, //평가금액
+      holdingQuantity: 0, //보유개수
+      purchasePrice: 0, // 현재평단가
+      currentStockPrice: 0, //현재 주가
+      buyPrice: 0, //구매가격
+      buyQuantity: 0, //구매수량
+      totalValuationResultText: '0 원', //평가금액 텍스트
+      valuationResultText: '0 원', //평가손익 텍스트
+      valuationLossDiffText: '', //평가금액 - 평가손익 텍스트
+      yieldResultText: '0.00 %', //수익률 텍스트
+      yieldDiffText: '', // 계산수익률 - 기존수익률 텍스트
+      purchasePriceResultText: '0 원', //계산된 평단가
+      averagePurchaseDiffText: '', //계산평단가 - 기존평단가 텍스트
       tax: 0.015,
       tradingFee: 0.25,
       currency: '원',
@@ -130,15 +132,17 @@ class UiDataProvider extends ChangeNotifier {
     // clearList();
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // //TextField 파트
+    //TextField 파트
     totalValuationPrice = prefs.getInt('totalValuationPrice') ?? 0;
     holdingQuantity = prefs.getInt('holdingQuantity') ?? 0;
     purchasePrice = prefs.getInt('purchasePrice') ?? 0;
     currentStockPrice = prefs.getInt('currentStockPrice') ?? 0;
-    buyPrice = prefs.getInt('buyPrice') ?? 0;
-    buyQuantity = prefs.getInt('buyQuantity') ?? 0;
+    tax = prefs.getDouble('tax') ?? 0.25;
+    tradingFee = prefs.getDouble('tradingFee') ?? 0.015;
+    // buyPrice = prefs.getInt('buyPrice') ?? 0;
+    // buyQuantity = prefs.getInt('buyQuantity') ?? 0;
 
-    // //중간계산 파트
+    //중간계산 파트
     // exTotalPurchase = prefs.getInt('exTotalPurchase') ?? 0;
 
     //결과값 파트
@@ -164,22 +168,62 @@ class UiDataProvider extends ChangeNotifier {
       stockCardList = StockCard.decode(encodedListData);
     }
 
-    nowPageIndex = prefs.getInt('nowPageIndex');
+    nowPageIndex = prefs.getInt('nowPageIndex') ?? 0;
 
     notifyListeners();
+  }
+
+  void saveTotalValuationPriceData() async {
+    print('save totalValuationPrice 평가금액');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (totalValuationPrice != null) {
+      prefs.setInt('totalValuationPrice', totalValuationPrice);
+    }
+  }
+
+  void saveHoldingQuantityData() async {
+    print('save holdingQunatity 보유개수');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (holdingQuantity != null) {
+      prefs.setInt('holdingQuantity', holdingQuantity);
+    }
+  }
+
+  void savePurchasePriceData() async {
+    print('save purchasePrice 보유개수');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (purchasePrice != null) {
+      prefs.setInt('purchasePrice', purchasePrice);
+    }
+  }
+
+  void saveCurrentStockPriceData() async {
+    print('save currentStockPrice 현재주가');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (currentStockPrice != null) {
+      prefs.setInt('currentStockPrice', currentStockPrice);
+    }
+  }
+
+  void saveTaxData() async {
+    print('save tax 세금');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (tax != null) {
+      prefs.setDouble('tax', tax);
+    }
+  }
+
+  void saveTradingFeeData() async {
+    print('save tradingFee 세금');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (tradingFee != null) {
+      prefs.setDouble('tradingFee', tradingFee);
+    }
   }
 
   void saveData() async {
     print('saveData()');
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    //필드 파트
-    prefs.setInt('totalValuationPrice', totalValuationPrice);
-    prefs.setInt('holdingQuantity', holdingQuantity);
-    prefs.setInt('purchasePrice', purchasePrice);
-    prefs.setInt('currentStockPrice', currentStockPrice);
-    prefs.setInt('buyPrice', buyPrice);
-    prefs.setInt('buyQuantity', buyQuantity);
 
     //중간 계산 파트
 
@@ -215,8 +259,8 @@ class UiDataProvider extends ChangeNotifier {
     prefs.setInt('holdingQuantity', 0);
     prefs.setInt('purchasePrice', 0);
     prefs.setInt('currentStockPrice', 0);
-    prefs.setInt('buyPrice', 0);
-    prefs.setInt('buyQuantity', 0);
+    prefs.setDouble('tax', 0.00);
+    prefs.setDouble('tradingFee', 0.00);
 
     //중간 계산 파트
 
@@ -374,37 +418,43 @@ class UiDataProvider extends ChangeNotifier {
   //                     필드각각 대응되는 changeString 메서드
   void changeTitleData(String newData) {
     title = newData;
-    // setData();
+    saveData();
     notifyListeners();
   }
 
   void changeTotalValuationPriceData(String newData) {
     totalValuationPrice = calcBrain.sanitizeComma(newData);
+    saveTotalValuationPriceData();
     notifyListeners();
   }
 
   void changeHoldingQuantityData(String newData) {
     holdingQuantity = calcBrain.sanitizeComma(newData);
+    saveHoldingQuantityData();
     notifyListeners();
   }
 
   void changePurchasePriceData(String newData) {
     purchasePrice = calcBrain.sanitizeComma(newData);
+    savePurchasePriceData();
     notifyListeners();
   }
 
   void changeCurrentStockPriceData(String newData) {
     currentStockPrice = calcBrain.sanitizeComma(newData);
+    saveCurrentStockPriceData();
     notifyListeners();
   }
 
-  void changeBuyPriceData(String newData) {
-    buyPrice = calcBrain.sanitizeComma(newData);
+  void changeTaxData(String newData) {
+    tax = double.parse(calcBrain.sanitizeComma(newData).toString());
+    saveTaxData();
     notifyListeners();
   }
 
-  void changeBuyQuantityData(String newData) {
-    buyQuantity = calcBrain.sanitizeComma(newData);
+  void changeTradingFeeData(String newData) {
+    tradingFee = double.parse(calcBrain.sanitizeComma(newData).toString());
+    saveTradingFeeData();
     notifyListeners();
   }
 
@@ -473,8 +523,8 @@ class UiDataProvider extends ChangeNotifier {
       stockCardList[nowPageIndex].holdingQuantity = holdingQuantity;
       stockCardList[nowPageIndex].purchasePrice = purchasePrice;
       stockCardList[nowPageIndex].currentStockPrice = currentStockPrice;
-      stockCardList[nowPageIndex].buyPrice = buyPrice;
-      stockCardList[nowPageIndex].buyQuantity = buyQuantity;
+      stockCardList[nowPageIndex].tax = tax;
+      stockCardList[nowPageIndex].tradingFee = tradingFee;
       stockCardList[nowPageIndex].totalValuationResultText =
           totalValuationResultText;
       stockCardList[nowPageIndex].valuationResultText = valuationResultText;
@@ -607,8 +657,14 @@ class UiDataProvider extends ChangeNotifier {
     return totalSum;
   }
 
-  void setTaxTradingFee({double tax, double tradingFee}) {
+  //* 매매수수료 저장
+  void setTaxTradingFee({double tax}) {
     stockCardList[nowPageIndex].tax = tax;
+    notifyListeners();
+  }
+
+  //* 매매수수료 저장
+  void setTradingFee({double tradingFee}) {
     stockCardList[nowPageIndex].tradingFee = tradingFee;
     notifyListeners();
   }
@@ -624,12 +680,16 @@ class UiDataProvider extends ChangeNotifier {
   }
 
   String getFlag() {
-    if (stockCardList[nowPageIndex].currency == '원') {
-      return '(한)';
-    } else if (stockCardList[nowPageIndex].currency == '달러') {
-      return '(미)';
+    if (nowPageIndex != stockCardList.length - 1) {
+      if (stockCardList[nowPageIndex].currency == '원') {
+        return '(한)';
+      } else if (stockCardList[nowPageIndex].currency == '달러') {
+        return '(미)';
+      } else {
+        return '(코)';
+      }
     } else {
-      return '(코)';
+      return '';
     }
   }
 

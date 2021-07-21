@@ -25,8 +25,10 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   final TextEditingController _holdingQuantityTEC = TextEditingController();
   final TextEditingController _purchasePriceTEC = TextEditingController();
   final TextEditingController _currentStockPriceTEC = TextEditingController();
-  final TextEditingController _buyPriceTEC = TextEditingController();
-  final TextEditingController _buyQuantityTEC = TextEditingController();
+  // final TextEditingController _buyPriceTEC = TextEditingController();
+  // final TextEditingController _buyQuantityTEC = TextEditingController();
+  final TextEditingController _taxTEC = TextEditingController();
+  final TextEditingController _tradingFeeTEC = TextEditingController();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
@@ -36,8 +38,10 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     _holdingQuantityTEC.dispose();
     _purchasePriceTEC.dispose();
     _currentStockPriceTEC.dispose();
-    _buyPriceTEC.dispose();
-    _buyQuantityTEC.dispose();
+    // _buyPriceTEC.dispose();
+    // _buyQuantityTEC.dispose();
+    _taxTEC.dispose();
+    _tradingFeeTEC.dispose();
     WidgetsBinding.instance.removeObserver(this);
 
     super.dispose();
@@ -55,8 +59,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       holdingQuantityTEC: _holdingQuantityTEC,
       purchasePriceTEC: _purchasePriceTEC,
       currentStockPriceTEC: _currentStockPriceTEC,
-      buyPriceTEC: _buyPriceTEC,
-      buyQuantityTEC: _buyQuantityTEC,
+      taxTEC: _taxTEC,
+      tradingFeeTEC: _tradingFeeTEC,
     );
 
     super.initState();
@@ -108,8 +112,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                               holdingQuantityTEC: _holdingQuantityTEC,
                               purchasePriceTEC: _purchasePriceTEC,
                               currentStockPriceTEC: _currentStockPriceTEC,
-                              buyPriceTEC: _buyPriceTEC,
-                              buyQuantityTEC: _buyQuantityTEC,
+                              taxTEC: _taxTEC,
+                              tradingFeeTEC: _tradingFeeTEC,
                             );
                           },
                           initPageNumber: uiDataProvider.nowPageIndex,
@@ -133,7 +137,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                                         children: <Widget>[
                                           Padding(
                                             padding: EdgeInsets.symmetric(
-                                                horizontal: 30.w),
+                                                horizontal: 33.w),
                                             child: Column(
                                               children: [
                                                 DividerTitle(
@@ -259,7 +263,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                       uiDataProvider: uiDataProvider,
                     ),
                   ),
-                  SizedBox(width: 20.w),
+                  SizedBox(width: 30.w),
                   Expanded(
                     child: CustomButton(
                       childTextWidget: kYieldButtonText,
@@ -269,7 +273,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                   ),
                 ],
               ),
-              SizedBox(height: 13.h),
+              SizedBox(height: 20.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
@@ -280,7 +284,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                       uiDataProvider: uiDataProvider,
                     ),
                   ),
-                  SizedBox(width: 20.w),
+                  SizedBox(width: 30.w),
                   Expanded(
                     child: CustomButton(
                       childTextWidget: kDistributeButtonText,
@@ -303,8 +307,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         (_holdingQuantityTEC.text.length > 0) &&
         (_purchasePriceTEC.text.length > 0) &&
         (_currentStockPriceTEC.text.length > 0) &&
-        (_buyPriceTEC.text.length > 0) &&
-        (_buyQuantityTEC.text.length > 0));
+        (_taxTEC.text.length > 0) &&
+        (_tradingFeeTEC.text.length > 0));
   }
 
   //* TextFields
@@ -326,7 +330,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                     },
                   ),
                 ),
-                SizedBox(width: 23.w),
+                SizedBox(width: 30.w),
                 Expanded(
                   child: InputTextField(
                     textController: _holdingQuantityTEC,
@@ -364,7 +368,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                     },
                   ),
                 ),
-                SizedBox(width: 23.w),
+                SizedBox(width: 30.w),
                 Expanded(
                   child: InputTextField(
                     textController: _currentStockPriceTEC,
@@ -394,22 +398,22 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
               children: <Widget>[
                 Expanded(
                   child: InputTextField(
-                    textController: _buyPriceTEC,
+                    textController: _tradingFeeTEC,
                     hintText: '매매수수료 입력',
                     titleText: '매매수수료 (%)',
                     onChangedCB: (newData) {
-                      uiDataProvider.changeBuyPriceData(newData);
+                      uiDataProvider.changeTradingFeeData(newData);
                     },
                   ),
                 ),
-                SizedBox(width: 23.w),
+                SizedBox(width: 30.w),
                 Expanded(
                   child: InputTextField(
-                    textController: _buyQuantityTEC,
+                    textController: _taxTEC,
                     hintText: '세금 입력',
                     titleText: '세금 (%)',
                     onChangedCB: (newData) {
-                      uiDataProvider.changeBuyQuantityData(newData);
+                      uiDataProvider.changeTaxData(newData);
                     },
                   ),
                 ),

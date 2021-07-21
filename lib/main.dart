@@ -43,6 +43,8 @@ class AverageCalculator extends StatelessWidget {
       child: ScreenUtilInit(
         designSize: Size(392.72727272727275, 759.2727272727273),
         builder: () => MaterialApp(
+            title: '주식코인계산기',
+            color: Colors.white,
             debugShowCheckedModeBanner: false,
             initialRoute: MainScreen.id,
             routes: {
